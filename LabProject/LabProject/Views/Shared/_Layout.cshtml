@@ -3,46 +3,59 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LabProject V 0.1</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.js" integrity="sha256-2JRzNxMJiS0aHOJjG+liqsEOuBb6++9cY4dSOyiijX4=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="~/css/shared_style.css">
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LabProject</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+
+    <div class="flex-container">
+        <div class="flex-child">
+
+            <div class="perfil-container">
+                <div class="perfil-imagem perfil-child"></div>
+                <p class="perfil-nome perfil-child">Filipe Manuel</p>
+                <a class="perfil-ver perfil-child" asp-area="" asp-controller="Home" asp-action="Registo">filipemanuel@naoechato.pt</a>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+
+
+            <div class="sidebar-container">
+
+                <a tabindex="-1" id="NavegarBar" class="sidebar-tab noselect" style="border-top: 1px solid white;" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-map-marked-alt fonticon"></i>Navegar</a>
+                <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Home" asp-action="Pesquisar"><i class="fas fa-search fonticon"></i>Pesquisar</a>
+                <a tabindex="-1" id="AvisoBar" class="sidebar-tab noselect" asp-area="" asp-controller="Home" asp-action="Avisos"><i class="fas fa-bell fonticon"></i>Avisos</a>
+                <a tabindex="-1" id="FavoritosBar" class="sidebar-tab noselect" asp-area="" asp-controller="Home" asp-action="Favoritos"><i class="fas fa-star fonticon"></i>Favoritos</a>
+                <a tabindex="-1" id="PerfilBar" class="sidebar-tab noselect" asp-area="" asp-controller="Home" asp-action="Perfil"><i class="fas fa-id-badge fonticon"></i>Perfil</a>
+                <a tabindex="-1" id="PerfilBar" class="sidebar-tab noselect" asp-area="" asp-controller="Home" asp-action="Perfil"><i class="fas fa-sign-out-alt fonticon"></i>Log Out</a>
+
+            </div>
+
+        </div>
+
+        <div class="flex-child Container" role="main">
+
             @RenderBody()
-        </main>
+
+        </div>
+
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - LabProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+
+
+
+    nnh
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+
+<!--Estilos de correção-->
+<style>
+    a:hover {
+        color: white;
+    }
+</style>

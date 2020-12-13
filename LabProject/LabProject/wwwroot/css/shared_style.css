@@ -1,0 +1,125 @@
+html,
+body {
+	background-color: #292929;
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+}
+
+.flex-container {
+    display: flex;
+    height: 100%;
+	min-width: 600px;
+}
+
+
+
+
+.flex-child:first-child {
+    margin-right: 0px;
+	width: 250px;
+	
+} 
+
+.Container{
+	flex: 1;
+    margin-right: 0px;
+	
+	
+	background-color: white;
+}
+
+.perfil-container {
+	height: 250px;
+	text-align: center;
+	padding-bottom: 10px;
+	display: flex;
+	flex-direction: column;
+	margin-bottom:20px;
+}
+
+.perfil-imagem {
+	background-image: url(https://i.ibb.co/mFWF9Dd/imgonline-com-ua-Replace-Color-RQyd3-KSIrj-F5-AW.jpg);
+	height: 150px;
+	width: 150px;
+	border-radius: 50%;
+	margin-top: 20px;
+	margin-bottom: 25px;
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: middle;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	border: 2px solid white;
+}
+
+.perfil-nome {
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-size: 25px;
+	font-style: bold;
+	color: white;
+	line-height: 0px;
+	margin-bottom: 20px;
+}
+ 
+.perfil-ver{
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-size: 14px;
+	font-style: bold;
+	color: white;
+	cursor: pointer;
+	transition: 0.5s;
+	
+}
+
+.perfil-ver:hover{
+	font-family: "Trebuchet MS", Helvetica, sans-serif;	
+	color: white;
+	cursor: pointer;
+}
+
+.sidebar-container{
+	display: flex;
+	flex-direction: column;
+}
+
+.sidebar-tab {
+	font-family: sans-serif;
+	font-size: 18px;
+	padding-left: 50px;
+
+	background-color: transparent;
+	
+	line-height: 65px;
+	outline: none;
+	color: white;
+	transition: 0.3s;
+	cursor: default;
+	padding-left: 30px;
+	border-left: 3px solid transparent;
+	
+}
+
+
+	.sidebar-tab:hover {
+		text-decoration: none;
+		outline: none;
+		border-left: 3px solid white;
+		background-color: #121212;
+	}
+
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select:   none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.fonticon{
+	margin-right:10px;
+}
+
