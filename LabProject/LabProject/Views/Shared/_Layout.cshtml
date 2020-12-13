@@ -17,8 +17,18 @@
 
             <div class="perfil-container">
                 <div class="perfil-imagem perfil-child"></div>
-                <p class="perfil-nome perfil-child">Filipe Manuel</p>
-                <a class="perfil-ver perfil-child" asp-area="" asp-controller="Home" asp-action="Registo">filipemanuel@naoechato.pt</a>
+
+                @{ if (TempData["logged"] == null )
+                    {
+                    <a class="perfil-ver perfil-child" asp-area="" asp-controller="Utilizador" asp-action="Login">Login</a>
+
+                    }
+                else
+                {
+                    <p class="perfil-nome perfil-child">@TempData["username"]</p>
+                    <a class="perfil-ver perfil-child" asp-area="" asp-controller="Home" asp-action="Registo">@TempData["email"]</a>
+                } 
+                }
             </div>
 
 

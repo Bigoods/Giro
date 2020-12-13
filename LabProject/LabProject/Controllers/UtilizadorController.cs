@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LabProject.Data;
 using LabProject.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace LabProject.Controllers
 {
@@ -18,6 +19,39 @@ namespace LabProject.Controllers
         {
             _context = context;
         }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(string username, string password)
+        {
+            if (ModelState.IsValid)
+            {
+                Utilizador u = _context.Utilizadors.SingleOrDefault(u => u.Username == username && u.Password == password);
+                TempData["username"] = username;
+                TempData["email"] = u.Email;
+                
+                if (u == null)
+                {
+                    ModelState.AddModelError("Username", "username or password are wrong");
+                    TempData["logged"] = 0;
+                }
+                    
+                else
+                {
+                    // the user is authenticated
+                    // the session variable "user" is created to recover the user identify at each request
+                    //HttpContext.Session.SetString("Username", username); //cookies
+                    TempData["logged"] = 1;
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            return View();
+        }
+        
 
         // GET: Utilizador
         public async Task<IActionResult> Index()
