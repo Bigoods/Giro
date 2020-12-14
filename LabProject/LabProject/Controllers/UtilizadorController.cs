@@ -20,6 +20,7 @@ namespace LabProject.Controllers
             _context = context;
         }
 
+        //Login
         public IActionResult Login()
         {
             return View();
@@ -31,13 +32,12 @@ namespace LabProject.Controllers
             if (ModelState.IsValid)
             {
                 Utilizador u = _context.Utilizadors.SingleOrDefault(u => u.Username == username && u.Password == password);
-                TempData["username"] = username;
-                TempData["email"] = u.Email;
+                
                 
                 if (u == null)
                 {
                     ModelState.AddModelError("Username", "username or password are wrong");
-                    TempData["logged"] = 0;
+                    TempData["Autenticado"] = false;
                 }
                     
                 else
@@ -45,14 +45,36 @@ namespace LabProject.Controllers
                     // the user is authenticated
                     // the session variable "user" is created to recover the user identify at each request
                     //HttpContext.Session.SetString("Username", username); //cookies
-                    TempData["logged"] = 1;
+                    TempData["username"] = username;
+                    TempData["email"] = u.Email;
+                    TempData["Autenticado"] = true;
                     return RedirectToAction("Index", "Home");
                 }
             }
             return View();
         }
-        
+        //Registar
+        // GET: Utilizador/Create
+        public IActionResult Registar()
+        {
+            return View();
+        }
 
+        // POST: Utilizador/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Registar([Bind("Id,Name,Email,Username,Password,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(utilizador);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(utilizador);
+        }
         // GET: Utilizador
         public async Task<IActionResult> Index()
         {

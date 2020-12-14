@@ -20,7 +20,6 @@ namespace LabProject.Controllers
 
         public IActionResult Index()
         {
-            TempData["logged"] = 0;
             return View();
         }
 

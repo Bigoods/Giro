@@ -1,0 +1,71 @@
+﻿@model LabProject.Models.Utilizador
+
+
+
+@{
+    ViewData["Title"] = "Registar";
+}
+
+<!DOCTYPE html>
+<html>
+
+<link rel="stylesheet" href="~/css/registo_style.css">
+
+
+<div class="flex-child Container">
+    <div class="registo-cartao">
+        <p class="registo-titulo">Registar no Jiro</p>
+        <form class="registo-form" id="registo">
+            <div id="primeiro-cartao">
+                <div class="registo-linha">
+                    <button type="button" class="button" style="width: 35%;">Cliente</button>
+                    <button type="button" class="button" style="width: 35%;">Restaurante</button>
+                </div>
+                <div class="registo-linha">
+                    <input type="text" class="input" name="nome" placeholder="Nome próprio">
+                    <input type="text" class="input" name="apelido" placeholder="Apelido">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="registo-linha">
+                    <input type="email" class="input" name="mail" placeholder="E-mail">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="registo-linha">
+                    <input type="text" class="input" name="user" placeholder="Username">
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <div class="registo-linha">
+                    <input type="password" class="input" name="pass" placeholder="Password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <input type="password" class="input" name="pass-confirm" placeholder="Confirmar">
+                </div>
+                <div class="registo-linha ">
+                    <input class="input" placeholder="Adicionar foto">
+                </div>
+                <div class="registo-linha">
+                    <button type="button" class="button">Registar</button>
+                </div>
+            </div>
+            <div id="segundo-cartao" style="display:none">
+                <div class="registo-linha">
+                    <input type="tel" class="input" name="telefone" placeholder="Telefone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}">
+                </div>
+                <div class="registo-linha">
+                    <input type="text" class="input" name="morada" placeholder="Morada">
+                </div>
+                <div class="registo-linha">
+                    <input type="number" class="input" name="mail" placeholder="Horário de abertura">
+                    <input type="number" class="input" name="mail" placeholder="Horário de fecho">
+                </div>
+                <div class="registo-linha">
+                    <input type="text" class="input" name="descanço" placeholder="Dia de descanço">
+                </div>
+                <div class="registo-linha">
+                    <button type="button" class="button">Anterior</button>
+                    <button type="button" class="button">Concluir</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</html>
