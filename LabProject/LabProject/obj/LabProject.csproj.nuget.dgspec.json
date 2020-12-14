@@ -1,26 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Lab 3ºAno\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj": {}
+    "C:\\Users\\Hutt\\Desktop\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj": {}
   },
   "projects": {
-    "D:\\Lab 3ºAno\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj": {
+    "C:\\Users\\Hutt\\Desktop\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Lab 3ºAno\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
+        "projectUniqueName": "C:\\Users\\Hutt\\Desktop\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
         "projectName": "LabProject",
-        "projectPath": "D:\\Lab 3ºAno\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
-        "packagesPath": "C:\\Users\\edgar\\.nuget\\packages\\",
-        "outputPath": "D:\\Lab 3ºAno\\Prato_do_Dia\\LabProject\\LabProject\\obj\\",
+        "projectPath": "C:\\Users\\Hutt\\Desktop\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
+        "packagesPath": "C:\\Users\\Hutt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Hutt\\Desktop\\Prato_do_Dia\\LabProject\\LabProject\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\edgar\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Hutt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -80,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
         }
       }
     }
