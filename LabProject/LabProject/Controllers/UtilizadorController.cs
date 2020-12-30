@@ -65,7 +65,7 @@ namespace LabProject.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registar([Bind("Id,Name,Email,Username,Password,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
+        public async Task<IActionResult> Registar([Bind("Id,Name,Email,Username,Password,Foto,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
         {
             if (ModelState.IsValid)
             {
@@ -110,7 +110,7 @@ namespace LabProject.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Username,Password,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Username,Password,Foto,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
         {
             if (ModelState.IsValid)
             {
@@ -142,7 +142,7 @@ namespace LabProject.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Username,Password,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Username,Password,Foto,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
         {
             if (id != utilizador.Id)
             {

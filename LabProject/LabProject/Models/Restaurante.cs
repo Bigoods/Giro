@@ -24,10 +24,6 @@ namespace LabProject.Models
         [Column("telefone")]
         public int? Telefone { get; set; }
         [Required]
-        [Column("foto")]
-        [StringLength(150)]
-        public string Foto { get; set; }
-        [Required]
         [Column("morada")]
         [StringLength(300)]
         public string Morada { get; set; }
