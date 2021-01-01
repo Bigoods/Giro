@@ -24,11 +24,11 @@
                         <a class="perfil-ver perfil-child" asp-area="" asp-controller="Utilizador" asp-action="Registar">Registar</a>
 
                     }
-                else
-                {
-                    <p class="perfil-nome perfil-child">@TempData["username"]</p>
-                    <p class="perfil-ver perfil-child">@TempData["email"]</p>
-                } 
+                    else
+                    {
+                        <p class="perfil-nome perfil-child">@TempData["username"]</p>
+                        <p class="perfil-ver perfil-child">@TempData["email"]</p>
+                    }
                 }
             </div>
 
