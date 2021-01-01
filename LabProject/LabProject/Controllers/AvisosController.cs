@@ -10,33 +10,22 @@ using LabProject.Models;
 
 namespace LabProject.Controllers
 {
-    public class PratosController : Controller
+    public class AvisosController : Controller
     {
         private readonly LabProject_Database _context;
 
-        public PratosController(LabProject_Database context)
+        public AvisosController(LabProject_Database context)
         {
             _context = context;
         }
 
-        // GET: Pratos
+        // GET: Avisos
         public async Task<IActionResult> Index()
         {
-            var labProject_Database = _context.Pratos.Include(p => p.TipoPrato);
-            return View(await labProject_Database.ToListAsync());
+            return View(await _context.Avisos.ToListAsync());
         }
 
-        // GET: Pratos favoritos
-        public async Task<IActionResult> IndexFavoritos(int id)
-        {
-            id = 0;
-            var labProject_Database = _context.PratoClientes.Where(p => p.ClienteId==id);
-            
-            return View(await labProject_Database.ToListAsync());
-        }
-
-
-        // GET: Pratos/Details/5
+        // GET: Avisos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,42 +33,39 @@ namespace LabProject.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Pratos
-                .Include(p => p.TipoPrato)
+            var aviso = await _context.Avisos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (prato == null)
+            if (aviso == null)
             {
                 return NotFound();
             }
 
-            return View(prato);
+            return View(aviso);
         }
 
-        // GET: Pratos/Create
+        // GET: Avisos/Create
         public IActionResult Create()
         {
-            ViewData["TipoPratoId"] = new SelectList(_context.TipoPratos, "Id", "Nome");
             return View();
         }
 
-        // POST: Pratos/Create
+        // POST: Avisos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Preco,Descricao,TipoPratoId")] Prato prato)
+        public async Task<IActionResult> Create([Bind("Id,Titulo,Descricao,Foto,Data")] Aviso aviso)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(prato);
+                _context.Add(aviso);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TipoPratoId"] = new SelectList(_context.TipoPratos, "Id", "Nome", prato.TipoPratoId);
-            return View(prato);
+            return View(aviso);
         }
 
-        // GET: Pratos/Edit/5
+        // GET: Avisos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,23 +73,22 @@ namespace LabProject.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Pratos.FindAsync(id);
-            if (prato == null)
+            var aviso = await _context.Avisos.FindAsync(id);
+            if (aviso == null)
             {
                 return NotFound();
             }
-            ViewData["TipoPratoId"] = new SelectList(_context.TipoPratos, "Id", "Nome", prato.TipoPratoId);
-            return View(prato);
+            return View(aviso);
         }
 
-        // POST: Pratos/Edit/5
+        // POST: Avisos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Preco,Descricao,TipoPratoId")] Prato prato)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Descricao,Foto,Data")] Aviso aviso)
         {
-            if (id != prato.Id)
+            if (id != aviso.Id)
             {
                 return NotFound();
             }
@@ -112,12 +97,12 @@ namespace LabProject.Controllers
             {
                 try
                 {
-                    _context.Update(prato);
+                    _context.Update(aviso);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PratoExists(prato.Id))
+                    if (!AvisoExists(aviso.Id))
                     {
                         return NotFound();
                     }
@@ -128,11 +113,10 @@ namespace LabProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TipoPratoId"] = new SelectList(_context.TipoPratos, "Id", "Nome", prato.TipoPratoId);
-            return View(prato);
+            return View(aviso);
         }
 
-        // GET: Pratos/Delete/5
+        // GET: Avisos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,31 +124,30 @@ namespace LabProject.Controllers
                 return NotFound();
             }
 
-            var prato = await _context.Pratos
-                .Include(p => p.TipoPrato)
+            var aviso = await _context.Avisos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (prato == null)
+            if (aviso == null)
             {
                 return NotFound();
             }
 
-            return View(prato);
+            return View(aviso);
         }
 
-        // POST: Pratos/Delete/5
+        // POST: Avisos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var prato = await _context.Pratos.FindAsync(id);
-            _context.Pratos.Remove(prato);
+            var aviso = await _context.Avisos.FindAsync(id);
+            _context.Avisos.Remove(aviso);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PratoExists(int id)
+        private bool AvisoExists(int id)
         {
-            return _context.Pratos.Any(e => e.Id == id);
+            return _context.Avisos.Any(e => e.Id == id);
         }
     }
 }
