@@ -8878,11 +8878,16 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\filip\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\ASUS\\.nuget\\packages\\": {}
+>>>>>>> c832205b7b2371449414026e870316b4977e0cc0
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
       "projectName": "LabProject",
       "projectPath": "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
@@ -8891,6 +8896,16 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\filip\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+      "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Laboratorio 4\\PratoDoDia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
+      "projectName": "LabProject",
+      "projectPath": "C:\\Users\\ASUS\\Desktop\\Laboratorio 4\\PratoDoDia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
+      "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ASUS\\Desktop\\Laboratorio 4\\PratoDoDia\\Prato_do_Dia\\LabProject\\LabProject\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> c832205b7b2371449414026e870316b4977e0cc0
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
