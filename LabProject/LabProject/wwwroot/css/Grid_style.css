@@ -1,8 +1,8 @@
 .GridContainer {
-	padding: 20px;
+	padding: 50px;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: start;
+	justify-content:space-evenly;
 	align-content: flex-start;
 	transition: 1s;
 }
@@ -10,8 +10,9 @@
 .GridSquare {
 	height: 150px;
 	width: 200px;
-	background-color:#E1DBD0;
-	margin:20px;
+	background-color: #E1DBD0;
+	margin-right: 20px;
+	margin-bottom: 20px;
 	transition: 1s;
 }
 
@@ -42,4 +43,43 @@
 	font-size: 19px;
 	vertical-align: middle;
 	padding-top: 9px;
+}
+
+
+form.SearchBar input[type=text] {
+	border:none;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	padding: 10px;
+	font-size: 18px;
+	float: left;
+	width: 80%;
+	background: #dfdfdf;
+}
+
+/* Style the submit button */
+form.SearchBar button {
+	float: left;
+	width: 10%;
+	padding: 10px;
+	background: #dfdfdf;
+	color: white;
+	font-size: 17px;
+	border: 1px solid #dfdfdf;
+	border-left: none; /* Prevent double borders */
+	cursor: pointer;
+}
+
+	form.SearchBar button:hover {
+		background: #868686;
+	}
+
+/* Clear floats */
+form.SearchBar::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.SearchContainer{
+	padding: 50px;
 }

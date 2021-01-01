@@ -53,7 +53,7 @@ namespace LabProject.Controllers
         }
 
         // GET: Pratos favoritos
-        public async Task<IActionResult> IndexFavoritos(int id)
+        public async Task<IActionResult> PratosFavoritos(int id)
         {
             id = 0;
             var labProject_Database = _context.PratoClientes.Where(p => p.ClienteId==id);
