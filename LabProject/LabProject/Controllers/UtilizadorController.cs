@@ -32,14 +32,14 @@ namespace LabProject.Controllers
             if (ModelState.IsValid)
             {
                 Utilizador u = _context.Utilizadors.SingleOrDefault(u => u.Username == username && u.Password == password);
-                
-                
+
+
                 if (u == null)
                 {
                     ModelState.AddModelError("Username", "username or password are wrong");
                     TempData["Autenticado"] = false;
                 }
-                    
+
                 else
                 {
                     // the user is authenticated
@@ -138,12 +138,69 @@ namespace LabProject.Controllers
             return View(utilizador);
         }
 
+        public async Task<IActionResult> EditOwn()
+        {
+            try
+            {
+                int id = Convert.ToInt32(TempData["id"]);
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var utilizador = await _context.Utilizadors.FindAsync(id);
+                if (utilizador == null)
+                {
+                    return NotFound();
+                }
+                return View(utilizador);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         // POST: Utilizador/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Username,Password,Foto,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
+        {
+            if (id != utilizador.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(utilizador);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UtilizadorExists(utilizador.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(utilizador);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditOwn(int id, [Bind("Id,Name,Email,Username,Password,Foto,Notificacao")] Utilizador utilizador)
         {
             if (id != utilizador.Id)
             {

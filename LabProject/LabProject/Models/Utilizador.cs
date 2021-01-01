@@ -37,9 +37,9 @@ namespace LabProject.Models
         [Column("password")]
         [StringLength(150)]
         public string Password { get; set; }
-        [Column("foto")]
+        [Column("Imagem")]
         [StringLength(150)]
-        public string Foto { get; set; }
+        public string Imagem { get; set; }
         [Column("bloqueado")]
         public bool Bloqueado { get; set; }
         [Column("motivo")]
