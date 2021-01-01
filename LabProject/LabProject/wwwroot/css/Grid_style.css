@@ -1,0 +1,45 @@
+.GridContainer {
+	padding: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: start;
+	align-content: flex-start;
+	transition: 1s;
+}
+
+.GridSquare {
+	height: 150px;
+	width: 200px;
+	background-color:#E1DBD0;
+	margin:20px;
+	transition: 1s;
+}
+
+.GridSquareImagem {
+	background-image: url(../Images/Pratos/AAA001.jpg);
+	height: 100px;
+	width: 100px;
+	border-radius: 50%;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align: middle;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	border: 1px solid white;
+}
+.GridSquareNome {
+	bottom: 0;
+	width: 100%;
+	height: 40px;
+	background-color: #A8A8A7;
+	text-align: center;
+	line-height: 20px;
+	margin-top: 10px;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-size: 19px;
+	vertical-align: middle;
+	padding-top: 9px;
+}

@@ -23,6 +23,32 @@ namespace LabProject.Controllers
         public async Task<IActionResult> Index()
         {
             var labProject_Database = _context.Pratos.Include(p => p.TipoPrato);
+            
+            return View(await labProject_Database.ToListAsync());
+        }
+
+        public string Truncate(string yourString, int maxLength)
+        {
+            // If the string isn't null or empty
+            if (!String.IsNullOrEmpty(yourString))
+            {
+                // Return the appropriate string size
+                return (yourString.Length <= maxLength) ? yourString : yourString.Substring(0, maxLength) + "...";
+            }
+            else
+            {
+                // Otherwise return the empty string
+                return "";
+            }
+        }
+
+        public async Task<IActionResult> Pratos()
+        {
+            var labProject_Database = _context.Pratos.Include(p => p.TipoPrato);
+            foreach (Prato p in labProject_Database)
+            {
+                p.Nome = Truncate(p.Nome, 14);
+            }
             return View(await labProject_Database.ToListAsync());
         }
 

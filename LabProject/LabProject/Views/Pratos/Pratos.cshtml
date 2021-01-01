@@ -1,0 +1,26 @@
+﻿@model IEnumerable<LabProject.Models.Prato>
+
+
+<link rel="stylesheet" href="~/css/Grid_style.css">
+<link rel="stylesheet" href="~/css/Pratos_style.css">
+
+<h1>Elemento de Pesquisa</h1>
+
+
+<div class="GridContainer" style="margin-top:100px;">
+
+    @foreach (var item in Model)
+    {
+        <div class="GridSquare">
+            <div class="GridSquareImagem"></div>
+            @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
+
+            <div class="GridSquareNome">@Html.DisplayFor(modelItem => item.Nome)</div>
+
+        </div>
+
+
+
+    }
+
+</div>
