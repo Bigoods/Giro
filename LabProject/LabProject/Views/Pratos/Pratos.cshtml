@@ -17,13 +17,13 @@
 
     @foreach (var item in Model)
     {
-        <div class="GridSquare">
-            <div class="GridSquareImagem" style='background-image:url(@("../../wwwroot/Images/Pratos/" + @Html.DisplayFor(modelItem => item.foto))'></div>
-            @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
+    <div class="GridSquare">
+        <div class="GridSquareImagem" style='background-image:url(@("../../wwwroot/Images/Pratos/" + @Html.DisplayFor(modelItem => item.Foto))'></div>
+        @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
 
-            <div class="GridSquareNome">@Html.DisplayFor(modelItem => item.Nome)</div>
+        <div class="GridSquareNome">@Html.DisplayFor(modelItem => item.Nome)</div>
 
-        </div>
+    </div>
 
 
 

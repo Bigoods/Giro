@@ -4,14 +4,16 @@ using LabProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LabProject.Migrations
 {
     [DbContext(typeof(LabProject_Database))]
-    partial class LabProject_DatabaseModelSnapshot : ModelSnapshot
+    [Migration("20210102221434_FotoPrato")]
+    partial class FotoPrato
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

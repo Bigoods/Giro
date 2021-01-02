@@ -1,21 +1,10 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-<<<<<<< HEAD
-      "C:\\Users\\filip\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\filip\\.nuget\\packages"
-=======
-<<<<<<< HEAD
-      "C:\\Users\\ASUS\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\ASUS\\.nuget\\packages"
->>>>>>> parent of f7369c9 (Registar com seguinte e anterior)
-=======
       "C:\\Users\\edgar\\.dotnet\\store\\|arch|\\|tfm|",
       "C:\\Users\\edgar\\.nuget\\packages",
       "C:\\Microsoft\\Xamarin\\NuGet",
       "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
->>>>>>> f7369c905398274c3fb78f3d15e051fd733a58db
->>>>>>> 172a6c63252f2c0837debb3228626680817e4bb4
     ]
   }
 }

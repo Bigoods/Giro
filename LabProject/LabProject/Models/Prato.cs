@@ -25,6 +25,11 @@ namespace LabProject.Models
         public string Nome { get; set; }
         [Column("preco")]
         public double Preco { get; set; }
+
+        [Required]
+        [Column("foto")]
+        [StringLength(150)]
+        public string Foto { get; set; }
         [Required]
         [Column("descricao")]
         [StringLength(300)]
