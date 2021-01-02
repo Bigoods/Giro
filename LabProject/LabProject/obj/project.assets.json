@@ -8946,20 +8946,44 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\filip\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\edgar\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+>>>>>>> f7369c905398274c3fb78f3d15e051fd733a58db
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
       "projectName": "LabProject",
       "projectPath": "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
       "packagesPath": "C:\\Users\\filip\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\obj\\",
+=======
+      "projectUniqueName": "D:\\Lab 3ºAno\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
+      "projectName": "LabProject",
+      "projectPath": "D:\\Lab 3ºAno\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
+      "packagesPath": "C:\\Users\\edgar\\.nuget\\packages\\",
+      "outputPath": "D:\\Lab 3ºAno\\Prato_do_Dia\\LabProject\\LabProject\\obj\\",
+>>>>>>> f7369c905398274c3fb78f3d15e051fd733a58db
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
+<<<<<<< HEAD
         "C:\\Users\\filip\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+=======
+        "C:\\Users\\edgar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+>>>>>>> f7369c905398274c3fb78f3d15e051fd733a58db
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
