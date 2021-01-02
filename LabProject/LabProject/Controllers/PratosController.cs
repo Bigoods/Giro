@@ -23,7 +23,19 @@ namespace LabProject.Controllers
         public async Task<IActionResult> Index()
         {
             var labProject_Database = _context.Pratos.Include(p => p.TipoPrato);
-            
+
+            //foreach(Prato p in labProject_Database)
+            //{
+            //    var Imagem = (from restaurantePratos in _context.RestaurantePratos
+            //                     where (restaurantePratos.Id == p.Id)                                                  
+            //                     select restaurantePratos.Foto).Take(1);
+
+              
+            //} 
+
+            labProject_Database.Include(p => p.RestaurantePratos.Take(1));
+
+
             return View(await labProject_Database.ToListAsync());
         }
 
@@ -53,12 +65,26 @@ namespace LabProject.Controllers
         }
 
         // GET: Pratos favoritos
-        public async Task<IActionResult> PratosFavoritos(int id)
+        public async Task<IActionResult> PratosFavoritos()
         {
-            id = 0;
-            var labProject_Database = _context.PratoClientes.Where(p => p.ClienteId==id);
-            
-            return View(await labProject_Database.ToListAsync());
+            if (Convert.ToBoolean(TempData["Autenticado"]))
+            {
+
+                var labProject_Database = (from pratos in _context.Pratos
+                                           join cliente in _context.Clientes on Convert.ToInt32(TempData["id"]) equals cliente.UtilizadorId
+                                           join pratofavorito in _context.PratoClientes on pratos.Id equals pratofavorito.PratoId
+                                           where pratofavorito.ClienteId == cliente.Id
+                                           select pratos);
+                return View(await labProject_Database.ToListAsync());
+
+
+            }
+            else
+            {
+                return NotFound();
+            }
+
+
         }
 
 

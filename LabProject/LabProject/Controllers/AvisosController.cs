@@ -22,7 +22,13 @@ namespace LabProject.Controllers
         // GET: Avisos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Avisos.ToListAsync());
+            var labProject_Database = (from Avisos in _context.Avisos
+                                       join clienteAviso in _context.ClienteAvisos on Avisos.Id equals clienteAviso.AvisoId
+                                       join cliente in _context.Clientes on Convert.ToInt32(TempData["id"]) equals cliente.UtilizadorId                     
+                                       where clienteAviso.ClienteId == cliente.Id
+                                       select Avisos);
+
+            return View(await labProject_Database.ToListAsync());
         }
 
         // GET: Avisos/Details/5
