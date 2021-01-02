@@ -18,8 +18,8 @@
         <form class="registo-form" id="registo">
             <div id="primeiro-cartao">
                 <div class="registo-linha">
-                    <button type="button" class="button" style="width: 35%;">Cliente</button>
-                    <button type="button" class="button" style="width: 35%;">Restaurante</button>
+                    <button type="button" class="button" onclick="change_cliente()" style="width: 35%;">Cliente</button>
+                    <button type="button" class="button" onclick="change_restaurante()" style="width: 35%;">Restaurante</button>
                 </div>
                 <div class="registo-linha">
                     <input type="text" class="input" name="nome" placeholder="Nome próprio">
@@ -43,7 +43,7 @@
                     <input class="input" placeholder="Adicionar foto">
                 </div>
                 <div class="registo-linha">
-                    <button type="button" class="button">Registar</button>
+                    <button type="button" class="button" id="registar" onclick="registo()">Registar</button>
                 </div>
             </div>
             <div id="segundo-cartao" style="display:none">
@@ -61,11 +61,39 @@
                     <input type="text" class="input" name="descanço" placeholder="Dia de descanço">
                 </div>
                 <div class="registo-linha">
-                    <button type="button" class="button">Anterior</button>
-                    <button type="button" class="button">Concluir</button>
+                    <button type="button" class="button" onclick="botao_anterior()">Anterior</button>
+                    <button type="button" class="button" onclick="botao_concluir()">Concluir</button>
                 </div>
             </div>
         </form>
     </div>
 
 </html>
+
+<script>
+    function change_cliente() {
+        document.getElementById("registar").textContent = "Registar"
+        
+    }
+    function change_restaurante() {
+        document.getElementById("registar").textContent = "Seguinte"
+        
+    }
+    function registo() {
+        if (document.getElementById("registar").textContent == "Registar") {
+            //goto other view
+        }
+        else {
+            document.getElementById("primeiro-cartao").style.display = "none";
+            document.getElementById("segundo-cartao").style.display = "inline";
+        }   
+    }  
+    function botao_anterior() {
+        document.getElementById("primeiro-cartao").style.display = "inline";
+        document.getElementById("segundo-cartao").style.display = "none";
+    }
+    function botao_concluir() {
+        //goto other view
+    }
+
+</script>
