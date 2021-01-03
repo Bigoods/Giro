@@ -119,7 +119,7 @@ namespace LabProject.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Preco,Descricao,TipoPratoId")] Prato prato)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Preco,Foto,Descricao,TipoPratoId")] Prato prato)
         {
             if (ModelState.IsValid)
             {
@@ -153,7 +153,7 @@ namespace LabProject.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Preco,Descricao,TipoPratoId")] Prato prato)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Preco,Foto,Descricao,TipoPratoId")] Prato prato)
         {
             if (id != prato.Id)
             {
