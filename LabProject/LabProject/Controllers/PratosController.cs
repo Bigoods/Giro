@@ -59,6 +59,7 @@ namespace LabProject.Controllers
             var labProject_Database = _context.Pratos.Include(p => p.TipoPrato);
             foreach (Prato p in labProject_Database)
             {
+                p.Foto = @"../Images/Pratos/" + p.Foto.ToString();
                 p.Nome = Truncate(p.Nome, 14);
             }
             return View(await labProject_Database.ToListAsync());

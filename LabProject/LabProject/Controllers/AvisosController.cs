@@ -28,6 +28,8 @@ namespace LabProject.Controllers
                                        where clienteAviso.ClienteId == cliente.Id
                                        select Avisos);
 
+           
+
             return View(await labProject_Database.ToListAsync());
         }
 
