@@ -24,8 +24,6 @@
         {
             <div class="GridSquare">
                 @Html.DisplayFor(modelItem => item.Nome)<br />
-                @Html.DisplayFor(modelItem => item.Preco)<br />
-                @Html.DisplayFor(modelItem => item.Descricao)<br />
                 @Html.DisplayFor(modelItem => item.TipoPrato.Nome)<br />
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a>
 

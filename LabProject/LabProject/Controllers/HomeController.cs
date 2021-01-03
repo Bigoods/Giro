@@ -29,6 +29,7 @@ namespace LabProject.Controllers
             {
                 TempData["Autenticado"] = false;
             }
+
             return View();
         }
 

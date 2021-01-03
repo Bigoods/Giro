@@ -16,16 +16,19 @@
         <div class="flex-child">
 
             <div class="perfil-container">
-                <div class="perfil-imagem perfil-child"></div>
 
                 @{ if (!Convert.ToBoolean(TempData["Autenticado"]))
                     {
+                        <div class="perfil-imagem perfil-child" ></div>
+
                         <a class="perfil-ver perfil-child" asp-area="" asp-controller="Utilizador" asp-action="Login">Login</a>
                         <a class="perfil-ver perfil-child" asp-area="" asp-controller="Utilizador" asp-action="Registar">Registar</a>
 
                     }
                     else
                     {
+                        <div class="perfil-imagem perfil-child" style='background-image:url(@("Images/Utilizadores/" + TempData["imagem"]))'></div>
+
                         <p class="perfil-nome perfil-child">@TempData["username"]</p>
                         <p class="perfil-ver perfil-child">@TempData["email"]</p>
                     }
