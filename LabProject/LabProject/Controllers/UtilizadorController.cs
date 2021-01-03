@@ -51,6 +51,7 @@ namespace LabProject.Controllers
                     // the session variable "user" is created to recover the user identify at each request
                     //HttpContext.Session.SetString("Username", username); //cookies
                     TempData["username"] = username;
+                    TempData["imagem"] = u.Imagem;
                     TempData["id"] = u.Id;
                     TempData["email"] = u.Email;
                     TempData["Autenticado"] = true;
