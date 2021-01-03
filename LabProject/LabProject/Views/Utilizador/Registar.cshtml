@@ -1,99 +1,62 @@
 ﻿@model LabProject.Models.Utilizador
 
-
-
-@{
-    ViewData["Title"] = "Registar";
-}
-
-<!DOCTYPE html>
-<html>
-
-<link rel="stylesheet" href="~/css/registo_style.css">
-
-
-<div class="flex-child Container">
-    <div class="registo-cartao">
-        <p class="registo-titulo">Registar no Jiro</p>
-        <form class="registo-form" id="registo">
-            <div id="primeiro-cartao">
-                <div class="registo-linha">
-                    <button type="button" class="button" onclick="change_cliente()" style="width: 35%;">Cliente</button>
-                    <button type="button" class="button" onclick="change_restaurante()" style="width: 35%;">Restaurante</button>
-                </div>
-                <div class="registo-linha">
-                    <input type="text" class="input" name="nome" placeholder="Nome próprio">
-                    <input type="text" class="input" name="apelido" placeholder="Apelido">
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="registo-linha">
-                    <input type="email" class="input" name="mail" placeholder="E-mail">
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="registo-linha">
-                    <input type="text" class="input" name="user" placeholder="Username">
-                    <span asp-validation-for="Username" class="text-danger"></span>
-                </div>
-                <div class="registo-linha">
-                    <input type="password" class="input" name="pass" placeholder="Password">
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                    <input type="password" class="input" name="pass-confirm" placeholder="Confirmar">
-                </div>
-                <div class="registo-linha ">
-                    <input class="input" placeholder="Adicionar foto">
-                </div>
-                <div class="registo-linha">
-                    <button type="button" class="button" id="registar" onclick="registo()">Registar</button>
-                </div>
+<h4>Utilizador</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Registar">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div id="segundo-cartao" style="display:none">
-                <div class="registo-linha">
-                    <input type="tel" class="input" name="telefone" placeholder="Telefone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}">
-                </div>
-                <div class="registo-linha">
-                    <input type="text" class="input" name="morada" placeholder="Morada">
-                </div>
-                <div class="registo-linha">
-                    <input type="number" class="input" name="mail" placeholder="Horário de abertura">
-                    <input type="number" class="input" name="mail" placeholder="Horário de fecho">
-                </div>
-                <div class="registo-linha">
-                    <input type="text" class="input" name="descanço" placeholder="Dia de descanço">
-                </div>
-                <div class="registo-linha">
-                    <button type="button" class="button" onclick="botao_anterior()">Anterior</button>
-                    <button type="button" class="button" onclick="botao_concluir()">Concluir</button>
-                </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Username" class="control-label"></label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Imagem" class="control-label"></label>
+                <input asp-for="Imagem" class="form-control" />
+                <span asp-validation-for="Imagem" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Bloqueado" /> @Html.DisplayNameFor(model => model.Bloqueado)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Motivo" class="control-label"></label>
+                <input asp-for="Motivo" class="form-control" />
+                <span asp-validation-for="Motivo" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Notificacao" /> @Html.DisplayNameFor(model => model.Notificacao)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
+</div>
 
-</html>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-<script>
-    function change_cliente() {
-        document.getElementById("registar").textContent = "Registar"
-        
-    }
-    function change_restaurante() {
-        document.getElementById("registar").textContent = "Seguinte"
-        
-    }
-    function registo() {
-        if (document.getElementById("registar").textContent == "Registar") {
-            //goto other view
-        }
-        else {
-            document.getElementById("primeiro-cartao").style.display = "none";
-            document.getElementById("segundo-cartao").style.display = "inline";
-        }   
-    }  
-    function botao_anterior() {
-        document.getElementById("primeiro-cartao").style.display = "inline";
-        document.getElementById("segundo-cartao").style.display = "none";
-    }
-    function botao_concluir() {
-        //goto other view
-    }
-
-</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

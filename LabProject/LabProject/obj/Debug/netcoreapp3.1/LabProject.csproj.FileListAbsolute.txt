@@ -31,7 +31,6 @@ D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\V
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\EditOwn.cshtml.g.cs
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Index.cshtml.g.cs
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Login.cshtml.g.cs
-D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Registar.cshtml.g.cs
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.RazorTargetAssemblyInfo.cache
@@ -189,3 +188,6 @@ D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProj
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\staticwebassets\LabProject.StaticWebAssets.Manifest.cache
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\staticwebassets\LabProject.StaticWebAssets.xml
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.genruntimeconfig.cache
+D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.csprojAssemblyReference.cache
+D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Registar2.cshtml.g.cs
+D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Registar.cshtml.g.cs

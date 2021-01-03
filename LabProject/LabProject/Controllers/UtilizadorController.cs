@@ -8,16 +8,21 @@ using Microsoft.EntityFrameworkCore;
 using LabProject.Data;
 using LabProject.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace LabProject.Controllers
 {
     public class UtilizadorController : Controller
     {
         private readonly LabProject_Database _context;
+        private IWebHostEnvironment _he;
 
-        public UtilizadorController(LabProject_Database context)
+
+        public UtilizadorController(LabProject_Database context, IWebHostEnvironment e)
         {
             _context = context;
+            _he = e;
         }
 
         //Login
@@ -68,9 +73,37 @@ namespace LabProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registar([Bind("Id,Name,Email,Username,Password,Foto,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
         {
+           /* if (ModelState.IsValid)
+            {
+                //if (Convert.ToInt32(TempData["cliente"])==1) //clientes 
+                //{
+                    _context.Add(utilizador);
+                    int clienteId = utilizador.Id;
+                    Cliente cliente = new Cliente();
+                    cliente.UtilizadorId = clienteId;
+                    _context.Add(cliente);
+                }
+                else //restaurante
+                {
+                    
+                }
+                //return RedirectToAction("Login", "Utilizadores");
+
+                /*_context.Add(utilizador);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }*/
+            //return View();
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(utilizador);
+                await _context.SaveChangesAsync();
+                int clienteId = utilizador.Id;
+                Cliente cliente = new Cliente();
+                cliente.UtilizadorId = clienteId;
+                _context.Add(cliente);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -201,7 +234,7 @@ namespace LabProject.Controllers
 
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public async Task<IActionResult> EditOwn(int id, [Bind("Id,Name,Email,Username,Password,Foto,Notificacao")] Utilizador utilizador)
+            public async Task<IActionResult> EditOwn(int id, [Bind("Id,Name,Email,Username,Password,Foto,Notificacao")] Utilizador utilizador, IFormFile files)
             {
                 if (id != utilizador.Id)
                 {
@@ -212,6 +245,14 @@ namespace LabProject.Controllers
                 {
                     try
                     {
+                        string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+
+                        FileStream fs = new FileStream(uploads, FileMode.Create);
+
+                        files.CopyTo(fs);
+                        fs.Close();
+
+                        utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
                         _context.Update(utilizador);
                         await _context.SaveChangesAsync();
                     }
