@@ -65,6 +65,8 @@ namespace LabProject.Controllers
             return View(await labProject_Database.ToListAsync());
         }
 
+
+
         // GET: Pratos favoritos
         public async Task<IActionResult> PratosFavoritos()
         {
@@ -76,6 +78,11 @@ namespace LabProject.Controllers
                                            join pratofavorito in _context.PratoClientes on pratos.Id equals pratofavorito.PratoId
                                            where pratofavorito.ClienteId == cliente.Id
                                            select pratos);
+                foreach (Prato p in labProject_Database)
+                {
+                    p.Foto = @"../Images/Pratos/" + p.Foto.ToString();
+                    p.Nome = Truncate(p.Nome, 14);
+                }
                 return View(await labProject_Database.ToListAsync());
 
 
