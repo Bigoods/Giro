@@ -20,6 +20,11 @@ namespace LabProject.Models
         [Column("foto")]
         [StringLength(150)]
         public string Foto { get; set; }
+        [Column("descricao")]
+        [StringLength(300)]
+        public string Descricao { get; set; }
+        [Column("preco")]
+        public double Preco { get; set; }
         public int? PratoId { get; set; }
         public int? RestauranteId { get; set; }
 
