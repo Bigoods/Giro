@@ -43,14 +43,41 @@ namespace LabProject.Controllers
                 {
                     ModelState.AddModelError("Username", "username or password are wrong");
                     TempData["Autenticado"] = false;
+                    TempData["tipo"] = 0;
                 }
-
                 else
                 {
                     // the user is authenticated
                     // the session variable "user" is created to recover the user identify at each request
                     //HttpContext.Session.SetString("Username", username); //cookies
-                    TempData["username"] = username;
+
+
+                    var CheckUtilizador = (from Clientes in _context.Clientes
+                                        where Clientes.UtilizadorId == u.Id
+                                        select Clientes);
+
+                    if(CheckUtilizador.ToList().Count > 0)
+                    {
+                        TempData["tipo"] = 0;
+                    }
+                    else
+                    {
+                        var CheckUtilizador2 = (from Restaurantes in _context.Restaurantes
+                                           where Restaurantes.UtilizadorId == u.Id
+                                        select Restaurantes);
+
+                        if (CheckUtilizador2.ToList().Count > 0)
+                        {
+                            TempData["tipo"] = 1;
+                        }
+                        else
+                        {
+                            TempData["tipo"] = 2;
+
+                        }
+                    }
+
+                    TempData["username"] = u.Name;
                     TempData["imagem"] = u.Imagem;
                     TempData["id"] = u.Id;
                     TempData["email"] = u.Email;
@@ -74,26 +101,26 @@ namespace LabProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registar([Bind("Id,Name,Email,Username,Password,Imagem,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
         {
-           /* if (ModelState.IsValid)
-            {
-                //if (Convert.ToInt32(TempData["cliente"])==1) //clientes 
-                //{
-                    _context.Add(utilizador);
-                    int clienteId = utilizador.Id;
-                    Cliente cliente = new Cliente();
-                    cliente.UtilizadorId = clienteId;
-                    _context.Add(cliente);
-                }
-                else //restaurante
-                {
-                    
-                }
-                //return RedirectToAction("Login", "Utilizadores");
+            /* if (ModelState.IsValid)
+             {
+                 //if (Convert.ToInt32(TempData["cliente"])==1) //clientes 
+                 //{
+                     _context.Add(utilizador);
+                     int clienteId = utilizador.Id;
+                     Cliente cliente = new Cliente();
+                     cliente.UtilizadorId = clienteId;
+                     _context.Add(cliente);
+                 }
+                 else //restaurante
+                 {
 
-                /*_context.Add(utilizador);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }*/
+                 }
+                 //return RedirectToAction("Login", "Utilizadores");
+
+                 /*_context.Add(utilizador);
+                 await _context.SaveChangesAsync();
+                 return RedirectToAction(nameof(Index));
+             }*/
             //return View();
 
 
@@ -198,113 +225,113 @@ namespace LabProject.Controllers
 
 
 
-            // POST: Utilizador/Edit/5
-            // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-            // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Username,Password,Foto,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
+        // POST: Utilizador/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Username,Password,Foto,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
+        {
+            if (id != utilizador.Id)
             {
-                if (id != utilizador.Id)
-                {
-                    return NotFound();
-                }
-
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        _context.Update(utilizador);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!UtilizadorExists(utilizador.Id))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                    return RedirectToAction(nameof(Index));
-                }
-                return View(utilizador);
+                return NotFound();
             }
 
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public async Task<IActionResult> EditOwn(int id, [Bind("Id,Name,Email,Username,Password,Foto,Notificacao")] Utilizador utilizador, IFormFile files)
+            if (ModelState.IsValid)
             {
-                if (id != utilizador.Id)
+                try
                 {
-                    return NotFound();
+                    _context.Update(utilizador);
+                    await _context.SaveChangesAsync();
                 }
-
-                if (ModelState.IsValid)
+                catch (DbUpdateConcurrencyException)
                 {
-                    try
+                    if (!UtilizadorExists(utilizador.Id))
                     {
-                        string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
-
-                        FileStream fs = new FileStream(uploads, FileMode.Create);
-
-                        files.CopyTo(fs);
-                        fs.Close();
-
-                        utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
-                        _context.Update(utilizador);
-                        await _context.SaveChangesAsync();
+                        return NotFound();
                     }
-                    catch (DbUpdateConcurrencyException)
+                    else
                     {
-                        if (!UtilizadorExists(utilizador.Id))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
+                        throw;
                     }
-                    return RedirectToAction(nameof(Index));
                 }
-                return View(utilizador);
-            }
-
-            // GET: Utilizador/Delete/5
-            public async Task<IActionResult> Delete(int? id)
-            {
-                if (id == null)
-                {
-                    return NotFound();
-                }
-
-                var utilizador = await _context.Utilizadors
-                    .FirstOrDefaultAsync(m => m.Id == id);
-                if (utilizador == null)
-                {
-                    return NotFound();
-                }
-
-                return View(utilizador);
-            }
-
-            // POST: Utilizador/Delete/5
-            [HttpPost, ActionName("Delete")]
-            [ValidateAntiForgeryToken]
-            public async Task<IActionResult> DeleteConfirmed(int id)
-            {
-                var utilizador = await _context.Utilizadors.FindAsync(id);
-                _context.Utilizadors.Remove(utilizador);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            return View(utilizador);
+        }
 
-            private bool UtilizadorExists(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditOwn(int id, [Bind("Id,Name,Email,Username,Password,Foto,Notificacao")] Utilizador utilizador, IFormFile files)
+        {
+            if (id != utilizador.Id)
             {
-                return _context.Utilizadors.Any(e => e.Id == id);
+                return NotFound();
             }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+
+                    FileStream fs = new FileStream(uploads, FileMode.Create);
+
+                    files.CopyTo(fs);
+                    fs.Close();
+
+                    utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                    _context.Update(utilizador);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UtilizadorExists(utilizador.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(utilizador);
+        }
+
+        // GET: Utilizador/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var utilizador = await _context.Utilizadors
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (utilizador == null)
+            {
+                return NotFound();
+            }
+
+            return View(utilizador);
+        }
+
+        // POST: Utilizador/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var utilizador = await _context.Utilizadors.FindAsync(id);
+            _context.Utilizadors.Remove(utilizador);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool UtilizadorExists(int id)
+        {
+            return _context.Utilizadors.Any(e => e.Id == id);
         }
     }
+}

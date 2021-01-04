@@ -1,0 +1,28 @@
+﻿@model IEnumerable<LabProject.Models.Restaurante>
+
+
+@{
+    Prato p = TempData["PratoEscolhido"] as Prato;
+    <h1>@p.Nome</h1>
+
+}
+
+
+
+@foreach (var item in Model)
+{
+    <h1>@Html.DisplayFor(modelItem => item.Utilizador.Name)</h1>
+    <div class="GridRectangle">
+        <div class="RestauranteBanner" style='background-image:url(@("Images/Restaurantes/" + @Html.DisplayFor(modelItem => item.Morada)))'></div>
+        <div class="RestauranteName">@Html.DisplayFor(modelItem => item.Utilizador.Name)</div>
+        <div class="RestaurantePratosContainer">
+            <div class="RestaurantePrato">
+                <div>@p.Nome</div>
+                <div>@Html.DisplayFor(modelItem => item.RestaurantePratos.ToList()[0].Preco)</div>
+            </div>
+
+        </div>
+    </div>
+
+}
+

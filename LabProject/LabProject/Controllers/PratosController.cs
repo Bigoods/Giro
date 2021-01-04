@@ -30,7 +30,7 @@ namespace LabProject.Controllers
             //                     where (restaurantePratos.Id == p.Id)                                                  
             //                     select restaurantePratos.Foto).Take(1);
 
-              
+
             //} 
 
             labProject_Database.Include(p => p.RestaurantePratos.Take(1));
@@ -54,14 +54,47 @@ namespace LabProject.Controllers
             }
         }
 
-        public async Task<IActionResult> Pratos()
+        //public async Task<IActionResult> Pratos()
+        //{
+        //    var labProject_Database = _context.Pratos;
+        //    foreach (Prato p in labProject_Database)
+        //    {
+        //        p.Foto = @"../Images/Pratos/" + p.Foto.ToString();
+        //        p.Nome = Truncate(p.Nome, 14);
+        //    }
+        //    return View(await labProject_Database.ToListAsync());
+        //}
+
+
+        public async Task<IActionResult> Pratos(string searchString)
         {
-            var labProject_Database = _context.Pratos.Include(p => p.TipoPrato);
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var labProject_Database = from p in _context.Pratos select p;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                labProject_Database = labProject_Database.Where(s => s.Nome.Contains(searchString));
+            }
+
             foreach (Prato p in labProject_Database)
             {
                 p.Foto = @"../Images/Pratos/" + p.Foto.ToString();
                 p.Nome = Truncate(p.Nome, 14);
             }
+
+            //    break;
+            //case "Date":
+            //    students = students.OrderBy(s => s.EnrollmentDate);
+            //    break;
+            //case "date_desc":
+            //    students = students.OrderByDescending(s => s.EnrollmentDate);
+            //    break;
+            //default:
+            //    students = students.OrderBy(s => s.LastName);
+            //    break;
+
             return View(await labProject_Database.ToListAsync());
         }
 
@@ -94,6 +127,52 @@ namespace LabProject.Controllers
 
 
         }
+
+
+        //public async Task<IActionResult> VerPrato(int? id)
+        //{
+        //    var prato = (from pratos in _context.Pratos
+        //                               where pratos.Id == id
+        //                               select pratos);
+            
+
+        //    TempData["PratoEscolhido"] = prato.ToList()[0];
+
+        //    var labProject_Database = _context.Restaurantes;
+
+
+
+        //    return View(await labProject_Database.ToListAsync());
+
+
+        //}
+
+        public async Task<IActionResult> VerPrato(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var prato = (from pratos in _context.Pratos
+                         where pratos.Id == id
+                         select pratos);
+
+            TempData["PratoEscolhido"] = prato.ToList()[0];
+
+
+            //var labProject_Database = _context.Restaurantes;
+            var labProject_Database = (from restaurante in _context.Restaurantes
+                                       join restaurantePrato in _context.RestaurantePratos on restaurante.Id equals restaurantePrato.RestauranteId
+                                       where restaurantePrato.PratoId == id
+                                       select restaurante);
+
+
+
+            return View(await labProject_Database.Include(p => p.RestaurantePratos).Include(p => p.Utilizador).ToListAsync());
+        }
+
+
 
 
         // GET: Pratos/Details/5
