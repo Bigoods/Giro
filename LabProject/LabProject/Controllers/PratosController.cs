@@ -158,7 +158,10 @@ namespace LabProject.Controllers
                          where pratos.Id == id
                          select pratos);
 
-            TempData["PratoEscolhido"] = prato.ToList()[0];
+           
+            Prato _p = prato.ToList()[0];
+            //_p.Nome = Truncate(_p.Nome, 1);
+            ViewData["PratoEscolhido"] = _p;
 
 
             //var labProject_Database = _context.Restaurantes;
@@ -169,7 +172,7 @@ namespace LabProject.Controllers
 
 
 
-            return View(await labProject_Database.Include(p => p.RestaurantePratos).Include(p => p.Utilizador).ToListAsync());
+            return View(await labProject_Database.Include(p => p.Utilizador).Include(p => p.RestaurantePratos).ToListAsync());
         }
 
 

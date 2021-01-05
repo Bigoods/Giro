@@ -16,8 +16,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Images\Avisos\" />
-    <Folder Include="wwwroot\Images\Utilizadores\" />
-    <Folder Include="wwwroot\Images\Restaurantes\" />
   </ItemGroup>
 
 </Project>

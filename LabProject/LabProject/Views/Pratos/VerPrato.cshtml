@@ -1,28 +1,51 @@
 ﻿@model IEnumerable<LabProject.Models.Restaurante>
+@{Prato p = ViewData["PratoEscolhido"] as Prato;}
 
 
-@{
-    Prato p = TempData["PratoEscolhido"] as Prato;
-    <h1>@p.Nome</h1>
-
-}
+<link rel="stylesheet" href="~/css/Grid_style.css">
 
 
 
-@foreach (var item in Model)
-{
-    <h1>@Html.DisplayFor(modelItem => item.Utilizador.Name)</h1>
-    <div class="GridRectangle">
-        <div class="RestauranteBanner" style='background-image:url(@("Images/Restaurantes/" + @Html.DisplayFor(modelItem => item.Morada)))'></div>
-        <div class="RestauranteName">@Html.DisplayFor(modelItem => item.Utilizador.Name)</div>
-        <div class="RestaurantePratosContainer">
-            <div class="RestaurantePrato">
-                <div>@p.Nome</div>
-                <div>@Html.DisplayFor(modelItem => item.RestaurantePratos.ToList()[0].Preco)</div>
+<div class="SearchContainer">
+    <form class="SearchBar" asp-action="Pratos" method="get">
+        <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="@p.Nome">
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+</div>
+
+
+<div class="GridContainer">
+
+
+
+    @foreach (var item in Model)
+    {
+
+        <div class="GridRectangle">
+            <div class="RestauranteBanner" style='background-image:url(@("../../Images/Utilizadores/" + item.Utilizador.Imagem))'></div>
+            <div class="RestauranteNome">@Html.DisplayFor(modelItem => item.Utilizador.Name)</div>
+            <div class="RestaurantePratosContainer">
+                <div id="PratoEscolhido" class="RestaurantePrato">
+                    <div class="PratoEscolhidoDescricao">
+                        <div>@((p.Nome.Length <= 13) ? p.Nome : p.Nome.Substring(0, 13) + "...")</div>
+                        <div class="PratoEscolhidoDescricaoPreco">
+                            @try
+                            {
+                                @((item.RestaurantePratos.ToList().Single(s => s.PratoId == p.Id).Preco).ToString("#.00") + " €");
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        </div>
+                    </div>
+                    <div class="GridRectangleImagem" style='background-image:url(@("../../Images/Pratos/" + p.Foto))'></div>
+                </div>
+
             </div>
-
         </div>
-    </div>
 
-}
+    }
+
+</div>
 
