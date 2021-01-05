@@ -389,3 +389,9 @@ D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\V
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Restaurantes\Details.cshtml.g.cs
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Restaurantes\Edit.cshtml.g.cs
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Restaurantes\Index.cshtml.g.cs
+C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Restaurantes\Create.cshtml.g.cs
+C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Restaurantes\Delete.cshtml.g.cs
+C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Restaurantes\Details.cshtml.g.cs
+C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Restaurantes\Edit.cshtml.g.cs
+C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Restaurantes\Index.cshtml.g.cs
+C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Restaurantes\VerRestaurante.cshtml.g.cs

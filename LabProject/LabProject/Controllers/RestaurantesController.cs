@@ -45,6 +45,31 @@ namespace LabProject.Controllers
             return View(restaurante);
         }
 
+        public async Task<IActionResult> VerRestaurante(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            RestaurantePratos Restaurante = new RestaurantePratos();
+
+            Restaurante.Restaurante = await _context.Restaurantes
+                .Include(r => r.Utilizador)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (Restaurante.Restaurante == null)
+            {
+                return NotFound();
+            }
+
+            Restaurante.Pratos = await (from Prato in _context.Pratos
+                                        join restaurantePrato in _context.RestaurantePratos on Prato.Id equals restaurantePrato.PratoId
+                                        where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id
+                                        select Prato).ToListAsync();
+
+
+            return View(Restaurante);
+        }
+
         // GET: Restaurantes/Create
         public IActionResult Create()
         {

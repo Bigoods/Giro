@@ -21,7 +21,7 @@
     @foreach (var item in Model)
     {
 
-        <div class="GridRectangle">
+        <div class="GridRectangle" onClick="reply_click(@Html.DisplayFor(modelItem => item.Id))">
             <div class="RestauranteBanner" style='background-image:url(@("../../Images/Utilizadores/" + item.Utilizador.Imagem))'></div>
             <div class="RestauranteNome">@Html.DisplayFor(modelItem => item.Utilizador.Name)</div>
             <div class="RestaurantePratosContainer">
@@ -48,4 +48,19 @@
     }
 
 </div>
+
+
+<script type="text/javascript">
+    function reply_click(Id) {
+        //alert(id);
+        //console.log(Id);
+
+        var targetUrl = '/Restaurantes/VerRestaurante/' + Id.toString();
+        location.href = targetUrl;
+
+    };
+</script>
+
+
+
 
