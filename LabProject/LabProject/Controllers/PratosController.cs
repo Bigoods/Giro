@@ -12,9 +12,9 @@ namespace LabProject.Controllers
 {
     public class PratosController : Controller
     {
-        private readonly LabProject_Database _context;
+        private readonly LabProject_Context _context;
 
-        public PratosController(LabProject_Database context)
+        public PratosController(LabProject_Context context)
         {
             _context = context;
         }

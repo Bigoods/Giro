@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LabProject.Migrations
 {
-    [DbContext(typeof(LabProject_Database))]
+    [DbContext(typeof(LabProject_Context))]
     [Migration("20210102221434_FotoPrato")]
     partial class FotoPrato
     {

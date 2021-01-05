@@ -12,9 +12,9 @@ namespace LabProject.Controllers
 {
     public class AvisosController : Controller
     {
-        private readonly LabProject_Database _context;
+        private readonly LabProject_Context _context;
 
-        public AvisosController(LabProject_Database context)
+        public AvisosController(LabProject_Context context)
         {
             _context = context;
         }

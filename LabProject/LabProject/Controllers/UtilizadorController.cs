@@ -15,11 +15,11 @@ namespace LabProject.Controllers
 {
     public class UtilizadorController : Controller
     {
-        private readonly LabProject_Database _context;
+        private readonly LabProject_Context _context;
         private IWebHostEnvironment _he;
 
 
-        public UtilizadorController(LabProject_Database context, IWebHostEnvironment e)
+        public UtilizadorController(LabProject_Context context, IWebHostEnvironment e)
         {
             _context = context;
             _he = e;

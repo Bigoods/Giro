@@ -27,7 +27,7 @@ namespace LabProject
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<LabProject_Database>(options => options.UseSqlServer(Configuration.GetConnectionString("LabProject_Database")));
+            services.AddDbContext<LabProject_Context>(options => options.UseSqlServer(Configuration.GetConnectionString("LabProject_Database")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

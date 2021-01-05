@@ -7,13 +7,13 @@ using LabProject.Models;
 
 namespace LabProject.Data
 {
-    public partial class LabProject_Database : DbContext
+    public partial class LabProject_Context : DbContext
     {
-        public LabProject_Database()
+        public LabProject_Context()
         {
         }
 
-        public LabProject_Database(DbContextOptions<LabProject_Database> options)
+        public LabProject_Context(DbContextOptions<LabProject_Context> options)
             : base(options)
         {
         }
