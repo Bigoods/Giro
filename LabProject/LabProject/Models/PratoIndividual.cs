@@ -43,7 +43,7 @@ namespace LabProject.Models
 
 
 
-        public PratoIndividual(Prato prato, double _preco, string Desc)
+        public PratoIndividual(Prato prato, double _preco, string Desc,string _foto)
         {
             Id = prato.Id;
             Nome = prato.Nome;
@@ -53,6 +53,7 @@ namespace LabProject.Models
             TipoPrato = prato.TipoPrato;
             RestaurantePratos = prato.RestaurantePratos;
             Descricao = Desc;
+            Foto = _foto;
         }
 
     }
