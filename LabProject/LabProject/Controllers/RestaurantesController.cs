@@ -79,15 +79,15 @@ namespace LabProject.Controllers
                                                                    where RestaurantePrato.PratoId == p.Id && RestaurantePrato.RestauranteId == Restaurante.Restaurante.Id
                                                                    select RestaurantePrato.Preco).ToList()[0], (from RestaurantePrato in ContextRP
                                                                                                                 where RestaurantePrato.PratoId == p.Id && RestaurantePrato.RestauranteId == Restaurante.Restaurante.Id
-                                                                                                                select RestaurantePrato.Descricao).ToList()[0], from RestaurantePrato in ContextRP
+                                                                                                                select RestaurantePrato.Descricao).ToList()[0], (from RestaurantePrato in ContextRP
                                                                                                                                                                  where RestaurantePrato.PratoId == p.Id && RestaurantePrato.RestauranteId == Restaurante.Restaurante.Id
-                                                                                                                                                                 select RestaurantePrato.Foto).ToList()[0]);
+                                                                                                                                                                 select RestaurantePrato.Foto).ToList()[0]));
 
                     
 
                 }
                 catch {
-                    Restaurante.Pratos.Add(new PratoIndividual(p, 0, ""));
+                    Restaurante.Pratos.Add(new PratoIndividual(p, 0, "", ""))  ;
                 }
             }
             
