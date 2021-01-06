@@ -1,9 +1,9 @@
-﻿@model LabProject.Models.RestaurantePratos
+﻿@model LabProject.Models.RestaurantePratosPertence
 
-    <link rel="stylesheet" href="~/css/Grid_style.css">
+<link rel="stylesheet" href="~/css/Grid_style.css">
 
 
-    <div>
+@*<div>
         <h4>@Html.DisplayNameFor(model => model.Restaurante.Utilizador.Name)</h4>
         <hr />
         <dl class="row">
@@ -45,18 +45,58 @@
             </dd>
         </dl>
 
+    </div>*@
 
-        @foreach (var item in Model.Pratos)
-        {
-            <div class="GridSquare" onClick="reply_click(@Html.DisplayFor(modelItem => item.Id))">
-                <div class="GridSquareImagem" style='background-image:url(@Html.DisplayFor(modelItem => item.Foto))'></div>
-                @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
+<div class="VerGridRectangle">
+    <div class="VerRestauranteBanner" style='background-image:url("../../Images/Utilizadores/@Html.DisplayFor(model => model.Restaurante.Utilizador.Imagem)")'></div>
+    <div class="VerRestauranteNome">@Html.DisplayFor(model => model.Restaurante.Utilizador.Name)</div>
 
-                <div class="GridSquareNome">@Html.DisplayFor(modelItem => item.Nome)</div>
+</div>
 
-            </div>
-
-        }
+<div class="VerInformacoes">
+    <div class="VerInformacoesDescricao">
+        <p>
+            @Html.DisplayFor(model => model.Restaurante.Telefone)
+        </p>
+        <p>
+            @Html.DisplayFor(model => model.Restaurante.Utilizador.Email)
+        </p>
+        <p>
+            Exceto @Html.DisplayFor(model => model.Restaurante.DiaDescanso)
+        </p>
+        <p style=" margin-top: 2px; ">
+            @Html.DisplayFor(model => model.Restaurante.HoraAbertura)h - @Html.DisplayFor(model => model.Restaurante.HoraFecho)h
+        </p>
+        <p>
+            Exceto @Html.DisplayFor(model => model.Restaurante.Morada)
+        </p>
 
     </div>
+    <div class="VerInformacoesMapa" style="background-color:lightgreen"></div>
+
+</div>
+
+
+
+<div class="verGridContainer">
+    @foreach (var item in Model.Pratos)
+    {
+    <div class="VerGridSquare" onClick="reply_click(@Html.DisplayFor(modelItem => item.Id))">
+        <div class="VerGridSquareNome">@((item.Nome.Length <= 13) ? item.Nome : item.Nome.Substring(0, 13) + "...")</div>
+        <div class="VerGridSquareCentral">
+            <div class="VerGridSquareCentralTexto">
+                <p>Tipo: @(item.TipoPrato.Nome)</p>
+                <p>Preço: @((item.Preco).ToString("#.00") + " €")</p>
+            </div>
+            <div class="VerGridSquareCentralFoto" style='background-image:url(../../Images/Pratos/@(item.Foto))'></div>
+        </div>
+        <p class="VerGridSquareDesc" >Descrição: @(item.Descricao)</p>
+        @*<div class="VerGridSquareImagem" style='background-image:url(@Html.DisplayFor(modelItem => item.Foto))'></div>*@
+        @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
+
+
+    </div>
+
+    }
+</div>
 

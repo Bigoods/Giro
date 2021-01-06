@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LabProject.Models
 {
-    public class RestaurantePratos
+    public class RestaurantePratosPertence
     {
         public Restaurante Restaurante { get; set; }
-        public List<Prato> Pratos = new List<Prato>();
+        public List<PratoIndividual> Pratos = new List<PratoIndividual>();
     }
 }

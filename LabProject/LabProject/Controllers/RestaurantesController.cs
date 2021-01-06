@@ -51,7 +51,7 @@ namespace LabProject.Controllers
             {
                 return NotFound();
             }
-            RestaurantePratos Restaurante = new RestaurantePratos();
+            RestaurantePratosPertence Restaurante = new RestaurantePratosPertence();
 
             Restaurante.Restaurante = await _context.Restaurantes
                 .Include(r => r.Utilizador)
@@ -61,11 +61,33 @@ namespace LabProject.Controllers
                 return NotFound();
             }
 
-            Restaurante.Pratos = await (from Prato in _context.Pratos
+
+
+            var _p = await (from Prato in _context.Pratos
                                         join restaurantePrato in _context.RestaurantePratos on Prato.Id equals restaurantePrato.PratoId
                                         where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id
-                                        select Prato).ToListAsync();
+                                        select Prato).Include(p => p.TipoPrato).ToListAsync();
 
+
+            var ContextRP = _context.RestaurantePratos;
+
+            foreach (var p in _p)
+            {
+                try
+                {
+                    Restaurante.Pratos.Add(new PratoIndividual(p, (from RestaurantePrato in ContextRP
+                                                                   where RestaurantePrato.PratoId == p.Id && RestaurantePrato.RestauranteId == Restaurante.Restaurante.Id
+                                                                   select RestaurantePrato.Preco).ToList()[0], (from RestaurantePrato in ContextRP
+                                                                                                                where RestaurantePrato.PratoId == p.Id && RestaurantePrato.RestauranteId == Restaurante.Restaurante.Id
+                                                                                                                select RestaurantePrato.Descricao).ToList()[0]));
+
+                }
+                catch {
+                    Restaurante.Pratos.Add(new PratoIndividual(p, 0, ""));
+                }
+            }
+            
+            
 
             return View(Restaurante);
         }

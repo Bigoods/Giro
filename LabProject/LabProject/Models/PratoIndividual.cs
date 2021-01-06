@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 namespace LabProject.Models
 {
     [Table("Prato")]
-    public partial class Prato
+    public partial class PratoIndividual
     {
-        public Prato()
+        public PratoIndividual()
         {
             RestaurantePratos = new HashSet<RestaurantePrato>();
         }
@@ -24,7 +24,9 @@ namespace LabProject.Models
         [StringLength(300)]
         public string Nome { get; set; }
 
-       
+        public double Preco { get; set; }
+
+        public string Descricao { get; set; }
 
         [Required]
         [Column("foto")]
@@ -38,5 +40,20 @@ namespace LabProject.Models
         public virtual TipoPrato TipoPrato { get; set; }
         [InverseProperty(nameof(RestaurantePrato.Prato))]
         public virtual ICollection<RestaurantePrato> RestaurantePratos { get; set; }
+
+
+
+        public PratoIndividual(Prato prato, double _preco, string Desc)
+        {
+            Id = prato.Id;
+            Nome = prato.Nome;
+            Preco = _preco;
+            Foto = prato.Foto;
+            TipoPratoId = prato.TipoPratoId;
+            TipoPrato = prato.TipoPrato;
+            RestaurantePratos = prato.RestaurantePratos;
+            Descricao = Desc;
+        }
+
     }
 }

@@ -163,6 +163,8 @@ namespace LabProject.Controllers
             //_p.Nome = Truncate(_p.Nome, 1);
             ViewData["PratoEscolhido"] = _p;
 
+        
+
 
             //var labProject_Database = _context.Restaurantes;
             var labProject_Database = (from restaurante in _context.Restaurantes
