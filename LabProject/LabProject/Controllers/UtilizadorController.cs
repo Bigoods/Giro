@@ -47,6 +47,9 @@ namespace LabProject.Controllers
                 {
                     HttpContext.Session.SetString("Utilizador", username);
                     HttpContext.Session.SetString("Email", u.Email);
+                    HttpContext.Session.SetString("Name", u.Name);
+                    HttpContext.Session.SetString("Imagem", u.Imagem);
+                    HttpContext.Session.SetString("Id", Convert.ToString(u.Id));
                     var CheckUtilizador = (from Clientes in _context.Clientes
                                            where Clientes.UtilizadorId == u.Id
                                            select Clientes);
@@ -72,9 +75,9 @@ namespace LabProject.Controllers
                         }
                     }
 
-                    TempData["username"] = u.Name;
-                    TempData["imagem"] = u.Imagem;
-                    TempData["id"] = u.Id;
+                    ////TempData["username"] = u.Name;
+                    ////TempData["imagem"] = u.Imagem;
+                    ////TempData["id"] = u.Id;
                     //TempData["email"] = u.Email;
                     return RedirectToAction("Index", "Home");
                 }
@@ -129,6 +132,12 @@ namespace LabProject.Controllers
                 }*/
             }
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Response.Cookies.Delete(".LabProject.Session");
+            return RedirectToAction("Index", "Home");
         }
         //Registar
         // GET: Utilizador/Create

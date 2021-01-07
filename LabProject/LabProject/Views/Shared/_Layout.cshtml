@@ -25,7 +25,7 @@
                 }
                 @if (Context.Session.GetString("Utilizador") != null)
                 {
-                    <div class="perfil-imagem perfil-child" style='background-image:url(@("Images/Utilizadores/" + TempData["imagem"]))'></div>
+                    <div class="perfil-imagem perfil-child" style='background-image:url(@("Images/Utilizadores/" + Context.Session.GetString("Imagem"))'></div>
                     <p class="perfil-nome perfil-child">@Context.Session.GetString("Utilizador")</p>
                     <p class="perfil-ver perfil-child">@Context.Session.GetString("Email")</p>
                 }
@@ -66,7 +66,7 @@
                             <a tabindex="-1" id="AvisoBar" class="sidebar-tab noselect" asp-area="" asp-controller="Avisos" asp-action="Index"><i class="fas fa-bell fonticon"></i>Avisos</a>
                             <a tabindex="-1" id="FavoritosBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="PratosFavoritos"><i class="fas fa-star fonticon"></i>Favoritos</a>
                             <a tabindex="-1" id="PerfilBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="EditOwn"><i class="fas fa-id-badge fonticon"></i>Perfil</a>
-                            <a tabindex="-1" id="PerfilBar" class="sidebar-tab noselect" asp-area="" asp-controller="Home" asp-action="Perfil"><i class="fas fa-sign-out-alt fonticon"></i>Log Out</a>
+                            <a tabindex="-1" id="LogoutBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="Logout"><i class="fas fa-sign-out-alt fonticon"></i>Log Out</a>
                         }
                     }
                     else

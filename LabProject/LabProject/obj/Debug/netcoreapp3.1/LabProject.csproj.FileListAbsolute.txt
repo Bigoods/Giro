@@ -594,3 +594,4 @@ C:\Users\ASUS\Desktop\Laboratorio 4\PratoDoDia\Prato_do_Dia\LabProject\LabProjec
 C:\Users\ASUS\Desktop\Laboratorio 4\PratoDoDia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.pdb
 C:\Users\ASUS\Desktop\Laboratorio 4\PratoDoDia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.genruntimeconfig.cache
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Restaurantes\VerRestaurante.cshtml.g.cs
+D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.csprojAssemblyReference.cache
