@@ -187,7 +187,6 @@ D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProj
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\staticwebassets\LabProject.StaticWebAssets.Manifest.cache
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\staticwebassets\LabProject.StaticWebAssets.xml
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.genruntimeconfig.cache
-D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Registar2.cshtml.g.cs
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Registar.cshtml.g.cs
 C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.AssemblyInfoInputs.cache
 C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.AssemblyInfo.cs
@@ -593,4 +592,5 @@ C:\Users\ASUS\Desktop\Laboratorio 4\PratoDoDia\Prato_do_Dia\LabProject\LabProjec
 C:\Users\ASUS\Desktop\Laboratorio 4\PratoDoDia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.pdb
 C:\Users\ASUS\Desktop\Laboratorio 4\PratoDoDia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.genruntimeconfig.cache
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Restaurantes\VerRestaurante.cshtml.g.cs
+D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Registar2.cshtml.g.cs
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.csprojAssemblyReference.cache

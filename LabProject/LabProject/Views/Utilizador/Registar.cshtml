@@ -8,7 +8,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" id="NomeInput"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -31,21 +31,6 @@
                 <input asp-for="Imagem" class="form-control" />
                 <span asp-validation-for="Imagem" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Bloqueado" /> @Html.DisplayNameFor(model => model.Bloqueado)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Motivo" class="control-label"></label>
-                <input asp-for="Motivo" class="form-control" />
-                <span asp-validation-for="Motivo" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Notificacao" /> @Html.DisplayNameFor(model => model.Notificacao)
-                </label>
-            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -60,3 +45,28 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    function registar()
+    {
+        $.ajax({
+        url: '@Url.Action("Registar2")', // to get the right path to controller from TableRoutes of Asp.Net MVC
+        dataType: "json", //to work with json format
+        type: "POST", //to do a post request
+        //contentType: 'application/json; charset=utf-8', //define a contentType of your request
+        cache: false, //avoid caching results
+            data: {
+                nome: $("#NomeInput").text()
+            }, // here you can pass arguments to your request if you need
+        success: function (data) {
+             // data is your result from controller
+            if (data.success) {
+                alert(data.message);
+            }
+        },
+        error: function (xhr) {
+            alert('error');
+        }
+        });
+    }
+</script>

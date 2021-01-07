@@ -14,7 +14,6 @@
 
     <div class="flex-container">
         <div class="flex-child">
-
             <div class="perfil-container">
                 @if (Context.Session.GetString("Utilizador") == null)
                 {
@@ -22,6 +21,7 @@
 
                     <a class="perfil-ver perfil-child" asp-area="" asp-controller="Utilizador" asp-action="Login">Login</a>
                     <a class="perfil-ver perfil-child" asp-area="" asp-controller="Utilizador" asp-action="Registar">Registar</a>
+
                 }
                 @if (Context.Session.GetString("Utilizador") != null)
                 {
@@ -50,43 +50,25 @@
 
 
             <div class="sidebar-container">
-
-
+                <a tabindex="-1" id="NavegarBar" class="sidebar-tab noselect" style="border-top: 1px solid white;" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-map-marked-alt fonticon"></i>Navegar</a>
+                <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="Pratos"><i class="fas fa-search fonticon"></i>Pesquisar</a>
                 @{ if (Context.Session.GetString("Tipo") == "Cliente")
                     {
-                        <a tabindex="-1" id="NavegarBar" class="sidebar-tab noselect" style="border-top: 1px solid white;" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-map-marked-alt fonticon"></i>Navegar</a>
-                        <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="Pratos"><i class="fas fa-search fonticon"></i>Pesquisar</a>
-
-<<<<<<< HEAD
+                        @*<a tabindex="-1" id="NavegarBar" class="sidebar-tab noselect" style="border-top: 1px solid white;" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-map-marked-alt fonticon"></i>Navegar</a>
+                        <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="Pratos"><i class="fas fa-search fonticon"></i>Pesquisar</a>*@
                         <a tabindex="-1" id="AvisoBar" class="sidebar-tab noselect" asp-area="" asp-controller="Avisos" asp-action="Index"><i class="fas fa-bell fonticon"></i>Avisos</a>
                         <a tabindex="-1" id="FavoritosBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="PratosFavoritos"><i class="fas fa-star fonticon"></i>Favoritos</a>
                         <a tabindex="-1" id="PerfilBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="EditOwn"><i class="fas fa-id-badge fonticon"></i>Perfil</a>
-                        <a tabindex="-1" id="PerfilBar" class="sidebar-tab noselect" asp-area="" asp-controller="Home" asp-action="Perfil"><i class="fas fa-sign-out-alt fonticon"></i>Log Out</a>
-=======
-                        if (Context.Session.GetString("Utilizador") == null)
-                        {
-
-
-                        }
-                        else
-                        {
-                            <a tabindex="-1" id="AvisoBar" class="sidebar-tab noselect" asp-area="" asp-controller="Avisos" asp-action="Index"><i class="fas fa-bell fonticon"></i>Avisos</a>
-                            <a tabindex="-1" id="FavoritosBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="PratosFavoritos"><i class="fas fa-star fonticon"></i>Favoritos</a>
-                            <a tabindex="-1" id="PerfilBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="EditOwn"><i class="fas fa-id-badge fonticon"></i>Perfil</a>
-                            <a tabindex="-1" id="LogoutBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="Logout"><i class="fas fa-sign-out-alt fonticon"></i>Log Out</a>
-                        }
->>>>>>> cd4bf307446434bfda3e2ae35554b1f9a60fc2d2
+                        <a tabindex="-1" id="LogoutBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="Logout"><i class="fas fa-sign-out-alt fonticon"></i>Log Out</a>
                     }
                     else if (Context.Session.GetString("Tipo") == "Restaurante")
                     {
-                        <a tabindex="-1" id="NavegarBar" class="sidebar-tab noselect" style="border-top: 1px solid white;" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-map-marked-alt fonticon"></i>Navegar</a>
-                        <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="Pratos"><i class="fas fa-search fonticon"></i>Pesquisar</a>
-
-
+                        @*<a tabindex="-1" id="NavegarBar" class="sidebar-tab noselect" style="border-top: 1px solid white;" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-map-marked-alt fonticon"></i>Navegar</a>
+                        <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="Pratos"><i class="fas fa-search fonticon"></i>Pesquisar</a>*@
                         <a tabindex="-1" id="NavegarBar" class="sidebar-tab noselect" style="border-top: 1px solid white;" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-map-marked-alt fonticon"></i>Restaurante 1</a>
                         <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="Pratos"><i class="fas fa-search fonticon"></i>Restaurante 2</a>
                         <a tabindex="-1" id="PerfilBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="EditOwn"><i class="fas fa-id-badge fonticon"></i>Perfil</a>
-
+                        <a tabindex="-1" id="LogoutBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="Logout"><i class="fas fa-id-badge fonticon"></i>Logout</a>
                     }
                 }
                 }

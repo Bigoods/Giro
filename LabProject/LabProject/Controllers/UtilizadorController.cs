@@ -152,7 +152,7 @@ namespace LabProject.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registar([Bind("Id,Name,Email,Username,Password,Imagem,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
+        public async Task<IActionResult> Registar([Bind("Id,Name,Email,Username,Password,Imagem")] Utilizador utilizador)
         {
             /* if (ModelState.IsValid)
              {
@@ -189,6 +189,51 @@ namespace LabProject.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(utilizador);
+        }
+        public IActionResult Registar2()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Registar2Submit(string nome)
+        {
+            var _nome = nome;
+            return Json(new { success = true, message = "Order updated successfully" });
+            /* if (ModelState.IsValid)
+             {
+                 //if (Convert.ToInt32(TempData["cliente"])==1) //clientes 
+                 //{
+                     _context.Add(utilizador);
+                     int clienteId = utilizador.Id;
+                     Cliente cliente = new Cliente();
+                     cliente.UtilizadorId = clienteId;
+                     _context.Add(cliente);
+                 }
+                 else //restaurante
+                 {
+
+                 }
+                 //return RedirectToAction("Login", "Utilizadores");
+
+                 /*_context.Add(utilizador);
+                 await _context.SaveChangesAsync();
+                 return RedirectToAction(nameof(Index));
+             }*/
+            //return View();
+
+
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(utilizador);
+            //    await _context.SaveChangesAsync();
+            //    int clienteId = utilizador.Id;
+            //    Cliente cliente = new Cliente();
+            //    cliente.UtilizadorId = clienteId;
+            //    _context.Add(cliente);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
         }
         // GET: Utilizador
         public async Task<IActionResult> Index()
@@ -254,9 +299,9 @@ namespace LabProject.Controllers
 
         public async Task<IActionResult> EditOwn()
         {
-            if (!Convert.ToBoolean(TempData["Autenticado"]))
+            if (HttpContext.Session.GetString("Utilizador") != null)
             {
-                int id = Convert.ToInt32(TempData["id"]);
+                int id = Convert.ToInt32(HttpContext.Session.GetString("Id"));
                 //if (id == null)
                 //{
                 //    return NotFound();

@@ -111,7 +111,7 @@ namespace LabProject.Controllers
                 ViewData["CurrentFilter"] = searchString;
 
                 var labProject_Database = (from pratos in _context.Pratos
-                                           join cliente in _context.Clientes on Convert.ToInt32(TempData["id"]) equals cliente.UtilizadorId
+                                           join cliente in _context.Clientes on Convert.ToInt32(HttpContext.Session.GetString("Id")) equals cliente.UtilizadorId
                                            join pratofavorito in _context.PratoClientes on pratos.Id equals pratofavorito.PratoId
                                            where pratofavorito.ClienteId == cliente.Id
                                            select pratos);
