@@ -36,7 +36,50 @@ namespace LabProject.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Parte com cookies
                 Utilizador u = _context.Utilizadors.SingleOrDefault(u => u.Username == username && u.Password == password);
+                if (u == null)
+                {
+                    ModelState.AddModelError("Username", "Username or password are wrong");
+                    TempData["tipo"] = 0;
+                }
+                else
+                {
+                    HttpContext.Session.SetString("Utilizador", username);
+                    HttpContext.Session.SetString("Email", u.Email);
+                    var CheckUtilizador = (from Clientes in _context.Clientes
+                                           where Clientes.UtilizadorId == u.Id
+                                           select Clientes);
+
+                    if (CheckUtilizador.ToList().Count > 0)
+                    {
+                        TempData["tipo"] = 0;
+                    }
+                    else
+                    {
+                        var CheckUtilizador2 = (from Restaurantes in _context.Restaurantes
+                                                where Restaurantes.UtilizadorId == u.Id
+                                                select Restaurantes);
+
+                        if (CheckUtilizador2.ToList().Count > 0)
+                        {
+                            TempData["tipo"] = 1;
+                        }
+                        else
+                        {
+                            TempData["tipo"] = 2;
+
+                        }
+                    }
+
+                    TempData["username"] = u.Name;
+                    TempData["imagem"] = u.Imagem;
+                    TempData["id"] = u.Id;
+                    //TempData["email"] = u.Email;
+                    return RedirectToAction("Index", "Home");
+                }
+                //Parte sem cookies
+                /*Utilizador u = _context.Utilizadors.SingleOrDefault(u => u.Username == username && u.Password == password);
 
 
                 if (u == null)
@@ -83,7 +126,7 @@ namespace LabProject.Controllers
                     TempData["email"] = u.Email;
                     TempData["Autenticado"] = true;
                     return RedirectToAction("Index", "Home");
-                }
+                }*/
             }
             return View();
         }
