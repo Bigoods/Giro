@@ -2,24 +2,40 @@
 
 
 <link rel="stylesheet" href="~/css/Grid_style.css">
-<link rel="stylesheet" href="~/css/Pratos_style.css">
 
+
+<div class="SearchContainer">
+    <form class="SearchBar" asp-action="Pratos" method="get">
+        <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Procurar...">
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+</div>
 
 
 <div class="GridContainer">
 
     @foreach (var item in Model)
     {
-        <div class="GridSquare">
-            <div class="GridSquareImagem"></div>
+        <div class="GridSquare" onClick="reply_click(@Html.DisplayFor(modelItem => item.Id))">
+            <div class="GridSquareImagem" style='background-image:url(@Html.DisplayFor(modelItem => item.Foto))'></div>
             @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
 
             <div class="GridSquareNome">@Html.DisplayFor(modelItem => item.Nome)</div>
 
         </div>
 
-
-
     }
+
+    <script type="text/javascript">
+        function reply_click(Id) {
+            //alert(id);
+            //console.log(Id);
+
+            var targetUrl = '/Pratos/VerPrato/' + Id.toString();
+            location.href = targetUrl;
+
+        };
+    </script>
+
 
 </div>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LabProject.Data;
 using LabProject.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace LabProject.Controllers
 {
@@ -101,23 +102,43 @@ namespace LabProject.Controllers
 
 
         // GET: Pratos favoritos
-        public async Task<IActionResult> PratosFavoritos()
+        public async Task<IActionResult> PratosFavoritos(string searchString)
         {
-            if (Convert.ToBoolean(TempData["Autenticado"]))
+            if (HttpContext.Session.GetString("Tipo") == "Cliente")
             {
+
+
+                ViewData["CurrentFilter"] = searchString;
 
                 var labProject_Database = (from pratos in _context.Pratos
                                            join cliente in _context.Clientes on Convert.ToInt32(TempData["id"]) equals cliente.UtilizadorId
                                            join pratofavorito in _context.PratoClientes on pratos.Id equals pratofavorito.PratoId
                                            where pratofavorito.ClienteId == cliente.Id
                                            select pratos);
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    labProject_Database = labProject_Database.Where(s => s.Nome.Contains(searchString));
+                }
+
                 foreach (Prato p in labProject_Database)
                 {
                     p.Foto = @"../Images/Pratos/" + p.Foto.ToString();
                     p.Nome = Truncate(p.Nome, 14);
                 }
-                return View(await labProject_Database.ToListAsync());
 
+                //    break;
+                //case "Date":
+                //    students = students.OrderBy(s => s.EnrollmentDate);
+                //    break;
+                //case "date_desc":
+                //    students = students.OrderByDescending(s => s.EnrollmentDate);
+                //    break;
+                //default:
+                //    students = students.OrderBy(s => s.LastName);
+                //    break;
+
+                return View(await labProject_Database.ToListAsync());
 
             }
             else

@@ -41,7 +41,6 @@ namespace LabProject.Controllers
                 if (u == null)
                 {
                     ModelState.AddModelError("Username", "Username or password are wrong");
-                    TempData["tipo"] = 0;
                 }
                 else
                 {
@@ -53,7 +52,7 @@ namespace LabProject.Controllers
 
                     if (CheckUtilizador.ToList().Count > 0)
                     {
-                        TempData["tipo"] = 0;
+                        HttpContext.Session.SetString("Tipo", "Cliente");
                     }
                     else
                     {
@@ -63,11 +62,13 @@ namespace LabProject.Controllers
 
                         if (CheckUtilizador2.ToList().Count > 0)
                         {
-                            TempData["tipo"] = 1;
+                            HttpContext.Session.SetString("Tipo", "Restaurante");
+
                         }
                         else
                         {
-                            TempData["tipo"] = 2;
+                            HttpContext.Session.SetString("Tipo", "Admin");
+                            HttpContext.Session.SetString("Tipo", "Admin");
 
                         }
                     }

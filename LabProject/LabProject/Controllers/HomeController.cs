@@ -20,15 +20,7 @@ namespace LabProject.Controllers
 
         public IActionResult Index()
         {
-            try
-            {
-                if (!Convert.ToBoolean(TempData["Autenticado"]) == true)
-                    TempData["Autenticado"] = false;
-            }
-            catch (Exception)
-            {
-                TempData["Autenticado"] = false;
-            }
+
 
             return View();
         }
