@@ -379,6 +379,7 @@ namespace LabProject.Controllers
                     fs.Close();
 
                     utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                    HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                     _context.Update(utilizador);
                     await _context.SaveChangesAsync();
                 }

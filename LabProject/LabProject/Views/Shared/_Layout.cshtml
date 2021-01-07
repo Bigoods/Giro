@@ -25,7 +25,7 @@
                 }
                 @if (Context.Session.GetString("Utilizador") != null)
                 {
-                    <div class="perfil-imagem perfil-child" style='background-image:url(@("Images/Utilizadores/" + Context.Session.GetString("Imagem"))'></div>
+                    <div class="perfil-imagem perfil-child" style='background-image:url(@("/Images/Utilizadores/" + Context.Session.GetString("Imagem"))'></div>
                     <p class="perfil-nome perfil-child">@Context.Session.GetString("Utilizador")</p>
                     <p class="perfil-ver perfil-child">@Context.Session.GetString("Email")</p>
                 }
