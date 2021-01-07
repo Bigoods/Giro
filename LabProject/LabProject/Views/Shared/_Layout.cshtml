@@ -16,8 +16,20 @@
         <div class="flex-child">
 
             <div class="perfil-container">
+                @if (Context.Session.GetString("Utilizador") == null)
+                {
+                    <div class="perfil-imagem perfil-child"></div>
 
-                @{ if (!Convert.ToBoolean(TempData["Autenticado"]))
+                    <a class="perfil-ver perfil-child" asp-area="" asp-controller="Utilizador" asp-action="Login">Login</a>
+                    <a class="perfil-ver perfil-child" asp-area="" asp-controller="Utilizador" asp-action="Registar">Registar</a>
+                }
+                @if (Context.Session.GetString("Utilizador") != null)
+                {
+                    <div class="perfil-imagem perfil-child" style='background-image:url(@("Images/Utilizadores/" + TempData["imagem"]))'></div>
+                    <p class="perfil-nome perfil-child">@Context.Session.GetString("Utilizador")</p>
+                    <p class="perfil-ver perfil-child">@Context.Session.GetString("Email")</p>
+                }
+                @*@{ if (!Convert.ToBoolean(TempData["Autenticado"]))
                     {
                         <div class="perfil-imagem perfil-child"></div>
 
@@ -28,11 +40,11 @@
                     else
                     {
                         <div class="perfil-imagem perfil-child" style='background-image:url(@("Images/Utilizadores/" + TempData["imagem"]))'></div>
-
-                        <p class="perfil-nome perfil-child">@TempData["username"]</p>
+                            <p class="perfil-nome perfil-child">@Context.Session.GetString("Utilizador")</p>
+                            <p class="perfil-nome perfil-child">@TempData["username"]</p>
                         <p class="perfil-ver perfil-child">@TempData["email"]</p>
                     }
-                }
+                }*@
             </div>
 
 
@@ -44,7 +56,7 @@
                         <a tabindex="-1" id="NavegarBar" class="sidebar-tab noselect" style="border-top: 1px solid white;" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-map-marked-alt fonticon"></i>Navegar</a>
                         <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="Pratos"><i class="fas fa-search fonticon"></i>Pesquisar</a>
 
-                        if (!Convert.ToBoolean(TempData["Autenticado"]))
+                        if (Context.Session.GetString("Utilizador") == null)
                         {
 
 

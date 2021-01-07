@@ -28,6 +28,12 @@ namespace LabProject
             services.AddControllersWithViews();
 
             services.AddDbContext<LabProject_Context>(options => options.UseSqlServer(Configuration.GetConnectionString("LabProject_Database")));
+
+            services.AddSession(option =>
+            {
+                option.IdleTimeout = TimeSpan.FromMinutes(10);
+                option.Cookie.Name = ".LabProject.Session";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +55,8 @@ namespace LabProject
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
