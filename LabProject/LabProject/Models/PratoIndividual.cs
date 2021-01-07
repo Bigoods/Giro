@@ -48,7 +48,6 @@ namespace LabProject.Models
             Id = prato.Id;
             Nome = prato.Nome;
             Preco = _preco;
-            Foto = prato.Foto;
             TipoPratoId = prato.TipoPratoId;
             TipoPrato = prato.TipoPrato;
             RestaurantePratos = prato.RestaurantePratos;

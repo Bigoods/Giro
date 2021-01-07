@@ -56,19 +56,22 @@
 <div class="VerInformacoes">
     <div class="VerInformacoesDescricao">
         <p>
+            <span class="VerSpan"><i class="fas fa-phone-alt"></i></span>
             @Html.DisplayFor(model => model.Restaurante.Telefone)
         </p>
         <p>
+            <span class="VerSpan"><i class="far fa-envelope"></i></span>
             @Html.DisplayFor(model => model.Restaurante.Utilizador.Email)
         </p>
+        <span class="VerSpan" style=" float: left; margin-top: 5px; margin-left: 20px; margin-right: 10px;"><i class="far fa-clock"></i></span>
         <p>
             Exceto @Html.DisplayFor(model => model.Restaurante.DiaDescanso)
         </p>
-        <p style=" margin-top: 2px; ">
+        <p style=" margin-top: -20px; margin-left: 50px;">
             @Html.DisplayFor(model => model.Restaurante.HoraAbertura)h - @Html.DisplayFor(model => model.Restaurante.HoraFecho)h
         </p>
-        <p>
-            Exceto @Html.DisplayFor(model => model.Restaurante.Morada)
+        <p><span class="VerSpan"><i class="fas fa-map-marker-alt"></i></span>
+            @Html.DisplayFor(model => model.Restaurante.Morada)
         </p>
 
     </div>
@@ -85,7 +88,7 @@
         <div class="VerGridSquareNome">@((item.Nome.Length <= 13) ? item.Nome : item.Nome.Substring(0, 13) + "...")</div>
         <div class="VerGridSquareCentral">
             <div class="VerGridSquareCentralTexto">
-                <p>Tipo: @(item.TipoPrato.Nome)</p>
+                <p style="margin-top: 15px;">Tipo: @(item.TipoPrato.Nome)</p>
                 <p>Preço: @((item.Preco).ToString("#.00") + " €")</p>
             </div>
             <div class="VerGridSquareCentralFoto" style='background-image:url(../../Images/Pratos/@(item.Foto))'></div>
@@ -99,4 +102,13 @@
 
     }
 </div>
+
+
+<script>
+
+    $(".flex-child.Container").height($(document).height());
+
+
+
+</script>
 
