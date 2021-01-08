@@ -150,33 +150,10 @@ namespace LabProject.Controllers
         // POST: Utilizador/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost]       
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registar([Bind("Id,Name,Email,Username,Password,Imagem")] Utilizador utilizador)
+        public async Task<IActionResult> Registar([Bind("Id,Name,Email,Username,Password,Imagem")] Utilizador utilizador)   //ESTE ESTA FUNCIONAL
         {
-            /* if (ModelState.IsValid)
-             {
-                 //if (Convert.ToInt32(TempData["cliente"])==1) //clientes 
-                 //{
-                     _context.Add(utilizador);
-                     int clienteId = utilizador.Id;
-                     Cliente cliente = new Cliente();
-                     cliente.UtilizadorId = clienteId;
-                     _context.Add(cliente);
-                 }
-                 else //restaurante
-                 {
-
-                 }
-                 //return RedirectToAction("Login", "Utilizadores");
-
-                 /*_context.Add(utilizador);
-                 await _context.SaveChangesAsync();
-                 return RedirectToAction(nameof(Index));
-             }*/
-            //return View();
-
-
             if (ModelState.IsValid)
             {
                 _context.Add(utilizador);
@@ -187,9 +164,110 @@ namespace LabProject.Controllers
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+
+
+                return RedirectToAction("Login", "Utilizadores");
+
+                /*_context.Add(utilizador);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index))*/
+                /*}
+               return View();
+
+
+               if (ModelState.IsValid)
+               {
+                   _context.Add(utilizador);
+                   await _context.SaveChangesAsync();
+                   int clienteId = utilizador.Id;
+                   Cliente cliente = new Cliente();
+                   cliente.UtilizadorId = clienteId;
+                   _context.Add(cliente);
+                   await _context.SaveChangesAsync();
+                   return RedirectToAction(nameof(Index));
+               }*/
+                
             }
             return View(utilizador);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Registar2([Bind("Id,Name,Email,Username,Password,Imagem,Telefone,Morada,HoraAbertura,HoraFecho,DiaDescanso")] RestauranteCompleto restaurante)
+        {
+             if (ModelState.IsValid)
+             {
+                try
+                {
+                    Utilizador utilizador = restaurante.GetUtilizador();
+                    _context.Add(utilizador); 
+                    await _context.SaveChangesAsync();
+                    int utilizadorId = utilizador.Id;
+                    Restaurante restaurante1 = restaurante.GetRestaurante();
+                    restaurante1.UtilizadorId = utilizadorId;
+                    _context.Add(restaurante1);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    /*if (!RestauranteExists(restaurante.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }*/
+                }
+                return RedirectToAction(nameof(Index));
+             }
+            /*if (ModelState.IsValid)
+            {
+                if (Convert.ToInt32(TempData["cliente"]) == 1) //clientes 
+                {
+                    
+                    Utilizador utilizador = new Utilizador();
+                    _context.Add(;
+                    await _context.SaveChangesAsync();
+                    int clienteId = utilizador.Id;
+                    
+                    cliente.UtilizadorId = clienteId;
+                    _context.Add(cliente);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else //restaurante
+                {
+                    _context.Add(utilizador);
+                    await _context.SaveChangesAsync();
+                    int restauranteId = utilizador.Id;
+                    Restaurante restaurante = new Restaurante();
+                    restaurante.UtilizadorId = restaurante;
+                    _context.Add(restaurante.);
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction("Login", "Utilizadores");
+
+                /*_context.Add(utilizador);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index))*/
+            return View();
+        }
+            
+
+
+            /*if (ModelState.IsValid)
+            {
+                _context.Add(utilizador);
+                await _context.SaveChangesAsync();
+                int clienteId = utilizador.Id;
+                Cliente cliente = new Cliente();
+                cliente.UtilizadorId = clienteId;
+                _context.Add(cliente);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(utilizador);*/
+        
         public IActionResult Registar2()
         {
             return View();

@@ -1,88 +1,94 @@
-﻿@model LabProject.Models.Utilizador
+﻿@model LabProject.Models.RestauranteCompleto
 
 
 
-@{
-    ViewData["Title"] = "Registar";
-    
-}
-
-<!DOCTYPE html>
-<html>
-
-<link rel="stylesheet" href="~/css/registo_style.css">
-
-
-<div class="flex-child Container">
-    <div class="registo-cartao">
-        <p class="registo-titulo">Registar no Jiro</p>
-        <form class="registo-form" id="registo">
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Registar2" >
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div id="primeiro-cartao">
-                <div class="registo-linha">
+                <div class="form-group">
                     <button type="button" class="button" onclick="change_cliente()" style="width: 35%;">Cliente</button>
                     <button type="button" class="button" onclick="change_restaurante()" style="width: 35%;">Restaurante</button>
                 </div>
-                <div class="registo-linha">
-                    <input type="text" class="input" name="nome" id="NameInput" placeholder="Nome próprio">
-                    @*<input type="text" class="input" name="apelido" placeholder="Apelido">*@
-                    
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-                <div class="registo-linha">
-                    <input  type="email" class="input" name="mail" placeholder="E-mail">
-                   
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-                <div class="registo-linha">
-                    <input  type="text" class="input" name="user" placeholder="Username">
+                <div class="form-group">
+                    <label asp-for="Username" class="control-label"></label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
                 </div>
-                <div class="registo-linha">
-                    <input  type="password" class="input" name="pass" placeholder="Password">
-                    <input type="password" class="input" name="pass-confirm" placeholder="Confirmar">
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <div class="registo-linha ">
-                    <input class="input" placeholder="Adicionar foto">
+                <div class="form-group">
+                    <label asp-for="Imagem" class="control-label"></label>
+                    <input asp-for="Imagem" class="form-control" />
+                    <span asp-validation-for="Imagem" class="text-danger"></span>
                 </div>
-                <div class="registo-linha">
-                    <button onclick="registar()"></button>
+                <div class="form-group">
+                    <input type="button" value="Seguinte" class="btn btn-primary" onclick="registo()" />
                 </div>
             </div>
             <div id="segundo-cartao" style="display:none">
-                <div class="registo-linha">
-                    <input type="tel" class="input" name="telefone" placeholder="Telefone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}">
+                <div class="form-group">
+                    <label asp-for="Telefone" class="control-label"></label>
+                    <input asp-for="Telefone" class="form-control" />
+                    <span asp-validation-for="Telefone" class="text-danger"></span>
                 </div>
-                <div class="registo-linha">
-                    <input type="text" class="input" name="morada" placeholder="Morada">
+                <div class="form-group">
+                    <label asp-for="Morada" class="control-label"></label>
+                    <input asp-for="Morada" class="form-control" />
+                    <span asp-validation-for="Morada" class="text-danger"></span>
                 </div>
-                <div class="registo-linha">
-                    <input type="number" class="input" name="mail" placeholder="Horário de abertura">
-                    <input type="number" class="input" name="mail" placeholder="Horário de fecho">
+                <div class="form-group">
+                    <label asp-for="HoraAbertura" class="control-label">Hora de abertura</label>
+                    <input asp-for="HoraAbertura" class="form-control" />
+                    <span asp-validation-for="HoraAbertura" class="text-danger"></span>
                 </div>
-                <div class="registo-linha">
-                    <input type="text" class="input" name="descanço" placeholder="Dia de descanço">
+                <div class="form-group">
+                    <label asp-for="HoraFecho" class="control-label">Hora de fecho</label>
+                    <input asp-for="HoraFecho" class="form-control" />
+                    <span asp-validation-for="HoraFecho" class="text-danger"></span>
                 </div>
-                <div class="registo-linha">
-                    <button type="button" class="button" onclick="botao_anterior()">Anterior</button>
-                    <button type="button" class="button" onclick="registo()">Concluir</button>
+                <div class="form-group">
+                    <label asp-for="DiaDescanso" class="control-label">Dia de descanso</label>
+                    <input asp-for="DiaDescanso" class="form-control" />
+                    <span asp-validation-for="DiaDescanso" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="Anterior" class="btn btn-primary" onclick="botao_anterior()" />
+                    <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
             </div>
         </form>
     </div>
-
-</html>
+</div>
 
 <script>
     function change_cliente() {
-        document.getElementById("registar").textContent = "Registar";
+        window.location.href="@Url.Action("Registar", "Utilizador")";
 
     }
     function change_restaurante() {
-        document.getElementById("registar").textContent = "Seguinte";
+
+        //document.getElementById("registar").textContent = "Seguinte";
+        //document.getElementById("registar").style.display = "inline";
 
     }
     function registo() {
-        if (document.getElementById("registar").textContent == "Seguinte") {
-            document.getElementById("primeiro-cartao").style.display = "none";
-            document.getElementById("segundo-cartao").style.display = "inline";
-        }
+        document.getElementById("primeiro-cartao").style.display = "none";
+        document.getElementById("segundo-cartao").style.display = "inline";
 
     }
     function botao_anterior() {
@@ -90,7 +96,7 @@
         document.getElementById("segundo-cartao").style.display = "none";
     }
 
-    function registar()
+    @*function registar()
     {
         alert("top");
         var nome1 = ("#NomeInput").text();
@@ -113,6 +119,6 @@
             alert('error');
         }
         });
-    }
+    }*@
 
 </script>
