@@ -1,11 +1,11 @@
-.Container{
+.row{
 	flex: 1;
     margin-right: 0px;	
 	background-color: white;
 	min-width: 600px;
 }
 
-.registo-cartao {
+.col-md-4 {
 	width: 600px;
 	position: absolute;
 	left: 50%;
@@ -14,9 +14,9 @@
 	transform: translate(-50%, -50%);
 }
 
-.registo-linha{
+.form-group {
 	display: flex;
-	justify-content:  space-around;
+	justify-content: space-around;
 }
 
 .registo-titulo{
@@ -50,10 +50,15 @@
 	background-color: darkgrey;
 	color: white;
 }
+.botao-selecionado {
+	background-color: #2C2F33;
+	color: white;
+	border: 2px solid green;
+}
 
 
 
-.input{
+.form-control{
 	background-color: white;
 	border: 1px solid #ccc;
 	border-radius: 4px;

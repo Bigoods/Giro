@@ -1,74 +1,75 @@
 ﻿@model LabProject.Models.RestauranteCompleto
 
-
+<link rel="stylesheet" href="~/css/registo_style.css">
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Registar2" >
+        <p class="registo-titulo">Registar no Jiro</p>
+        <form asp-action="Registar2" class="registo-form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div id="primeiro-cartao">
                 <div class="form-group">
-                    <button type="button" class="button" onclick="change_cliente()" style="width: 35%;">Cliente</button>
-                    <button type="button" class="button" onclick="change_restaurante()" style="width: 35%;">Restaurante</button>
+                    <button type="button" class="button" onclick="change_cliente()" style="width: 35%; ">Cliente</button>
+                    <button type="button" class="button botao-selecionado" onclick="change_restaurante()" style="width: 35%;">Restaurante</button>
                 </div>
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
+                    <input asp-for="Name" class="form-control" placeholder="Nome"/>
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
+                    <input asp-for="Email" class="form-control" placeholder="Email"/>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Username" class="control-label"></label>
-                    <input asp-for="Username" class="form-control" />
+                    <input asp-for="Username" class="form-control" placeholder="Username"/>
                     <span asp-validation-for="Username" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" />
+                    <input asp-for="Password" class="form-control" type="password" placeholder="Password"/>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Imagem" class="control-label"></label>
-                    <input asp-for="Imagem" class="form-control" />
+                    <input asp-for="Imagem" class="form-control" placeholder="Imagem"/>
                     <span asp-validation-for="Imagem" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="button" value="Seguinte" class="btn btn-primary" onclick="registo()" />
+                    <input type="button" value="Seguinte" class="btn btn-primary button" onclick="registo()" />
                 </div>
             </div>
             <div id="segundo-cartao" style="display:none">
                 <div class="form-group">
                     <label asp-for="Telefone" class="control-label"></label>
-                    <input asp-for="Telefone" class="form-control" />
+                    <input asp-for="Telefone" class="form-control" placeholder="Telefone"/>
                     <span asp-validation-for="Telefone" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Morada" class="control-label"></label>
-                    <input asp-for="Morada" class="form-control" />
+                    <input asp-for="Morada" class="form-control" placeholder="Morada"/>
                     <span asp-validation-for="Morada" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="HoraAbertura" class="control-label">Hora de abertura</label>
-                    <input asp-for="HoraAbertura" class="form-control" />
+                    <input asp-for="HoraAbertura" class="form-control" placeholder="Hora de abertura"/>
                     <span asp-validation-for="HoraAbertura" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="HoraFecho" class="control-label">Hora de fecho</label>
-                    <input asp-for="HoraFecho" class="form-control" />
+                    <input asp-for="HoraFecho" class="form-control" placeholder="Hora de fecho"/>
                     <span asp-validation-for="HoraFecho" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="DiaDescanso" class="control-label">Dia de descanso</label>
-                    <input asp-for="DiaDescanso" class="form-control" />
+                    <input asp-for="DiaDescanso" class="form-control" placeholder="Dia de descanso"/>
                     <span asp-validation-for="DiaDescanso" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="button" value="Anterior" class="btn btn-primary" onclick="botao_anterior()" />
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <input type="button" value="Anterior" class="btn btn-primary button" onclick="botao_anterior()" />
+                    <input type="submit" value="Registar" class="btn btn-primary button" />
                 </div>
             </div>
         </form>
