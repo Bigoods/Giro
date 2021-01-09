@@ -190,7 +190,7 @@ namespace LabProject.Controllers
                 //return RedirectToAction(nameof(Index));
 
 
-                return RedirectToAction("Login", "Utilizadores");
+                return RedirectToAction("Login", "Utilizador");
 
                 /*_context.Add(utilizador);
                 await _context.SaveChangesAsync();
@@ -470,7 +470,7 @@ namespace LabProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditOwn(int id, [Bind("Id,Name,Email,Username,Password,Foto,Notificacao")] Utilizador utilizador, IFormFile files)
+        public async Task<IActionResult> EditOwn(int id, [Bind("Id,Name,Email,Username,Password,Notificacao")] Utilizador utilizador, IFormFile files)
         {
             if (id != utilizador.Id)
             {
@@ -483,20 +483,24 @@ namespace LabProject.Controllers
                 {
                     try
                     {
-                        string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+                        if (files != null)
+                        {
+                            string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
 
-                        FileStream fs = new FileStream(uploads, FileMode.Create);
+                            FileStream fs = new FileStream(uploads, FileMode.Create);
 
-                        files.CopyTo(fs);
-                        fs.Close();
+                            files.CopyTo(fs);
+                            fs.Close();
 
-                        utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
-                        HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                            utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                            HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                        }
                     }
                     catch (Exception)
                     {
 
                     }
+                    utilizador.Imagem = HttpContext.Session.GetString("Imagem");
                     _context.Update(utilizador);
                     await _context.SaveChangesAsync();
                 }
@@ -511,7 +515,7 @@ namespace LabProject.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             return View(utilizador);
         }
