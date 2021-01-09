@@ -1,0 +1,114 @@
+﻿@model LabProject.Models.RestaurantePratosPertence
+
+<link rel="stylesheet" href="~/css/Grid_style.css">
+
+
+@*<div>
+        <h4>@Html.DisplayNameFor(model => model.Restaurante.Utilizador.Name)</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Restaurante.Telefone)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Restaurante.Telefone)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Restaurante.Morada)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Restaurante.Morada)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Restaurante.HoraAbertura)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Restaurante.HoraAbertura)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Restaurante.HoraFecho)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Restaurante.HoraFecho)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Restaurante.DiaDescanso)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Restaurante.DiaDescanso)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Restaurante.Utilizador)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Restaurante.Utilizador.Email)
+            </dd>
+        </dl>
+
+    </div>*@
+
+<div class="VerGridRectangle">
+    <div class="VerRestauranteBanner" style='background-image:url("../../Images/Utilizadores/@Html.DisplayFor(model => model.Restaurante.Utilizador.Imagem)")'></div>
+    <div class="VerRestauranteNome">@Html.DisplayFor(model => model.Restaurante.Utilizador.Name)</div>
+
+</div>
+
+<div class="VerInformacoes">
+    <div class="VerInformacoesDescricao">
+        <p>
+            <span class="VerSpan"><i class="fas fa-phone-alt"></i></span>
+            @Html.DisplayFor(model => model.Restaurante.Telefone)
+        </p>
+        <p>
+            <span class="VerSpan"><i class="far fa-envelope"></i></span>
+            @Html.DisplayFor(model => model.Restaurante.Utilizador.Email)
+        </p>
+        <span class="VerSpan" style=" float: left; margin-top: 5px; margin-left: 20px; margin-right: 10px;"><i class="far fa-clock"></i></span>
+        <p>
+            Exceto @Html.DisplayFor(model => model.Restaurante.DiaDescanso)
+        </p>
+        <p style=" margin-top: -20px; margin-left: 50px;">
+            @Html.DisplayFor(model => model.Restaurante.HoraAbertura)h - @Html.DisplayFor(model => model.Restaurante.HoraFecho)h
+        </p>
+        <p><span class="VerSpan"><i class="fas fa-map-marker-alt"></i></span>
+            @Html.DisplayFor(model => model.Restaurante.Morada)
+        </p>
+
+    </div>
+    <div class="VerInformacoesMapa" style="background-color:lightgreen"></div>
+
+</div>
+
+
+
+<div class="verGridContainer">
+    @foreach (var item in Model.Pratos)
+    {
+    <div class="VerGridSquare" onClick="reply_click(@Html.DisplayFor(modelItem => item.Id))">
+        <div class="VerGridSquareNome">@((item.Nome.Length <= 13) ? item.Nome : item.Nome.Substring(0, 13) + "...")</div>
+        <div class="VerGridSquareCentral">
+            <div class="VerGridSquareCentralTexto">
+                <p style="margin-top: 15px;">Tipo: @(item.TipoPrato.Nome)</p>
+                <p>Preço: @((item.Preco).ToString("#.00") + " €")</p>
+            </div>
+            <div class="VerGridSquareCentralFoto" style='background-image:url(../../Images/Pratos/@(item.Foto))'></div>
+        </div>
+        <p class="VerGridSquareDesc" >Descrição: @(item.Descricao)</p>
+        @*<div class="VerGridSquareImagem" style='background-image:url(@Html.DisplayFor(modelItem => item.Foto))'></div>*@
+        @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
+
+
+    </div>
+
+    }
+</div>
+
+
+<script>
+
+    $(".flex-child.Container").height($(document).height());
+
+
+
+</script>
+

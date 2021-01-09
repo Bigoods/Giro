@@ -114,6 +114,9 @@ namespace LabProject.Controllers
             return View(Restaurante);
         }
 
+
+
+
         // GET: Restaurantes/Create
         public IActionResult Create()
         {
