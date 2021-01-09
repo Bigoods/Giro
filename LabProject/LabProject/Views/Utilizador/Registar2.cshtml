@@ -101,6 +101,7 @@
         var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
         if (!(extFile == "jpg" || extFile == "jpeg" || extFile == "png")) {
             alert("Only jpg/jpeg and png files are allowed!");
+            document.getElementById("image").value = null;
         }
     }
 
