@@ -28,7 +28,7 @@ namespace LabProject.Controllers
         //Login
         public IActionResult Login()
         {
-            return View();
+                return View();
         }
 
         [HttpPost]
@@ -76,7 +76,6 @@ namespace LabProject.Controllers
                         }
                         else
                         {
-                            HttpContext.Session.SetString("Tipo", "Admin");
                             HttpContext.Session.SetString("Tipo", "Admin");
 
                         }

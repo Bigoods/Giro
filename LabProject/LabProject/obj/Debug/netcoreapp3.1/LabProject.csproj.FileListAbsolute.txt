@@ -597,6 +597,10 @@ D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProj
 C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.csprojAssemblyReference.cache
 C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Restaurantes\EditRes.cshtml.g.cs
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Restaurantes\EditRes.cshtml.g.cs
+<<<<<<< HEAD
+C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Pratos\MeusPratos.cshtml.g.cs
+C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Pratos\MeusPratosHoje.cshtml.g.cs
+=======
 C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\bin\Debug\netcoreapp3.1\LabProject.exe
@@ -797,3 +801,4 @@ C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1
 C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.dll
 C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.pdb
 C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.genruntimeconfig.cache
+>>>>>>> 201017b4718ffd56eb3fb0bcc546127a1c750287
