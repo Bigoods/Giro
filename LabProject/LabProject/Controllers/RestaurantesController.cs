@@ -196,15 +196,28 @@ namespace LabProject.Controllers
             {
                 try
                 {
-                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+                    try
+                    {
+                        if(files!=null)
+                        {
+                            string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
 
-                    FileStream fs = new FileStream(uploads, FileMode.Create);
+                            FileStream fs = new FileStream(uploads, FileMode.Create);
 
-                    files.CopyTo(fs);
-                    fs.Close();
+                            files.CopyTo(fs);
+                            fs.Close();
 
-                    restaurante.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
-                    HttpContext.Session.SetString("Imagem", restaurante.Imagem);
+                            restaurante.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                            HttpContext.Session.SetString("Imagem", restaurante.Imagem);
+                        }
+                        
+                    }
+                    catch (Exception)
+                    {
+
+                       
+                    }
+                    restaurante.Imagem = HttpContext.Session.GetString("Imagem");
                     _context.Update(restaurante.GetRestaurante());
                     await _context.SaveChangesAsync();
                     _context.Update(restaurante.GetUtilizador());
@@ -221,7 +234,7 @@ namespace LabProject.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             return View(restaurante);
         }

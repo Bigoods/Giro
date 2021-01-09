@@ -250,7 +250,7 @@ namespace LabProject.Controllers
                 _context.Add(restaurante1);
                 await _context.SaveChangesAsync();
                 //return RedirectToAction(nameof(Index));
-                return RedirectToAction("Login", "Utilizadores");
+                return RedirectToAction("Login", "Utilizador");
              }
             /*if (ModelState.IsValid)
             {
