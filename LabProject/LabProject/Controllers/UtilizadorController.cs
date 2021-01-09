@@ -47,7 +47,13 @@ namespace LabProject.Controllers
                     HttpContext.Session.SetString("Utilizador", username);
                     HttpContext.Session.SetString("Email", u.Email);
                     HttpContext.Session.SetString("Name", u.Name);
-                    HttpContext.Session.SetString("Imagem", u.Imagem);
+                    try
+                    {
+                        HttpContext.Session.SetString("Imagem", u.Imagem);
+                    }
+                    catch (Exception)
+                    {
+                    }
                     HttpContext.Session.SetString("Id", Convert.ToString(u.Id));
                     var CheckUtilizador = (from Clientes in _context.Clientes
                                            where Clientes.UtilizadorId == u.Id
@@ -156,15 +162,24 @@ namespace LabProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+                try
+                {
+                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
 
-                FileStream fs = new FileStream(uploads, FileMode.Create);
+                    FileStream fs = new FileStream(uploads, FileMode.Create);
 
-                files.CopyTo(fs);
-                fs.Close();
+                    files.CopyTo(fs);
+                    fs.Close();
 
-                utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
-                HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                    utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                    HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                }
+                catch (Exception)
+                {
+
+                   
+                }
+                
 
                 _context.Add(utilizador);
                 await _context.SaveChangesAsync();
@@ -173,7 +188,7 @@ namespace LabProject.Controllers
                 cliente.UtilizadorId = clienteId;
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
 
 
                 return RedirectToAction("Login", "Utilizadores");
@@ -198,6 +213,7 @@ namespace LabProject.Controllers
                }*/
                 
             }
+            
             return View(utilizador);
         }
         [HttpPost]
@@ -206,6 +222,7 @@ namespace LabProject.Controllers
         {
              if (ModelState.IsValid)
              {
+                Utilizador utilizador = restaurante.GetUtilizador();
                 try
                 {
                     string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
@@ -215,31 +232,26 @@ namespace LabProject.Controllers
                     files.CopyTo(fs);
                     fs.Close();
 
-                    Utilizador utilizador = restaurante.GetUtilizador();
+                    
 
                     utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
 
-                    _context.Add(utilizador); 
-                    await _context.SaveChangesAsync();
-                    int utilizadorId = utilizador.Id;
-                    Restaurante restaurante1 = restaurante.GetRestaurante();
-                    restaurante1.UtilizadorId = utilizadorId;
-                    _context.Add(restaurante1);
-                    await _context.SaveChangesAsync();
+                    
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    /*if (!RestauranteExists(restaurante.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }*/
+                 
                 }
-                return RedirectToAction(nameof(Index));
+                _context.Add(utilizador);
+                await _context.SaveChangesAsync();
+                int utilizadorId = utilizador.Id;
+                Restaurante restaurante1 = restaurante.GetRestaurante();
+                restaurante1.UtilizadorId = utilizadorId;
+                _context.Add(restaurante1);
+                await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Login", "Utilizadores");
              }
             /*if (ModelState.IsValid)
             {
@@ -470,15 +482,22 @@ namespace LabProject.Controllers
             {
                 try
                 {
-                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+                    try
+                    {
+                        string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
 
-                    FileStream fs = new FileStream(uploads, FileMode.Create);
+                        FileStream fs = new FileStream(uploads, FileMode.Create);
 
-                    files.CopyTo(fs);
-                    fs.Close();
+                        files.CopyTo(fs);
+                        fs.Close();
 
-                    utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
-                    HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                        utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                        HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                    }
+                    catch (Exception)
+                    {
+
+                    }
                     _context.Update(utilizador);
                     await _context.SaveChangesAsync();
                 }
