@@ -8,16 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using LabProject.Data;
 using LabProject.Models;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace LabProject.Controllers
 {
     public class RestaurantesController : Controller
     {
         private readonly LabProject_Context _context;
+        private IWebHostEnvironment _he;
 
-        public RestaurantesController(LabProject_Context context)
+        public RestaurantesController(LabProject_Context context, IWebHostEnvironment e)
         {
             _context = context;
+            _he = e;
         }
 
         // GET: Restaurantes
@@ -182,13 +186,22 @@ namespace LabProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditRes([Bind("Id", "UtilizadorId", "Name", "Email", "Username", "Password", "Imagem", "Telefone", "Morada", "HoraAbertura", "HoraFecho", "DiaDescanso")] RestauranteCompleto restaurante)
+        public async Task<IActionResult> EditRes([Bind("Id", "UtilizadorId", "Name", "Email", "Username", "Password", "Telefone", "Morada", "HoraAbertura", "HoraFecho", "DiaDescanso")] RestauranteCompleto restaurante, IFormFile files)
         {
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+
+                    FileStream fs = new FileStream(uploads, FileMode.Create);
+
+                    files.CopyTo(fs);
+                    fs.Close();
+
+                    restaurante.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                    HttpContext.Session.SetString("Imagem", restaurante.Imagem);
                     _context.Update(restaurante.GetRestaurante());
                     await _context.SaveChangesAsync();
                     _context.Update(restaurante.GetUtilizador());
