@@ -21,19 +21,19 @@ namespace LabProject.Models
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Indique o seu nome")]
         [Column("name")]
         [StringLength(150)]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Indique o seu email")]
         [Column("email")]
         [StringLength(150)]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Indique o seu username")]
         [Column("username")]
         [StringLength(150)]
         public string Username { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Indique a sua password")]
         [Column("password")]
         [StringLength(150)]
         public string Password { get; set; }

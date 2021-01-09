@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,13 +11,13 @@ namespace LabProject.Models
 
         public int Id { get; set; }
         public int UtilizadorId { get; set; }
-
+        [Required(ErrorMessage = "Indique o seu nome")]
         public string Name { get; set; }
-
+        [Required(ErrorMessage = "Indique o seu email")]
         public string Email { get; set; }
-
+        [Required(ErrorMessage = "Indique o seu username")]
         public string Username { get; set; }
-
+        [Required(ErrorMessage = "Indique a sua password")]
         public string Password { get; set; }
 
         public string Imagem { get; set; }
@@ -28,11 +29,11 @@ namespace LabProject.Models
         public bool Notificacao { get; set; }
 
         public int? Telefone { get; set; }
-
+        [Required(ErrorMessage = "Indique a sua morada")]
         public string Morada { get; set; }
-
+        [Required(ErrorMessage = "Indique a hora de abertura")]
         public string HoraAbertura { get; set; }
-
+        [Required(ErrorMessage = "Indique a hora de fecho")]
         public string HoraFecho { get; set; }
 
         public string DiaDescanso { get; set; }

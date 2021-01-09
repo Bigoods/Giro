@@ -23,15 +23,15 @@ namespace LabProject.Models
         public int? UtilizadorId { get; set; }
         [Column("telefone")]
         public int? Telefone { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Indique a sua morada")]
         [Column("morada")]
         [StringLength(300)]
         public string Morada { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Indique a hora de abertura")]
         [Column("hora_abertura")]
         [StringLength(250)]
         public string HoraAbertura { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Indique a hora de fecho")]
         [Column("hora_fecho")]
         [StringLength(250)]
         public string HoraFecho { get; set; }
