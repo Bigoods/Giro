@@ -151,10 +151,20 @@ namespace LabProject.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]       
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registar([Bind("Id,Name,Email,Username,Password,Imagem")] Utilizador utilizador)   //ESTE ESTA FUNCIONAL
+        public async Task<IActionResult> Registar([Bind("Id,Name,Email,Username,Password")] Utilizador utilizador, IFormFile files)   //ESTE ESTA FUNCIONAL
         {
             if (ModelState.IsValid)
             {
+                string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+
+                FileStream fs = new FileStream(uploads, FileMode.Create);
+
+                files.CopyTo(fs);
+                fs.Close();
+
+                utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+
                 _context.Add(utilizador);
                 await _context.SaveChangesAsync();
                 int clienteId = utilizador.Id;
@@ -191,13 +201,24 @@ namespace LabProject.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registar2([Bind("Id,Name,Email,Username,Password,Imagem,Telefone,Morada,HoraAbertura,HoraFecho,DiaDescanso")] RestauranteCompleto restaurante)
+        public async Task<IActionResult> Registar2([Bind("Id,Name,Email,Username,Password,Telefone,Morada,HoraAbertura,HoraFecho,DiaDescanso")] RestauranteCompleto restaurante, IFormFile files)
         {
              if (ModelState.IsValid)
              {
                 try
                 {
+                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+
+                    FileStream fs = new FileStream(uploads, FileMode.Create);
+
+                    files.CopyTo(fs);
+                    fs.Close();
+
                     Utilizador utilizador = restaurante.GetUtilizador();
+
+                    utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                    HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+
                     _context.Add(utilizador); 
                     await _context.SaveChangesAsync();
                     int utilizadorId = utilizador.Id;

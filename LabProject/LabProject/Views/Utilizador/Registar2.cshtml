@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-4">
         <p class="registo-titulo">Registar no Jiro</p>
-        <form asp-action="Registar2" class="registo-form">
+        <form asp-action="Registar2" class="registo-form" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div id="primeiro-cartao">
                 <div class="form-group">
@@ -34,8 +34,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Imagem" class="control-label"></label>
-                    <input asp-for="Imagem" class="form-control" placeholder="Imagem"/>
-                    <span asp-validation-for="Imagem" class="text-danger"></span>
+                    <input type="file" name="files" id="image" class="form-control" ~accept="image/*" onchange="validateFileType();" />
                 </div>
                 <div class="form-group">
                     <input type="button" value="Seguinte" class="btn btn-primary button" onclick="registo()" />
@@ -95,6 +94,14 @@
     function botao_anterior() {
         document.getElementById("primeiro-cartao").style.display = "inline";
         document.getElementById("segundo-cartao").style.display = "none";
+    }
+    function validateFileType() {
+        var fileName = document.getElementById("image").value;
+        var idxDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (!(extFile == "jpg" || extFile == "jpeg" || extFile == "png")) {
+            alert("Only jpg/jpeg and png files are allowed!");
+        }
     }
 
     @*function registar()

@@ -8878,11 +8878,16 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\filip\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\Hutt\\.nuget\\packages\\": {}
+>>>>>>> 201017b4718ffd56eb3fb0bcc546127a1c750287
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
       "projectName": "LabProject",
       "projectPath": "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
@@ -8891,6 +8896,16 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\filip\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+      "projectUniqueName": "C:\\Users\\Hutt\\Desktop\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
+      "projectName": "LabProject",
+      "projectPath": "C:\\Users\\Hutt\\Desktop\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
+      "packagesPath": "C:\\Users\\Hutt\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Hutt\\Desktop\\Prato_do_Dia\\LabProject\\LabProject\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\Hutt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> 201017b4718ffd56eb3fb0bcc546127a1c750287
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
