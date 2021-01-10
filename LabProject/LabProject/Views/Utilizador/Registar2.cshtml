@@ -37,7 +37,7 @@
                     <input type="file" name="files" id="image" class="form-control" ~accept="image/*" onchange="validateFileType();" />
                 </div>
                 <div class="form-group">
-                    <input type="button" value="Seguinte" class="btn btn-primary button" onclick="registo()" />
+                    <input type="button" value="Seguinte" class="@*btn btn-primary*@ button" onclick="registo()" />
                 </div>
             </div>
             <div id="segundo-cartao" style="display:none">
@@ -67,8 +67,8 @@
                     <span asp-validation-for="DiaDescanso" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="button" value="Anterior" class="btn btn-primary button" onclick="botao_anterior()" />
-                    <input type="submit" value="Registar" class="btn btn-primary button" />
+                    <input type="button" value="Anterior" class="@*btn btn-primary*@ button" onclick="botao_anterior()" />
+                    <input type="submit" value="Registar" class="@*btn btn-primary*@ button" />
                 </div>
             </div>
         </form>
