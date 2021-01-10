@@ -1,0 +1,64 @@
+﻿@model IEnumerable<LabProject.Models.Restaurante>
+
+
+<link rel="stylesheet" href="~/css/Grid_style.css">
+
+
+
+<div class="verGridContainer">
+    @foreach (var item in Model)
+    {
+
+        <div class="AprovarBar">
+            <p class="NomePro">@item.Utilizador.Name</p>
+            <button class="ButtonAprovar" onclick="aprovar(@item.UtilizadorId, true)">Aprovar</button>
+            <button class="ButtonAprovar" onclick="aprovar(@item.UtilizadorId, false)">Reprovar</button>
+        </div>
+
+
+        <div class="VerInformacoesDescricao">
+
+            <p>
+                <span class="VerSpan"><i class="fas fa-phone-alt"></i></span>
+                @item.Telefone
+            </p>
+            <p>
+                <span class="VerSpan"><i class="far fa-envelope"></i></span>
+                @item.Utilizador.Email
+            </p>
+            <span class="VerSpan" style=" float: left; margin-top: 5px; margin-left: 20px; margin-right: 10px;"><i class="far fa-clock"></i></span>
+            <p>
+                Exceto @item.DiaDescanso
+            </p>
+            <p style=" margin-top: -20px; margin-left: 50px;">
+                @item.HoraAbertura h - @item.HoraFecho h
+            </p>
+            <p>
+                <span class="VerSpan"><i class="fas fa-map-marker-alt"></i></span>
+                @item.Morada
+            </p>
+
+        </div>
+        <div class="VerInformacoesMapa" style='background-image:url(@("../../Images/Utilizadores/" + item.Utilizador.Imagem))'></div>
+
+
+        //https://localhost:44374/Restaurantes/ListarRestaurantesPro
+
+    }
+</div>
+
+
+<script>
+    function aprovar(Id, aprovado) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SetAprovado", "Restaurantes")',
+            data: { id: "2", aprovado: aprovado },
+            contentType: "application/json: charset=utf-8",
+            dataType: "json",
+
+        });
+
+    }
+
+</script>

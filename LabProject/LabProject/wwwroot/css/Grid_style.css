@@ -292,4 +292,36 @@ form.SearchBar::after {
 	font-size: 20px;
 }
 
+.AprovarBar {
+	width: 100%;
+	height: 50px;
+	display: flex;
+	justify-content: flex-end;
+	background-color: #bdbdbd;
+}
 
+.ButtonAprovar {
+	margin-left: 10px;
+	height: 50px;
+	width: 100px;
+	text-align: center ;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-size: 17px;
+	vertical-align: middle;
+	border:none;
+	background-color:transparent;
+
+}
+
+	.ButtonAprovar:hover {
+		background-color: #868686;
+	}
+
+.NomePro {
+	margin-right: auto;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	vertical-align: middle;
+	text-align: center;
+	margin-top: 10px;
+	margin-left: 15px;
+}

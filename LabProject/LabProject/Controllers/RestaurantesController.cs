@@ -27,8 +27,33 @@ namespace LabProject.Controllers
         // GET: Restaurantes
         public async Task<IActionResult> Index()
         {
+
+
+
             var labProject_Context = _context.Restaurantes.Include(r => r.Utilizador);
             return View(await labProject_Context.ToListAsync());
+        }
+
+
+
+        public async Task<IActionResult> ListarRestaurantesPro()
+        {
+            var labProject_Context = _context.Restaurantes.Include(r => r.Utilizador).Where(r => r.Aprovado == false);
+            return View(await labProject_Context.ToListAsync());
+
+        }
+
+        
+
+            [HttpPost]
+        public ActionResult SetAprovado(int id, bool aprovado)
+        {
+            if(id == 0)
+            {
+                return null;
+            }
+
+            return null;
         }
 
         // GET: Restaurantes/Details/5
@@ -198,7 +223,7 @@ namespace LabProject.Controllers
                 {
                     try
                     {
-                        if(files!=null)
+                        if (files != null)
                         {
                             string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
 
@@ -210,12 +235,12 @@ namespace LabProject.Controllers
                             restaurante.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
                             HttpContext.Session.SetString("Imagem", restaurante.Imagem);
                         }
-                        
+
                     }
                     catch (Exception)
                     {
 
-                       
+
                     }
                     restaurante.Imagem = HttpContext.Session.GetString("Imagem");
                     _context.Update(restaurante.GetRestaurante());
