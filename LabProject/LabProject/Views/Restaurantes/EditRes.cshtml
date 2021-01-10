@@ -27,8 +27,8 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="file" name="files" id="image" class="form-control" ~accept="image/*" onchange="loadFile(event); validateFileType();" />
-                <img id="output" />
+                <input type="file" name="files" id="image" class="form-control" ~accept="image/*" onchange="validateFileType(); loadFile(event);" />
+                <img id="output" style="display:none"/>
             </div>
             <div class="form-group">
                 <label asp-for="Telefone" class="control-label"></label>
@@ -69,11 +69,19 @@
 
 <script>
     var loadFile = function (event) {
-        var output = document.getElementById('output');
-        output.src = URL.createObjectURL(event.target.files[0]);
-        output.onload = function () {
-            URL.revokeObjectURL(output.src)
+        if (document.getElementById("image").value != null) {
+            document.getElementById("output").style.display = "inline";
+        
+
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function () {
+                URL.revokeObjectURL(output.src)
+            }
         }
+        
+        
+        
     } //;
 
     function validateFileType() {
@@ -82,7 +90,7 @@
         var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
         if (!(extFile == "jpg" || extFile == "jpeg" || extFile == "png")) {
             alert("Only jpg/jpeg and png files are allowed!");
-
+            document.getElementById("image").value = null;
         }
     }
 </script>
