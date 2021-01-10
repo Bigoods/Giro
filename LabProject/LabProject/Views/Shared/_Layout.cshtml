@@ -30,21 +30,21 @@
                     <p class="perfil-ver perfil-child">@Context.Session.GetString("Email")</p>
                 }
                 @*@{ if (!Convert.ToBoolean(TempData["Autenticado"]))
-                    {
-                        <div class="perfil-imagem perfil-child"></div>
+                        {
+                            <div class="perfil-imagem perfil-child"></div>
 
-                        <a class="perfil-ver perfil-child" asp-area="" asp-controller="Utilizador" asp-action="Login">Login</a>
-                        <a class="perfil-ver perfil-child" asp-area="" asp-controller="Utilizador" asp-action="Registar">Registar</a>
+                            <a class="perfil-ver perfil-child" asp-area="" asp-controller="Utilizador" asp-action="Login">Login</a>
+                            <a class="perfil-ver perfil-child" asp-area="" asp-controller="Utilizador" asp-action="Registar">Registar</a>
 
-                    }
-                    else
-                    {
-                        <div class="perfil-imagem perfil-child" style='background-image:url(@("Images/Utilizadores/" + TempData["imagem"]))'></div>
-                            <p class="perfil-nome perfil-child">@Context.Session.GetString("Utilizador")</p>
-                            <p class="perfil-nome perfil-child">@TempData["username"]</p>
-                        <p class="perfil-ver perfil-child">@TempData["email"]</p>
-                    }
-                }*@
+                        }
+                        else
+                        {
+                            <div class="perfil-imagem perfil-child" style='background-image:url(@("Images/Utilizadores/" + TempData["imagem"]))'></div>
+                                <p class="perfil-nome perfil-child">@Context.Session.GetString("Utilizador")</p>
+                                <p class="perfil-nome perfil-child">@TempData["username"]</p>
+                            <p class="perfil-ver perfil-child">@TempData["email"]</p>
+                        }
+                    }*@
             </div>
 
 
@@ -55,20 +55,32 @@
                 @{ if (Context.Session.GetString("Tipo") == "Cliente")
                     {
                         @*<a tabindex="-1" id="NavegarBar" class="sidebar-tab noselect" style="border-top: 1px solid white;" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-map-marked-alt fonticon"></i>Navegar</a>
-                        <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="Pratos"><i class="fas fa-search fonticon"></i>Pesquisar</a>*@
+                            <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="Pratos"><i class="fas fa-search fonticon"></i>Pesquisar</a>*@
                         <a tabindex="-1" id="AvisoBar" class="sidebar-tab noselect" asp-area="" asp-controller="Avisos" asp-action="Index"><i class="fas fa-bell fonticon"></i>Avisos</a>
                         <a tabindex="-1" id="FavoritosBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="PratosFavoritos"><i class="fas fa-star fonticon"></i>Favoritos</a>
                         <a tabindex="-1" id="PerfilBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="EditOwn"><i class="fas fa-id-badge fonticon"></i>Perfil</a>
-                        <a tabindex="-1" id="LogoutBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="Logout"><i class="fas fa-sign-out-alt fonticon"></i>Log Out</a>
+                        <a tabindex="-1" id="LogoutBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="Logout"><i class="fas fa-id-badge fonticon"></i>Logout</a>
+
                     }
                     else if (Context.Session.GetString("Tipo") == "Restaurante")
                     {
                         @*<a tabindex="-1" id="NavegarBar" class="sidebar-tab noselect" style="border-top: 1px solid white;" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-map-marked-alt fonticon"></i>Navegar</a>
-                        <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="Pratos"><i class="fas fa-search fonticon"></i>Pesquisar</a>*@
+                            <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="Pratos"><i class="fas fa-search fonticon"></i>Pesquisar</a>*@
                         <a tabindex="-1" id="NavegarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="MeusPratosHoje"><i class="fas fa-map-marked-alt fonticon"></i>Pratos do Dia</a>
                         <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="MeusPratos"><i class="fas fa-search fonticon"></i>Meus Pratos</a>
                         <a tabindex="-1" id="PerfilBar" class="sidebar-tab noselect" asp-area="" asp-controller="Restaurantes" asp-action="EditRes"><i class="fas fa-id-badge fonticon"></i>Perfil</a>
                         <a tabindex="-1" id="LogoutBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="Logout"><i class="fas fa-id-badge fonticon"></i>Logout</a>
+
+                    }
+                    else if (Context.Session.GetString("Tipo") == "Admin")
+                    {
+                        @*<a tabindex="-1" id="NavegarBar" class="sidebar-tab noselect" style="border-top: 1px solid white;" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-map-marked-alt fonticon"></i>Navegar</a>
+                            <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="Pratos"><i class="fas fa-search fonticon"></i>Pesquisar</a>*@
+                        <a tabindex="-1" id="NavegarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Pratos" asp-action="MeusPratosHoje"><i class="fas fa-map-marked-alt fonticon"></i>Aprovar Restaurantes</a>
+                        <a tabindex="-1" id="PesquisarBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="VerUtilizadores"><i class="fas fa-search fonticon"></i>Bloquear Utilizadores</a>
+                        <a tabindex="-1" id="PerfilBar" class="sidebar-tab noselect" asp-area="" asp-controller="Restaurantes" asp-action="EditRes"><i class="fas fa-id-badge fonticon"></i>Criar Administradores</a>
+                        <a tabindex="-1" id="LogoutBar" class="sidebar-tab noselect" asp-area="" asp-controller="Utilizador" asp-action="Logout"><i class="fas fa-id-badge fonticon"></i>Logout</a>
+
                     }
                 }
                 }
@@ -87,7 +99,7 @@
 
 
 
-    
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

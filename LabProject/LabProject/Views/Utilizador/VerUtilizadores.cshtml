@@ -1,0 +1,26 @@
+﻿@model IEnumerable<LabProject.Models.Utilizador>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<link rel="stylesheet" href="~/css/registo_style.css">
+<div class="form-group">
+    <button type="button" class="button botao-selecionado" onclick="change_cliente()" style="width: 35%;">Cliente</button>
+    <button type="button" class="button" onclick="change_restaurante()" style="width: 35%;">Restaurante</button>
+</div>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bloqueado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Motivo)
+        </td>
+    </tr>
+}

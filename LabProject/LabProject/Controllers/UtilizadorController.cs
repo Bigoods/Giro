@@ -351,6 +351,12 @@ namespace LabProject.Controllers
             return View(await _context.Utilizadors.ToListAsync());
         }
 
+
+        public async Task<IActionResult> VerUtilizadores()
+        {
+            return View(await _context.Utilizadors.ToListAsync());
+        }
+
         // GET: Utilizador/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -390,6 +396,9 @@ namespace LabProject.Controllers
             }
             return View(utilizador);
         }
+
+
+        
 
         // GET: Utilizador/Edit/5
         public async Task<IActionResult> Edit(int? id)
