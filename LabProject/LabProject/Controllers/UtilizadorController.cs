@@ -18,7 +18,6 @@ namespace LabProject.Controllers
         private readonly LabProject_Context _context;
         private IWebHostEnvironment _he;
 
-
         public UtilizadorController(LabProject_Context context, IWebHostEnvironment e)
         {
             _context = context;
@@ -80,62 +79,8 @@ namespace LabProject.Controllers
 
                         }
                     }
-
-                    ////TempData["username"] = u.Name;
-                    ////TempData["imagem"] = u.Imagem;
-                    ////TempData["id"] = u.Id;
-                    //TempData["email"] = u.Email;
                     return RedirectToAction("Index", "Home");
                 }
-                //Parte sem cookies
-                /*Utilizador u = _context.Utilizadors.SingleOrDefault(u => u.Username == username && u.Password == password);
-
-
-                if (u == null)
-                {
-                    ModelState.AddModelError("Username", "username or password are wrong");
-                    TempData["Autenticado"] = false;
-                    TempData["tipo"] = 0;
-                }
-                else
-                {
-                    // the user is authenticated
-                    // the session variable "user" is created to recover the user identify at each request
-                    //HttpContext.Session.SetString("Username", username); //cookies
-
-
-                    var CheckUtilizador = (from Clientes in _context.Clientes
-                                        where Clientes.UtilizadorId == u.Id
-                                        select Clientes);
-
-                    if(CheckUtilizador.ToList().Count > 0)
-                    {
-                        TempData["tipo"] = 0;
-                    }
-                    else
-                    {
-                        var CheckUtilizador2 = (from Restaurantes in _context.Restaurantes
-                                           where Restaurantes.UtilizadorId == u.Id
-                                        select Restaurantes);
-
-                        if (CheckUtilizador2.ToList().Count > 0)
-                        {
-                            TempData["tipo"] = 1;
-                        }
-                        else
-                        {
-                            TempData["tipo"] = 2;
-
-                        }
-                    }
-
-                    TempData["username"] = u.Name;
-                    TempData["imagem"] = u.Imagem;
-                    TempData["id"] = u.Id;
-                    TempData["email"] = u.Email;
-                    TempData["Autenticado"] = true;
-                    return RedirectToAction("Index", "Home");
-                }*/
             }
             return View();
         }
@@ -164,22 +109,15 @@ namespace LabProject.Controllers
                 try
                 {
                     string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
-
                     FileStream fs = new FileStream(uploads, FileMode.Create);
-
                     files.CopyTo(fs);
                     fs.Close();
-
                     utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                 }
                 catch (Exception)
-                {
-
-                   
-                }
-                
-
+                {                   
+                }           
                 _context.Add(utilizador);
                 await _context.SaveChangesAsync();
                 int clienteId = utilizador.Id;
@@ -187,34 +125,16 @@ namespace LabProject.Controllers
                 cliente.UtilizadorId = clienteId;
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
-                //return RedirectToAction(nameof(Index));
-
-
                 return RedirectToAction("Login", "Utilizador");
-
-                /*_context.Add(utilizador);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index))*/
-                /*}
-               return View();
-
-
-               if (ModelState.IsValid)
-               {
-                   _context.Add(utilizador);
-                   await _context.SaveChangesAsync();
-                   int clienteId = utilizador.Id;
-                   Cliente cliente = new Cliente();
-                   cliente.UtilizadorId = clienteId;
-                   _context.Add(cliente);
-                   await _context.SaveChangesAsync();
-                   return RedirectToAction(nameof(Index));
-               }*/
-                
             }
-            
             return View(utilizador);
         }
+        //GET Registar2
+        public IActionResult Registar2()
+        {
+            return View();
+        }
+        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registar2([Bind("Id,Name,Email,Username,Password,Telefone,Morada,HoraAbertura,HoraFecho,DiaDescanso")] RestauranteCompleto restaurante, IFormFile files)
@@ -225,22 +145,14 @@ namespace LabProject.Controllers
                 try
                 {
                     string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
-
                     FileStream fs = new FileStream(uploads, FileMode.Create);
-
                     files.CopyTo(fs);
-                    fs.Close();
-
-                    
-
-                    utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                    fs.Close();                   
+                    utilizador.Imagem = Path.GetFileName(files.FileName); 
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
-
-                    
                 }
                 catch (Exception)
                 {
-                 
                 }
                 _context.Add(utilizador);
                 await _context.SaveChangesAsync();
@@ -249,65 +161,17 @@ namespace LabProject.Controllers
                 restaurante1.UtilizadorId = utilizadorId;
                 _context.Add(restaurante1);
                 await _context.SaveChangesAsync();
-                //return RedirectToAction(nameof(Index));
                 return RedirectToAction("Login", "Utilizador");
              }
-            /*if (ModelState.IsValid)
-            {
-                if (Convert.ToInt32(TempData["cliente"]) == 1) //clientes 
-                {
-                    
-                    Utilizador utilizador = new Utilizador();
-                    _context.Add(;
-                    await _context.SaveChangesAsync();
-                    int clienteId = utilizador.Id;
-                    
-                    cliente.UtilizadorId = clienteId;
-                    _context.Add(cliente);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                else //restaurante
-                {
-                    _context.Add(utilizador);
-                    await _context.SaveChangesAsync();
-                    int restauranteId = utilizador.Id;
-                    Restaurante restaurante = new Restaurante();
-                    restaurante.UtilizadorId = restaurante;
-                    _context.Add(restaurante.);
-                    await _context.SaveChangesAsync();
-                }
-                return RedirectToAction("Login", "Utilizadores");
-
-                /*_context.Add(utilizador);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index))*/
             return View();
         }
-            
-
-
-            /*if (ModelState.IsValid)
-            {
-                _context.Add(utilizador);
-                await _context.SaveChangesAsync();
-                int clienteId = utilizador.Id;
-                Cliente cliente = new Cliente();
-                cliente.UtilizadorId = clienteId;
-                _context.Add(cliente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(utilizador);*/
         
-        public IActionResult Registar2()
-        {
-            return View();
-        }
+        //GET
         public IActionResult RegistarAdmin()
         {
             return View();
         }
+        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegistarAdmin([Bind("Id,Name,Email,Username,Password")] Utilizador utilizador, IFormFile files)
@@ -317,22 +181,15 @@ namespace LabProject.Controllers
                 try
                 {
                     string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
-
                     FileStream fs = new FileStream(uploads, FileMode.Create);
-
                     files.CopyTo(fs);
                     fs.Close();
-
-                    utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                    utilizador.Imagem = Path.GetFileName(files.FileName); 
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                 }
                 catch (Exception)
                 {
-
-
                 }
-
-
                 _context.Add(utilizador);
                 await _context.SaveChangesAsync();
                 int adminId = utilizador.Id;
@@ -341,33 +198,15 @@ namespace LabProject.Controllers
                 _context.Add(admin);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-
-
-                //return RedirectToAction("Index", "Home");
-
-                /*_context.Add(utilizador);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index))*/
-                /*}
-               return View();
-
-
-               if (ModelState.IsValid)
-               {
-                   _context.Add(utilizador);
-                   await _context.SaveChangesAsync();
-                   int clienteId = utilizador.Id;
-                   Cliente cliente = new Cliente();
-                   cliente.UtilizadorId = clienteId;
-                   _context.Add(cliente);
-                   await _context.SaveChangesAsync();
-                   return RedirectToAction(nameof(Index));
-               }*/
-
             }
 
             return View(utilizador);
         }
+
+        //Nao deve ser preciso o que esta para baixo
+
+
+
         // GET: Utilizador
         public async Task<IActionResult> Index()
         {

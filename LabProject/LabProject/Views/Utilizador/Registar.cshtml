@@ -44,14 +44,8 @@
 
 
 <script>
-    function change_cliente() {
-        //document.getElementById("registar").textContent = "Registar";
-        //document.getElementById("registar").style.display = "inline";
-
-    }
     function change_restaurante() {
         window.location.href="@Url.Action("Registar2", "Utilizador")";
-
     }
     function validateFileType() {
         var fileName = document.getElementById("image").value;
@@ -62,26 +56,4 @@
             document.getElementById("image").value = null;
         }
     }
-    @*function registar()
-    {
-        $.ajax({
-        url: '@Url.Action("Registar2")', // to get the right path to controller from TableRoutes of Asp.Net MVC
-        dataType: "json", //to work with json format
-        type: "POST", //to do a post request
-        //contentType: 'application/json; charset=utf-8', //define a contentType of your request
-        cache: false, //avoid caching results
-            data: {
-                nome: $("#NomeInput").text()
-            }, // here you can pass arguments to your request if you need
-        success: function (data) {
-             // data is your result from controller
-            if (data.success) {
-                alert(data.message);
-            }
-        },
-        error: function (xhr) {
-            alert('error');
-        }
-        });
-    }*@
 </script>

@@ -8,31 +8,26 @@
         <form asp-action="RegistarAdmin" enctype="multipart/form-data" class="registo-form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                @*<label asp-for="Name" class="control-label"></label>*@
                 <input asp-for="Name" class="form-control" placeholder="Nome" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @*<label asp-for="Email" class="control-label"></label>*@
                 <input asp-for="Email" class="form-control" placeholder="Email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @*<label asp-for="Username" class="control-label"></label>*@
                 <input asp-for="Username" class="form-control" placeholder="Username" />
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @*<label asp-for="Password" class="control-label"></label>*@
                 <input asp-for="Password" class="form-control" type="password" placeholder="Password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @*<label asp-for="Imagem" class="control-label"></label>*@
                 <input type="file" name="files" id="image" class="form-control" ~accept="image/*" onchange="validateFileType();" />
             </div>
             <div class="form-group">
-                <input type="submit" value="Registar" class="@*btn btn-primary*@ button" />
+                <input type="submit" value="Registar" class="button" />
             </div>
         </form>
     </div>
@@ -49,26 +44,4 @@
             document.getElementById("image").value = null;
         }
     }
-    @*function registar()
-    {
-        $.ajax({
-        url: '@Url.Action("Registar2")', // to get the right path to controller from TableRoutes of Asp.Net MVC
-        dataType: "json", //to work with json format
-        type: "POST", //to do a post request
-        //contentType: 'application/json; charset=utf-8', //define a contentType of your request
-        cache: false, //avoid caching results
-            data: {
-                nome: $("#NomeInput").text()
-            }, // here you can pass arguments to your request if you need
-        success: function (data) {
-             // data is your result from controller
-            if (data.success) {
-                alert(data.message);
-            }
-        },
-        error: function (xhr) {
-            alert('error');
-        }
-        });
-    }*@
 </script>
