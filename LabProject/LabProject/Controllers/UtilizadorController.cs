@@ -304,46 +304,69 @@ namespace LabProject.Controllers
         {
             return View();
         }
+        public IActionResult RegistarAdmin()
+        {
+            return View();
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registar2Submit(string nome)
+        public async Task<IActionResult> RegistarAdmin([Bind("Id,Name,Email,Username,Password")] Utilizador utilizador, IFormFile files)
         {
-            var _nome = nome;
-            return Json(new { success = true, message = "Order updated successfully" });
-            /* if (ModelState.IsValid)
-             {
-                 //if (Convert.ToInt32(TempData["cliente"])==1) //clientes 
-                 //{
-                     _context.Add(utilizador);
-                     int clienteId = utilizador.Id;
-                     Cliente cliente = new Cliente();
-                     cliente.UtilizadorId = clienteId;
-                     _context.Add(cliente);
-                 }
-                 else //restaurante
-                 {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
 
-                 }
-                 //return RedirectToAction("Login", "Utilizadores");
+                    FileStream fs = new FileStream(uploads, FileMode.Create);
 
-                 /*_context.Add(utilizador);
-                 await _context.SaveChangesAsync();
-                 return RedirectToAction(nameof(Index));
-             }*/
-            //return View();
+                    files.CopyTo(fs);
+                    fs.Close();
+
+                    utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                    HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                }
+                catch (Exception)
+                {
 
 
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(utilizador);
-            //    await _context.SaveChangesAsync();
-            //    int clienteId = utilizador.Id;
-            //    Cliente cliente = new Cliente();
-            //    cliente.UtilizadorId = clienteId;
-            //    _context.Add(cliente);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
+                }
+
+
+                _context.Add(utilizador);
+                await _context.SaveChangesAsync();
+                int adminId = utilizador.Id;
+                Administrador admin = new Administrador();
+                admin.UtilizadorId = adminId;
+                _context.Add(admin);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
+
+                //return RedirectToAction("Index", "Home");
+
+                /*_context.Add(utilizador);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index))*/
+                /*}
+               return View();
+
+
+               if (ModelState.IsValid)
+               {
+                   _context.Add(utilizador);
+                   await _context.SaveChangesAsync();
+                   int clienteId = utilizador.Id;
+                   Cliente cliente = new Cliente();
+                   cliente.UtilizadorId = clienteId;
+                   _context.Add(cliente);
+                   await _context.SaveChangesAsync();
+                   return RedirectToAction(nameof(Index));
+               }*/
+
+            }
+
+            return View(utilizador);
         }
         // GET: Utilizador
         public async Task<IActionResult> Index()
