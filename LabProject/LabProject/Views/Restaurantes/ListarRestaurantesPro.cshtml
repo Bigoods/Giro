@@ -9,11 +9,11 @@
     @foreach (var item in Model)
     {
 
-        <div class="AprovarBar">
-            <p class="NomePro">@item.Utilizador.Name</p>
-            <button class="ButtonAprovar" onclick="aprovar(@item.UtilizadorId, true)">Aprovar</button>
-            <button class="ButtonAprovar" onclick="aprovar(@item.UtilizadorId, false)">Reprovar</button>
-        </div>
+    <div class="AprovarBar">
+        <p class="NomePro">@item.Utilizador.Name</p>
+        <a class="ButtonAprovar" asp-controller="Restaurantes" asp-action="SetAprovado" asp-route-id="@item.UtilizadorId" asp-route-aprovado="@true">Aprovar</a>
+        <a class="ButtonAprovar" asp-controller="Restaurantes" asp-action="SetAprovado" asp-route-id="@item.UtilizadorId" asp-route-aprovado="@false">Recusar</a>
+    </div>
 
 
         <div class="VerInformacoesDescricao">
@@ -39,26 +39,10 @@
             </p>
 
         </div>
-        <div class="VerInformacoesMapa" style='background-image:url(@("../../Images/Utilizadores/" + item.Utilizador.Imagem))'></div>
+        <div class="VerInformacoesMapa" style='margin-bottom:20px;background-image:url(@("../../Images/Utilizadores/" + item.Utilizador.Imagem))'></div>
 
 
-        //https://localhost:44374/Restaurantes/ListarRestaurantesPro
 
     }
 </div>
 
-
-<script>
-    function aprovar(Id, aprovado) {
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("SetAprovado", "Restaurantes")',
-            data: { id: "2", aprovado: aprovado },
-            contentType: "application/json: charset=utf-8",
-            dataType: "json",
-
-        });
-
-    }
-
-</script>

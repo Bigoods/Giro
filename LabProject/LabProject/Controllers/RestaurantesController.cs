@@ -43,17 +43,32 @@ namespace LabProject.Controllers
 
         }
 
-        
 
-            [HttpPost]
-        public ActionResult SetAprovado(int id, bool aprovado)
+
+        [HttpGet]
+        public async Task<IActionResult> SetAprovado(int id, bool aprovado)
         {
-            if(id == 0)
+            Restaurante _restaurante = _context.Restaurantes.Where(r => r.UtilizadorId == id).FirstOrDefault();
+
+            if (aprovado)
             {
-                return null;
+
+                _restaurante.Aprovado = true;
+                _context.Update(_restaurante);
+                await _context.SaveChangesAsync();
+
+            }
+            else
+            {
+                _context.Restaurantes.Remove(_restaurante);
+                await _context.SaveChangesAsync();
+                Utilizador _utilizador = _context.Utilizadors.Where(r => r.Id == id).FirstOrDefault();
+                _context.Utilizadors.Remove(_utilizador);
+                await _context.SaveChangesAsync();
             }
 
-            return null;
+
+            return RedirectToAction("ListarRestaurantesPro", "Restaurantes");
         }
 
         // GET: Restaurantes/Details/5
