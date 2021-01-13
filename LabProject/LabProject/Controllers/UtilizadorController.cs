@@ -109,8 +109,8 @@ namespace LabProject.Controllers
                 try
                 {
                     Random numAleatorio = new Random();
-                    int valorInteiro = numAleatorio.Next(100, 1000);
-                    string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
+                    int valorInteiro = numAleatorio.Next(10000, 100000);
+                    string NomeFicheiro = valorInteiro + Path.GetFileName(files.FileName);
 
                     string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
 
@@ -152,8 +152,8 @@ namespace LabProject.Controllers
                 try
                 {
                     Random numAleatorio = new Random();
-                    int valorInteiro = numAleatorio.Next(100, 1000);
-                    string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
+                    int valorInteiro = numAleatorio.Next(10000, 100000);
+                    string NomeFicheiro = valorInteiro + Path.GetFileName(files.FileName);
 
                     string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
 
@@ -195,8 +195,8 @@ namespace LabProject.Controllers
                 try
                 {
                     Random numAleatorio = new Random();
-                    int valorInteiro = numAleatorio.Next(100, 1000);
-                    string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
+                    int valorInteiro = numAleatorio.Next(10000, 100000);
+                    string NomeFicheiro = valorInteiro + Path.GetFileName(files.FileName);
 
                     string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
 
