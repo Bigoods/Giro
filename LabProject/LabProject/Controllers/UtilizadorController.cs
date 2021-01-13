@@ -108,10 +108,17 @@ namespace LabProject.Controllers
             {
                 try
                 {
-                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+                    Random numAleatorio = new Random();
+                    int valorInteiro = numAleatorio.Next(100, 1000);
+                    string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
+
+                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
+
                     FileStream fs = new FileStream(uploads, FileMode.Create);
+
                     files.CopyTo(fs);
                     fs.Close();
+
                     utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                 }
@@ -144,10 +151,17 @@ namespace LabProject.Controllers
                 Utilizador utilizador = restaurante.GetUtilizador();
                 try
                 {
-                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+                    Random numAleatorio = new Random();
+                    int valorInteiro = numAleatorio.Next(100, 1000);
+                    string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
+
+                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
+
                     FileStream fs = new FileStream(uploads, FileMode.Create);
+
                     files.CopyTo(fs);
-                    fs.Close();                   
+                    fs.Close();
+               
                     utilizador.Imagem = Path.GetFileName(files.FileName); 
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                 }
@@ -180,10 +194,17 @@ namespace LabProject.Controllers
             {
                 try
                 {
-                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+                    Random numAleatorio = new Random();
+                    int valorInteiro = numAleatorio.Next(100, 1000);
+                    string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
+
+                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
+
                     FileStream fs = new FileStream(uploads, FileMode.Create);
+
                     files.CopyTo(fs);
                     fs.Close();
+
                     utilizador.Imagem = Path.GetFileName(files.FileName); 
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                 }
@@ -356,7 +377,11 @@ namespace LabProject.Controllers
                     {
                         if (files != null)
                         {
-                            string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+                            Random numAleatorio = new Random();
+                            int valorInteiro = numAleatorio.Next(100, 1000);
+                            string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
+
+                            string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
 
                             FileStream fs = new FileStream(uploads, FileMode.Create);
 

@@ -27,9 +27,6 @@ namespace LabProject.Controllers
         // GET: Restaurantes
         public async Task<IActionResult> Index()
         {
-
-
-
             var labProject_Context = _context.Restaurantes.Include(r => r.Utilizador);
             return View(await labProject_Context.ToListAsync());
         }
@@ -240,7 +237,11 @@ namespace LabProject.Controllers
                     {
                         if (files != null)
                         {
-                            string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", Path.GetFileName(files.FileName));
+                            Random numAleatorio = new Random();
+                            int valorInteiro = numAleatorio.Next(100, 1000);
+                            string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
+
+                            string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
 
                             FileStream fs = new FileStream(uploads, FileMode.Create);
 
