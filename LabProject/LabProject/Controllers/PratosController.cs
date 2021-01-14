@@ -70,10 +70,14 @@ namespace LabProject.Controllers
         //}
 
 
-        public async Task<IActionResult> Pratos(string searchString)
+        public async Task<IActionResult> Pratos(string searchString, DateTime SearchData)
         {
 
             ViewData["CurrentFilter"] = searchString;
+            ViewData["SearchData"] = SearchData;
+
+            if (SearchData == DateTime.MinValue)
+                SearchData = DateTime.Now.Date;
 
             //var labProject_Database = (from prato in _context.Pratos
             //                               //join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
@@ -90,12 +94,18 @@ namespace LabProject.Controllers
             ////    Foto = prato.Foto
             ////});
 
-            var labProject_Database = _context.Pratos.Where(t => _context.RestaurantePratos.Any(a => a.PratoId == t.Id && a.Dia == DateTime.Now.Date));
+
+
+            //var labProject_Database = _context.Pratos.Where(t => _context.RestaurantePratos.Any(a => a.PratoId == t.Id && a.Dia == DateTime.Now.Date));
+
+            var labProject_Database = _context.Pratos.Where(t => _context.RestaurantePratos.Any(a => a.PratoId == t.Id && a.Dia == SearchData));
+
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 labProject_Database = labProject_Database.Where(s => s.Nome.Contains(searchString));
             }
+            
 
             foreach (Prato p in labProject_Database)
             {
@@ -422,8 +432,13 @@ namespace LabProject.Controllers
 
         //}
 
-        public async Task<IActionResult> VerPrato(int? id)
+        public async Task<IActionResult> VerPrato(int? id, DateTime? SearchData)
         {
+           // ViewData["SearchData"] = SearchData;
+
+            if (SearchData == DateTime.MinValue || SearchData == null)
+                SearchData = DateTime.Now.Date;
+
             if (id == null)
             {
                 return NotFound();
@@ -444,7 +459,7 @@ namespace LabProject.Controllers
             //var labProject_Database = _context.Restaurantes;
             var labProject_Database = (from restaurante in _context.Restaurantes
                                        join restaurantePrato in _context.RestaurantePratos on restaurante.Id equals restaurantePrato.RestauranteId
-                                       where restaurantePrato.PratoId == id && restaurantePrato.Dia == DateTime.Now.Date
+                                       where restaurantePrato.PratoId == id && restaurantePrato.Dia == SearchData
                                        select restaurante);
 
 

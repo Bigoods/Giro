@@ -64,7 +64,14 @@ namespace LabProject
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+                // will allow for Products/Item/2/1
+                endpoints.MapControllerRoute(name: "CheckPratos",
+                 pattern: "Pratos/VerPrato/{id}/{SearchData}",
+                 defaults: new { controller = "Pratos", action = "VerPrato" });
+
             });
+
+
 
 
         }

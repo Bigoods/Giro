@@ -7,8 +7,11 @@
 <div class="SearchContainer">
     <form class="SearchBar" asp-action="Pratos" method="get">
         <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Procurar...">
+        <input id="datepick" type="date" name="SearchData" value="@ViewData["SearchData"]">
+
         <button type="submit"><i class="fa fa-search"></i></button>
     </form>
+
 </div>
 
 
@@ -31,7 +34,13 @@
             //alert(id);
             //console.log(Id);
 
-            var targetUrl = '/Pratos/VerPrato/' + Id.toString();
+
+            $("#datepick").remove();
+
+            @*var dataescolhida = @ViewData["SearchData"];
+            alert(dataescolhida.toString());*@
+
+            var targetUrl = '/Pratos/VerPrato/' + Id.toString() + '/' + '' ;
             location.href = targetUrl;
 
         };
