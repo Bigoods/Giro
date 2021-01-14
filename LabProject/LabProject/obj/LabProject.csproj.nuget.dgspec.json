@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Hutt\\Desktop\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj": {}
+    "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Hutt\\Desktop\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj": {
+    "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Hutt\\Desktop\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
+        "projectUniqueName": "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
         "projectName": "LabProject",
-        "projectPath": "C:\\Users\\Hutt\\Desktop\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
-        "packagesPath": "C:\\Users\\Hutt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Hutt\\Desktop\\Prato_do_Dia\\LabProject\\LabProject\\obj\\",
+        "projectPath": "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
+        "packagesPath": "C:\\Users\\filip\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Hutt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\filip\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

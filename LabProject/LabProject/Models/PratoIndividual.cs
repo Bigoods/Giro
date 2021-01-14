@@ -35,6 +35,8 @@ namespace LabProject.Models
         [Column("Tipo_PratoId")]
         public int? TipoPratoId { get; set; }
 
+        public DateTime Dia { get; set; }
+
         [ForeignKey(nameof(TipoPratoId))]
         [InverseProperty("Pratos")]
         public virtual TipoPrato TipoPrato { get; set; }

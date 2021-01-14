@@ -613,3 +613,5 @@ C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1
 C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.dll
 C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.pdb
 C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.genruntimeconfig.cache
+C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Pratos\CriarHoje.cshtml.g.cs
+C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Pratos\SubmeterPratoExistente.cshtml.g.cs

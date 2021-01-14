@@ -70,7 +70,8 @@
         <p style=" margin-top: -20px; margin-left: 50px;">
             @Html.DisplayFor(model => model.Restaurante.HoraAbertura)h - @Html.DisplayFor(model => model.Restaurante.HoraFecho)h
         </p>
-        <p><span class="VerSpan"><i class="fas fa-map-marker-alt"></i></span>
+        <p>
+            <span class="VerSpan"><i class="fas fa-map-marker-alt"></i></span>
             @Html.DisplayFor(model => model.Restaurante.Morada)
         </p>
 
@@ -84,31 +85,32 @@
 <div class="verGridContainer">
     @foreach (var item in Model.Pratos)
     {
-    <div class="VerGridSquare" onClick="reply_click(@Html.DisplayFor(modelItem => item.Id))">
-        <div class="VerGridSquareNome">@((item.Nome.Length <= 13) ? item.Nome : item.Nome.Substring(0, 13) + "...")</div>
-        <div class="VerGridSquareCentral">
-            <div class="VerGridSquareCentralTexto">
-                <p style="margin-top: 15px;">Tipo: @(item.TipoPrato.Nome)</p>
-                <p>Preço: @((item.Preco).ToString("#.00") + " €")</p>
+        <div class="VerGridSquare" onClick="reply_click(@Html.DisplayFor(modelItem => item.Id))">
+            <div class="VerGridSquareNome">@((item.Nome.Length <= 13) ? item.Nome : item.Nome.Substring(0, 13) + "...")</div>
+            <div class="VerGridSquareCentral">
+                <div class="VerGridSquareCentralTexto">
+                    <p style="margin-top: 15px;">Tipo: @(item.TipoPrato.Nome)</p>
+                    <p>Preço: @((item.Preco).ToString("#.00") + " €")</p>
+                </div>
+                <div class="VerGridSquareCentralFoto" style='background-image:url(../../Images/Pratos/@(item.Foto))'></div>
             </div>
-            <div class="VerGridSquareCentralFoto" style='background-image:url(../../Images/Pratos/@(item.Foto))'></div>
+            <p class="VerGridSquareDesc">Descrição: @(item.Descricao)</p>
+            @*<div class="VerGridSquareImagem" style='background-image:url(@Html.DisplayFor(modelItem => item.Foto))'></div>*@
+            @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
+
+
         </div>
-        <p class="VerGridSquareDesc" >Descrição: @(item.Descricao)</p>
-        @*<div class="VerGridSquareImagem" style='background-image:url(@Html.DisplayFor(modelItem => item.Foto))'></div>*@
-        @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
-
-
-    </div>
 
     }
 </div>
 
+<script src="../wwwroot/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
 
+
+
     $(".flex-child.Container").height($(document).height());
-
-
 
 </script>
 

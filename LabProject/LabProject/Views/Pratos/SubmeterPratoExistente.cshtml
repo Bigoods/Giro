@@ -1,0 +1,72 @@
+﻿@model LabProject.Models.PratoIndividual
+@{
+    TempData["FotoPratoTemp"] = Model.Foto;
+}
+
+<link rel="stylesheet" href="~/css/Grid_style.css">
+
+
+<form asp-action="AddPratoExistente" class="SubmeterPratoExistenteForm">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Nome" />
+    <input type="hidden" asp-for="Foto" />
+    <div class="SubmeterPratoTitulo">
+        @Model.Nome
+    </div>
+
+    <div class="VerGridSquareCentralFoto" id="output" style='height:100px;background-image:url(../../Images/Pratos/@(Model.Foto))'></div>
+    <div class="form-group">
+        <input type="file" name="files" id="image" class="form-control" accept="image/*" onchange="validateFileType(); loadFile(event);" />
+    </div>
+
+    <br />
+
+    <div class="form-group">
+        <label asp-for="Descricao" class="control-label"></label>
+        <input asp-for="Descricao" class="form-control" value="@Model.Descricao">
+        <span asp-validation-for="Descricao" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Preco" class="control-label"></label>
+        <input asp-for="Preco" class="form-control" value="@Model.Preco">
+        <span asp-validation-for="Preco" class="text-danger"></span>
+    </div>
+
+    <input asp-for="Dia" type="date" value="@Model.Dia">
+
+
+    <div class="form-group">
+        <input type="submit" value="Submeter" class="btn btn-primary" />
+    </div>
+</form>
+
+
+
+<script>
+    var loadFile = function (event) {
+        if (document.getElementById("image").value != null) {
+            alert(document.getElementById("image").value);
+
+
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function () {
+                URL.revokeObjectURL(output.src)
+            }
+        }
+
+
+
+    } //;
+
+    function validateFileType() {
+        var fileName = document.getElementById("image").value;
+        var idxDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (!(extFile == "jpg" || extFile == "jpeg" || extFile == "png")) {
+            alert("Only jpg/jpeg and png files are allowed!");
+            document.getElementById("image").value = null;
+        }
+    }
+</script>

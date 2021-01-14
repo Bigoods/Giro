@@ -1,0 +1,50 @@
+﻿@model LabProject.Models.RestaurantePratosPertence
+
+<link rel="stylesheet" href="~/css/Grid_style.css">
+
+
+<a style="margin-top:50px;width:220px;padding-left: 17px;margin-bottom:50px;" class="ButaoAdicionar" asp-area="" asp-controller="Pratos" asp-action="CriarHoje"><i class="fas fa-plus"></i> CriarNovoPrato</a>
+
+
+
+<div class="verGridContainer">
+    @foreach (var item in Model.Pratos)
+    {
+        <div class="VerGridSquare" onClick="reply_click(@Html.DisplayFor(modelItem => item.Id))">
+            <div class="VerGridSquareNome">@((item.Nome.Length <= 13) ? item.Nome : item.Nome.Substring(0, 13) + "...")</div>
+            <div class="VerGridSquareCentral">
+                <div class="VerGridSquareCentralTexto">
+                    <p style="margin-top: 15px;">Tipo: @(item.TipoPrato.Nome)</p>
+                    <p>Preço: @((item.Preco).ToString("#.00") + " €")</p>
+                </div>
+                <div class="VerGridSquareCentralFoto" style='background-image:url(../../Images/Pratos/@(item.Foto))'></div>
+            </div>
+            <p class="VerGridSquareDesc">Descrição: @(item.Descricao)</p>
+            @*<div class="VerGridSquareImagem" style='background-image:url(@Html.DisplayFor(modelItem => item.Foto))'></div>*@
+            @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
+
+
+        </div>
+
+    }
+</div>
+
+
+<script>
+
+    $(".flex-child.Container").height($(document).height());
+
+    function reply_click(Id) {
+        //alert(id);
+        //console.log(Id);
+
+        var targetUrl = '/Pratos/SubmeterPratoExistente/' + Id.toString();
+        location.href = targetUrl;
+
+    };
+
+
+
+
+</script>
+
