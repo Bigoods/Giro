@@ -245,12 +245,13 @@ form.SearchBar::after {
 }
 
 .VerGridSquare {
-		height: 300px;
-		width: 300px;
-		background-color: #E1DBD0;
-		margin-right: 20px;
-		margin-bottom: 20px;
-		transition: 0.3s;
+	height: 300px;
+	width: 300px;
+	background-color: #E1DBD0;
+	margin-right: 10px;
+	margin-left: 10px;
+	margin-bottom: 20px;
+	transition: 0.3s;
 }
 
 	.VerGridSquare:hover {

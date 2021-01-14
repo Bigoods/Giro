@@ -23,7 +23,7 @@
                     <p style="margin-top: 15px; margin-left:30px;">Tipo: @(item.TipoPrato.Nome)</p>
                     <p style="margin-left:30px;">Preço: @((item.Preco).ToString("#.00") + " €")</p>
                 </div>
-                <div class="VerGridSquareCentralFoto" style='background-image:url(../../Images/Pratos/@(item.Foto))'></div>
+                <div class="VerGridSquareCentralFoto" style=' margin-right: 10px; background-image: url(../../Images/Pratos/@(item.Foto) )'></div>
             </div>
             <p class="VerGridSquareDesc">Descrição: @(item.Descricao)</p>
             @*<div class="VerGridSquareImagem" style='background-image:url(@Html.DisplayFor(modelItem => item.Foto))'></div>*@

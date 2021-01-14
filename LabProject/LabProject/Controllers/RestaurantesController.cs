@@ -87,8 +87,16 @@ namespace LabProject.Controllers
             return View(restaurante);
         }
 
-        public async Task<IActionResult> VerRestaurante(int? id)
+        public async Task<IActionResult> VerRestaurante(int? id, string searchString, DateTime SearchData)
         {
+
+            ViewData["CurrentFilter"] = searchString;
+
+            if (SearchData == DateTime.MinValue)
+                SearchData = DateTime.Now.Date;
+
+            ViewData["SearchData"] = SearchData.ToString("MM-dd-yyyy");
+
             if (id == null)
             {
                 return NotFound();
