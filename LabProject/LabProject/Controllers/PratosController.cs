@@ -104,7 +104,7 @@ namespace LabProject.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                labProject_Database = labProject_Database.Where(s => s.Nome.Contains(searchString));
+                labProject_Database = labProject_Database.Where(s => s.Nome.Contains(searchString) || s.TipoPrato.Nome.Contains(searchString));
             }
 
 
@@ -160,7 +160,7 @@ namespace LabProject.Controllers
 
 
 
-            var Pratos = await (from prato in _context.Pratos
+            var Pratos = (from prato in _context.Pratos
                                 join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
                                 where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id && restaurantePrato.Dia == SearchData
                                 select new PratoIndividual
@@ -174,12 +174,17 @@ namespace LabProject.Controllers
                                     Descricao = restaurantePrato.Descricao,
                                     Foto = restaurantePrato.Foto,
                                     Dia = restaurantePrato.Dia
-                                }).OrderByDescending(x => x.Dia).ToListAsync();
+                                }).OrderByDescending(x => x.Dia);
 
 
+            Restaurante.Pratos = Pratos.ToList();
 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Restaurante.Pratos = Pratos.Where(s => s.Nome.Contains(searchString) || s.TipoPrato.Nome.Contains(searchString)).ToList(); ;
+            }
 
-            Restaurante.Pratos = Pratos;
+            
 
 
             return View(Restaurante);
@@ -237,8 +242,17 @@ namespace LabProject.Controllers
         }
 
 
-        public async Task<IActionResult> CriarHoje()
+        public async Task<IActionResult> CriarHoje(string searchString, DateTime SearchData)
         {
+
+            ViewData["CurrentFilter"] = searchString;
+
+            if (SearchData == DateTime.MinValue)
+                SearchData = DateTime.Now.Date;
+
+            ViewData["SearchData"] = SearchData.ToString("MM-dd-yyyy");
+
+
             if (HttpContext.Session.GetString("Id") == null)
             {
                 return NotFound();
@@ -263,7 +277,7 @@ namespace LabProject.Controllers
 
             List<PratoIndividual> Pratos = await (from prato in _context.Pratos
                                                   join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
-                                                  where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id
+                                                  where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id && restaurantePrato.Dia == SearchData
                                                   select new PratoIndividual
                                                   {
                                                       Id = prato.Id,

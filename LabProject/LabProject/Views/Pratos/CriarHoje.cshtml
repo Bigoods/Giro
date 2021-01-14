@@ -2,8 +2,52 @@
 
 <link rel="stylesheet" href="~/css/Grid_style.css">
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
-<a style="margin-top:50px;width:220px;padding-left: 17px;margin-bottom:50px;" class="ButaoAdicionar" asp-area="" asp-controller="Pratos" asp-action="CriarHoje"><i class="fas fa-plus"></i> CriarNovoPrato</a>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css">
+
+
+<script>
+
+    $(document).ready(function () {
+        $("#datepicker").datepicker({
+            dateFormat: 'mm-dd-yy',
+            changeMonth: true,
+            numberOfMonths: 1,
+            buttonImage: 'contact/calendar/calendar.gif',
+            buttonImageOnly: true,
+            onSelect: function (selectedDate) {
+                $("#SubmitFilter").click();
+            }
+        });
+
+
+        $("#datepicker").datepicker("setDate", '@ViewData["SearchData"]');
+
+
+
+});
+
+</script>
+
+<div class="VerGridRectangle">
+    <div class="VerRestauranteBanner" style='background-image:url("../../Images/Utilizadores/@Html.DisplayFor(model => model.Restaurante.Utilizador.Imagem)")'></div>
+    <div class="VerRestauranteNome">@Html.DisplayFor(model => model.Restaurante.Utilizador.Name)</div>
+
+</div>
+
+
+<a class="ButaoAdicionarExistente" asp-area="" asp-controller="Pratos" asp-action="CriarHoje"><i class="fas fa-plus"></i> CriarNovoPrato</a>
+
+<div class="SearchContainer" style="padding-top:0px;">
+    <form class="SearchBar" asp-action="CriarHoje" method="get">
+        <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Procurar...">
+        <input class="SearchBarDate" type="text" id="datepicker" name="SearchData" value="@ViewData["SearchData"]">
+        <button id="SubmitFilter" type="submit"><i class="fa fa-search"></i></button>
+    </form>
+
+</div>
 
 
 

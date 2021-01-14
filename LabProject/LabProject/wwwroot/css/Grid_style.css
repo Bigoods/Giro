@@ -1,5 +1,4 @@
 .GridContainer {
-	padding: 50px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: start
@@ -104,8 +103,11 @@ form.SearchBar::after {
 	display: table;
 }
 
-.SearchContainer{
-	padding: 50px;
+.SearchContainer {
+	width: 90%;
+	margin-left: 5%;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 .GridRectangle {
@@ -189,7 +191,6 @@ form.SearchBar::after {
 	width: 90%;
 	height: 250px;
 	margin-top: 20px;
-	margin-bottom: 30px;
 	margin-left: auto;
 	margin-right: auto;
 	transition: 1s;
@@ -241,7 +242,6 @@ form.SearchBar::after {
 	justify-content: start;
 	align-content: flex-start;
 	transition: 1s;
-	margin-top: 50px;
 	width: 90%;
 	margin-left: auto;
 	margin-right: auto;
@@ -333,7 +333,10 @@ form.SearchBar::after {
 
 	.ButtonAprovar:hover {
 		background-color: #868686;
+
 	}
+
+
 
 .NomePro {
 	margin-right: auto;
@@ -345,20 +348,40 @@ form.SearchBar::after {
 }
 
 .ButaoAdicionar {
-	float: left;
 	width: 160px;
-	height: 50px;
 	background-color: green;
 	color: white;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 	font-size: 22px;
-	border: 1px solid #dfdfdf;
-	border-left: none;
-	cursor: pointer;
-	padding-top: 7px;
-	padding-left: 15px;
-	margin-left:5%;
+	margin-left: 5%;
+	line-height: 80px;
+	padding: 8px 25px 8px 25px;
+	transition: 0.3s;
 }
+	.ButaoAdicionar:hover {
+		text-decoration: none;
+		outline: none;
+		background-color: #006600;
+	}
+
+
+.ButaoAdicionarExistente {
+	width: 160px;
+	background-color: green;
+	color: white;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-size: 22px;
+	margin-left: 5%;
+	line-height: 80px;
+	padding: 8px 25px 8px 25px;
+	transition: 0.3s;
+}
+
+	.ButaoAdicionarExistente:hover {
+		text-decoration: none;
+		outline: none;
+		background-color: #006600;
+	}
 
 .SubmeterPratoExistenteForm {
 	margin-left: auto;
@@ -366,6 +389,8 @@ form.SearchBar::after {
 	margin-top: 50px;
 	width: 500px;
 }
+
+
 
 
 .SubmeterPratoTitulo {
