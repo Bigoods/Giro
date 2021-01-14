@@ -6,21 +6,26 @@
 
 <link rel="stylesheet" href="~/css/registo_style.css">
 <div class="form-group">
-    <button type="button" class="button botao-selecionado" onclick="change_cliente()" style="width: 35%;">Cliente</button>
-    <button type="button" class="button" onclick="change_restaurante()" style="width: 35%;">Restaurante</button>
+    <a class="button botao-selecionado" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Clientes" style="width: 35%;">Cliente</a>
+    <a class="button" style="width: 35%;" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Restaurantes">Restaurante</a>
 </div>
 
 @foreach (var item in Model)
 {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Bloqueado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Motivo)
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Bloqueado)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Motivo)
+    </td>
+    <a class="button botao-selecionado" asp-controller="Utilizador" asp-action="Details" asp-route-id="@item.Id" style="width: 30px;height:30px;">Ver</a>
+
+    <a class="button botao-selecionado" asp-controller="Utilizador" asp-action="Details" asp-route-id="@item.Id" style="width: 30px;height:30px;">Ver</a>
+
+</tr>
+    <br />
 }

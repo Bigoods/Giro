@@ -27,7 +27,7 @@ namespace LabProject.Controllers
         //Login
         public IActionResult Login()
         {
-                return View();
+            return View();
         }
 
         [HttpPost]
@@ -100,7 +100,7 @@ namespace LabProject.Controllers
         // POST: Utilizador/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]       
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registar([Bind("Id,Name,Email,Username,Password")] Utilizador utilizador, IFormFile files)   //ESTE ESTA FUNCIONAL
         {
@@ -123,8 +123,8 @@ namespace LabProject.Controllers
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                 }
                 catch (Exception)
-                {                   
-                }           
+                {
+                }
                 _context.Add(utilizador);
                 await _context.SaveChangesAsync();
                 int clienteId = utilizador.Id;
@@ -146,8 +146,8 @@ namespace LabProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registar2([Bind("Id,Name,Email,Username,Password,Telefone,Morada,HoraAbertura,HoraFecho,DiaDescanso")] RestauranteCompleto restaurante, IFormFile files)
         {
-             if (ModelState.IsValid)
-             {
+            if (ModelState.IsValid)
+            {
                 Utilizador utilizador = restaurante.GetUtilizador();
                 try
                 {
@@ -161,8 +161,8 @@ namespace LabProject.Controllers
 
                     files.CopyTo(fs);
                     fs.Close();
-               
-                    utilizador.Imagem = Path.GetFileName(files.FileName); 
+
+                    utilizador.Imagem = Path.GetFileName(files.FileName);
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                 }
                 catch (Exception)
@@ -176,10 +176,10 @@ namespace LabProject.Controllers
                 _context.Add(restaurante1);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Login", "Utilizador");
-             }
+            }
             return View();
         }
-        
+
         //GET
         public IActionResult RegistarAdmin()
         {
@@ -205,7 +205,7 @@ namespace LabProject.Controllers
                     files.CopyTo(fs);
                     fs.Close();
 
-                    utilizador.Imagem = Path.GetFileName(files.FileName); 
+                    utilizador.Imagem = Path.GetFileName(files.FileName);
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                 }
                 catch (Exception)
@@ -235,9 +235,28 @@ namespace LabProject.Controllers
         }
 
 
-        public async Task<IActionResult> VerUtilizadores()
+        public async Task<IActionResult> VerUtilizadores(string tipo)
         {
-            return View(await _context.Utilizadors.ToListAsync());
+            if (tipo != "Restaurantes")
+            {
+                var Pessoas = (from cliente in _context.Clientes
+                              join Utilizador in _context.Utilizadors on cliente.UtilizadorId equals Utilizador.Id
+                              select Utilizador);
+
+                return View(await Pessoas.ToListAsync());
+            }
+            else
+            {
+                var Pessoas = (from restaurante in _context.Restaurantes
+                               join Utilizador in _context.Utilizadors on restaurante.UtilizadorId equals Utilizador.Id
+                               select Utilizador);
+
+                return View(await Pessoas.ToListAsync());
+
+            }
+
+
+            
         }
 
         // GET: Utilizador/Details/5
@@ -281,7 +300,7 @@ namespace LabProject.Controllers
         }
 
 
-        
+
 
         // GET: Utilizador/Edit/5
         public async Task<IActionResult> Edit(int? id)
