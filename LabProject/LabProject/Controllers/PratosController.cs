@@ -106,7 +106,7 @@ namespace LabProject.Controllers
             {
                 labProject_Database = labProject_Database.Where(s => s.Nome.Contains(searchString));
             }
-            
+
 
             foreach (Prato p in labProject_Database)
             {
@@ -127,8 +127,17 @@ namespace LabProject.Controllers
 
             return View(await labProject_Database.ToListAsync());
         }
-        public async Task<IActionResult> MeusPratos()
+        public async Task<IActionResult> MeusPratos(string searchString, DateTime SearchData)
         {
+
+            ViewData["CurrentFilter"] = searchString;
+
+            if (SearchData == DateTime.MinValue)
+                SearchData = DateTime.Now.Date;
+
+            ViewData["SearchData"] = SearchData.ToString("MM-dd-yyyy");
+
+
             if (HttpContext.Session.GetString("Id") == null)
             {
                 return NotFound();
@@ -152,20 +161,21 @@ namespace LabProject.Controllers
 
 
             var Pratos = await (from prato in _context.Pratos
-                                                  join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
-                                                  where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id
-                                                  select new PratoIndividual
-                                                  {
-                                                      Id = prato.Id,
-                                                      Nome = prato.Nome,
-                                                      Preco = restaurantePrato.Preco,
-                                                      TipoPratoId = prato.TipoPratoId,
-                                                      TipoPrato = prato.TipoPrato,
-                                                      RestaurantePratos = prato.RestaurantePratos,
-                                                      Descricao = restaurantePrato.Descricao,
-                                                      Foto = restaurantePrato.Foto,
-                                                      Dia = restaurantePrato.Dia
-                                                  }).OrderByDescending(x => x.Dia).ToListAsync();
+                                join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
+                                where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id && restaurantePrato.Dia == SearchData
+                                select new PratoIndividual
+                                {
+                                    Id = prato.Id,
+                                    Nome = prato.Nome,
+                                    Preco = restaurantePrato.Preco,
+                                    TipoPratoId = prato.TipoPratoId,
+                                    TipoPrato = prato.TipoPrato,
+                                    RestaurantePratos = prato.RestaurantePratos,
+                                    Descricao = restaurantePrato.Descricao,
+                                    Foto = restaurantePrato.Foto,
+                                    Dia = restaurantePrato.Dia
+                                }).OrderByDescending(x => x.Dia).ToListAsync();
+
 
 
 
@@ -304,7 +314,7 @@ namespace LabProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddPratoExistente([Bind("Id","Foto","Name", "Descricao", "Dia", "Preco")] RestaurantePrato restaurantePrato, IFormFile files)
+        public async Task<IActionResult> AddPratoExistente([Bind("Id", "Foto", "Name", "Descricao", "Dia", "Preco")] RestaurantePrato restaurantePrato, IFormFile files)
         {
             restaurantePrato.Foto = (TempData["FotoPratoTemp"]).ToString();
             //if (ModelState.IsValid)
@@ -339,8 +349,8 @@ namespace LabProject.Controllers
                 Restaurante p;
 
                 int restauranteID = Convert.ToInt32((from Restaurante in _context.Restaurantes
-                                           where Restaurante.UtilizadorId == Convert.ToInt32(HttpContext.Session.GetString("Id"))
-                                           select Restaurante.Id).FirstOrDefault());
+                                                     where Restaurante.UtilizadorId == Convert.ToInt32(HttpContext.Session.GetString("Id"))
+                                                     select Restaurante.Id).FirstOrDefault());
 
                 RestaurantePrato NovoPrato = new RestaurantePrato();
                 NovoPrato.Descricao = restaurantePrato.Descricao;
@@ -372,7 +382,7 @@ namespace LabProject.Controllers
             if (HttpContext.Session.GetString("Tipo") == "Cliente")
             {
 
-                
+
                 ViewData["CurrentFilter"] = searchString;
 
                 var labProject_Database = (from pratos in _context.Pratos
@@ -435,7 +445,7 @@ namespace LabProject.Controllers
 
         public async Task<IActionResult> VerPrato(int? id, DateTime? SearchData)
         {
-           // ViewData["SearchData"] = SearchData;
+            // ViewData["SearchData"] = SearchData;
 
             if (SearchData == DateTime.MinValue || SearchData == null)
                 SearchData = DateTime.Now.Date;
