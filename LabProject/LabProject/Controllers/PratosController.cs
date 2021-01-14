@@ -74,10 +74,11 @@ namespace LabProject.Controllers
         {
 
             ViewData["CurrentFilter"] = searchString;
-            ViewData["SearchData"] = SearchData;
 
             if (SearchData == DateTime.MinValue)
                 SearchData = DateTime.Now.Date;
+
+            ViewData["SearchData"] = SearchData.ToString("MM-dd-yyyy");
 
             //var labProject_Database = (from prato in _context.Pratos
             //                               //join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId

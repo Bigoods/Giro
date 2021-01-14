@@ -22,7 +22,7 @@
     {
 
         <div class="GridRectangle" onClick="reply_click(@Html.DisplayFor(modelItem => item.Id))">
-            <div class="RestauranteBanner" style='background-image:url(@("../../Images/Utilizadores/" + item.Utilizador.Imagem))'></div>
+            <div class="RestauranteBanner" style='background-image:url(@("/../../Images/Utilizadores/" + item.Utilizador.Imagem))'></div>
             <div class="RestauranteNome">@Html.DisplayFor(modelItem => item.Utilizador.Name)</div>
             <div class="RestaurantePratosContainer">
                 <div id="PratoEscolhido" class="RestaurantePrato">
@@ -39,7 +39,7 @@
                             }
                         </div>
                     </div>
-                    <div class="GridRectangleImagem" style='background-image:url(@("../../Images/Pratos/" + p.Foto))'></div>
+                    <div class="GridRectangleImagem" style='background-image:url(@("/../../Images/Pratos/" + p.Foto))'></div>
                 </div>
 
             </div>

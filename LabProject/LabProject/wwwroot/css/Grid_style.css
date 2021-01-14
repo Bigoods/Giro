@@ -57,15 +57,27 @@
 	padding-top: 9px;
 }
 
+.SearchBar {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+
+}
+
 
 form.SearchBar input[type=text] {
-	border:none;
+	border: none;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 	padding: 10px;
 	font-size: 18px;
-	float: left;
-	width: 85%;
 	background: #dfdfdf;
+	flex-grow: 8;
+}
+
+.SearchBarDate {
+	flex-grow: 2;
+	max-width:200px;
 }
 
 /* Style the submit button */
@@ -79,6 +91,7 @@ form.SearchBar button {
 	border: 1px solid #dfdfdf;
 	border-left: none; /* Prevent double borders */
 	cursor: pointer;
+	flex-grow: 1;
 }
 
 	form.SearchBar button:hover {
