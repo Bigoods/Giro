@@ -71,6 +71,12 @@ namespace LabProject.Controllers
                         if (CheckUtilizador2.ToList().Count > 0)
                         {
                             HttpContext.Session.SetString("Tipo", "Restaurante");
+           
+                            if(u.Bloqueado)
+                            {
+                                
+                            }
+
 
                         }
                         else
@@ -84,6 +90,14 @@ namespace LabProject.Controllers
             }
             return View();
         }
+
+        public IActionResult Bloqueado(string Motivo)
+        {
+            if (Motivo == null)
+                return RedirectToAction("Login", "Utilizador");
+            return View(model: Motivo);
+        }
+
 
         public IActionResult Logout()
         {

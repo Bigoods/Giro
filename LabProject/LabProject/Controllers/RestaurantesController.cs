@@ -10,6 +10,7 @@ using LabProject.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 
 namespace LabProject.Controllers
 {
@@ -90,6 +91,9 @@ namespace LabProject.Controllers
         public async Task<IActionResult> VerRestaurante(int? id, string searchString, DateTime SearchData)
         {
 
+            if(HttpContext.Session.GetString("Tipo") != "Restaurante")
+                return RedirectToAction("Bloqueado", "Utilizador");
+
             ViewData["CurrentFilter"] = searchString;
 
             if (SearchData == DateTime.MinValue)
@@ -99,7 +103,8 @@ namespace LabProject.Controllers
 
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                new { controller = "Utilizador", action = "Bloqueado", Motivo = "ID de Restaurante Inválida" }));
             }
 
             RestaurantePratosPertence Restaurante = new RestaurantePratosPertence();
@@ -110,7 +115,8 @@ namespace LabProject.Controllers
 
             if (Restaurante.Restaurante == null)
             {
-                return NotFound();
+                return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                 new { controller = "Utilizador", action = "Bloqueado", Motivo = "Não foi encontrado o Restaurante" }));
             }
 
 

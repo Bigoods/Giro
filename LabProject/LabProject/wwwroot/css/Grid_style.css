@@ -49,7 +49,7 @@
 	text-align: center;
 	line-height: 20px;
 	margin-top: 10px;
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	font-size: 19px;
 	vertical-align: middle;
 	padding-top: 9px;
@@ -132,13 +132,13 @@ form.SearchBar::after {
 }
 
 .RestauranteNome {
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	font-size: 25px;
 	height: 50px;
 	width: 100%;
 	background-color: #a8a8a7;
-	padding-top: 5px; 
-	padding-left:15px;
+	padding-top: 5px;
+	padding-left: 15px;
 }
 
 .RestaurantePratosContainer {
@@ -154,7 +154,7 @@ form.SearchBar::after {
 }
 
 .PratoEscolhidoDescricao {
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	font-size: 19px;
 	width: 170px;
 	padding-left: 15px;
@@ -203,7 +203,7 @@ form.SearchBar::after {
 }
 
 .VerRestauranteNome {
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	font-size: 29px;
 	height: 50px;
 	width: 100%;
@@ -229,10 +229,10 @@ form.SearchBar::after {
 }
 
 .VerInformacoesDescricao p {
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	font-size: 16px;
-	margin-top:8px;
-	margin-left:10px;
+	margin-top: 8px;
+	margin-left: 10px;
 }
 
 .verGridContainer {
@@ -267,7 +267,7 @@ form.SearchBar::after {
 	width: 100%;
 	height: 40px;
 	line-height: 22px;
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	font-size: 22px;
 	vertical-align: middle;
 	padding-top: 16px;
@@ -283,10 +283,9 @@ form.SearchBar::after {
 }
 
 .VerGridSquareCentralTexto p {
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	font-size: 17px;
 	margin-top: 0px;
-
 }
 
 .VerGridSquareCentralFoto {
@@ -297,7 +296,7 @@ form.SearchBar::after {
 }
 
 .VerGridSquareDesc {
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	font-size: 17px;
 	margin-top: 20px;
 	margin-left: 15px;
@@ -321,13 +320,12 @@ form.SearchBar::after {
 	margin-left: 10px;
 	height: 50px;
 	width: 100px;
-	text-align: center ;
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	text-align: center;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	font-size: 17px;
 	vertical-align: middle;
-	border:none;
-	background-color:transparent;
-
+	border: none;
+	background-color: transparent;
 }
 
 	.ButtonAprovar:hover {
@@ -339,7 +337,7 @@ form.SearchBar::after {
 
 .NomePro {
 	margin-right: auto;
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	vertical-align: middle;
 	text-align: center;
 	margin-top: 10px;
@@ -350,7 +348,7 @@ form.SearchBar::after {
 	width: 160px;
 	background-color: green;
 	color: white;
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	font-size: 22px;
 	margin-left: 5%;
 	line-height: 80px;
@@ -368,7 +366,7 @@ form.SearchBar::after {
 	width: 160px;
 	background-color: green;
 	color: white;
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	font-size: 22px;
 	margin-left: 5%;
 	line-height: 80px;

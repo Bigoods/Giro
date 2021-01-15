@@ -1,3 +1,9 @@
+@font-face {
+	font-family: MainFont;
+	src: url(../lib/Ubuntu-Regular.ttf);
+}
+
+
 html,
 body {
 	background-color: #292929;
@@ -55,29 +61,27 @@ body {
 }
 
 .perfil-nome {
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
+	, sans-serif;
 	font-size: 25px;
-	font-style: bold;
 	color: white;
 	line-height: 0px;
 	margin-bottom: 20px;
 }
- 
-.perfil-ver{
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+
+.perfil-ver {
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	font-size: 14px;
-	font-style: bold;
 	color: white;
 	cursor: pointer;
 	transition: 0.5s;
-	
 }
 
-.perfil-ver:hover{
-	font-family: "Trebuchet MS", Helvetica, sans-serif;	
-	color: white;
-	cursor: pointer;
-}
+	.perfil-ver:hover {
+		font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
+		color: white;
+		cursor: pointer;
+	}
 
 .sidebar-container{
 	display: flex;
@@ -85,12 +89,10 @@ body {
 }
 
 .sidebar-tab {
-	font-family: sans-serif;
-	font-size: 18px;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
+	font-size: 19px;
 	padding-left: 50px;
-
 	background-color: transparent;
-	
 	line-height: 65px;
 	outline: none;
 	color: white;
@@ -98,7 +100,6 @@ body {
 	cursor: default;
 	padding-left: 30px;
 	border-left: 3px solid transparent;
-	
 }
 
 

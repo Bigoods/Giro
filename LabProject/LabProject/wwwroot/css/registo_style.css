@@ -19,8 +19,8 @@
 	justify-content: space-around;
 }
 
-.registo-titulo{
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+.registo-titulo {
+	font-family: MainFont, sans-serif;
 	text-align: center;
 	font-size: 24px;
 	font-style: bold;
