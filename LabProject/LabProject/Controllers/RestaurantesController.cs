@@ -122,7 +122,7 @@ namespace LabProject.Controllers
 
             List<PratoIndividual> Pratos = await (from prato in _context.Pratos
                                                   join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
-                                                  where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id
+                                                  where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id && restaurantePrato.Dia == SearchData
                                                   select new PratoIndividual
                                                   {
                                                       Id = prato.Id,
@@ -135,29 +135,12 @@ namespace LabProject.Controllers
                                                       Foto = restaurantePrato.Foto,
                                                   }).ToListAsync();
 
-            Restaurante.Pratos = Pratos;
+            Restaurante.Pratos = Pratos.ToList();
 
-            //var ContextRP = _context.RestaurantePratos;
-
-            //foreach (var p in _p)
-            //{
-            //    try
-            //    {
-            //        Restaurante.Pratos.Add(new PratoIndividual(p, (from RestaurantePrato in ContextRP
-            //                                                       where RestaurantePrato.PratoId == p.Id && RestaurantePrato.RestauranteId == Restaurante.Restaurante.Id
-            //                                                       select RestaurantePrato.Preco).ToList()[0], (from RestaurantePrato in ContextRP
-            //                                                                                                    where RestaurantePrato.PratoId == p.Id && RestaurantePrato.RestauranteId == Restaurante.Restaurante.Id
-            //                                                                                                    select RestaurantePrato.Descricao).ToList()[0], (from RestaurantePrato in ContextRP
-            //                                                                                                                                                     where RestaurantePrato.PratoId == p.Id && RestaurantePrato.RestauranteId == Restaurante.Restaurante.Id
-            //                                                                                                                                                     select RestaurantePrato.Foto).ToList()[0]));
-
-
-
-            //    }
-            //    catch {
-            //        Restaurante.Pratos.Add(new PratoIndividual(p, 0, "", ""))  ;
-            //    }
-            //}
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Restaurante.Pratos = Pratos.Where(s => s.Nome.ToUpper().Contains(searchString.ToUpper()) || s.TipoPrato.Nome.ToUpper().Contains(searchString.ToUpper())).ToList();
+            }
 
 
 

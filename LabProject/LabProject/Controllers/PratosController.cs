@@ -104,7 +104,8 @@ namespace LabProject.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                labProject_Database = labProject_Database.Where(s => s.Nome.Contains(searchString) || s.TipoPrato.Nome.Contains(searchString));
+                labProject_Database = labProject_Database.Where(s => s.Nome.ToUpper().Contains(searchString.ToUpper()) || s.TipoPrato.Nome.ToUpper().Contains(searchString.ToUpper()));
+
             }
 
 
@@ -181,10 +182,10 @@ namespace LabProject.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                Restaurante.Pratos = Pratos.Where(s => s.Nome.Contains(searchString) || s.TipoPrato.Nome.Contains(searchString)).ToList(); ;
+                Restaurante.Pratos = Pratos.Where(s => s.Nome.ToUpper().Contains(searchString.ToUpper()) || s.TipoPrato.Nome.ToUpper().Contains(searchString.ToUpper())).ToList();
             }
 
-            
+
 
 
             return View(Restaurante);
@@ -407,7 +408,8 @@ namespace LabProject.Controllers
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    labProject_Database = labProject_Database.Where(s => s.Nome.Contains(searchString));
+                    labProject_Database = labProject_Database.Where(s => s.Nome.ToUpper().Contains(searchString.ToUpper()) || s.TipoPrato.Nome.ToUpper().Contains(searchString.ToUpper()));
+
                 }
 
                 foreach (Prato p in labProject_Database)

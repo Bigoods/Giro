@@ -13,7 +13,8 @@
 	height: 150px;
 	width: 200px;
 	background-color: #E1DBD0;
-	margin-right: 20px;
+	margin-right: 10px;
+	margin-left: 10px;
 	margin-bottom: 20px;
 	transition: 0.3s;
 }

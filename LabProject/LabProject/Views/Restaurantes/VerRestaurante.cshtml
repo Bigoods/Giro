@@ -70,7 +70,7 @@
 </div>
 
 <div class="SearchContainer">
-    <form class="SearchBar" asp-action="Pratos" method="get">
+    <form class="SearchBar" asp-action="VerRestaurante" method="get">
         <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Procurar...">
         <input class="SearchBarDate" type="text" id="datepicker" name="SearchData" value="@ViewData["SearchData"]">
         <button id="SubmitFilter" type="submit"><i class="fa fa-search"></i></button>
@@ -83,7 +83,7 @@
 <div class="verGridContainer">
     @foreach (var item in Model.Pratos)
     {
-        <div class="VerGridSquare" onClick="reply_click(@Html.DisplayFor(modelItem => item.Id))">
+        <div class="VerGridSquare">
             <div class="VerGridSquareNome">@((item.Nome.Length <= 13) ? item.Nome : item.Nome.Substring(0, 13) + "...")</div>
             <div class="VerGridSquareCentral">
                 <div class="VerGridSquareCentralTexto">
