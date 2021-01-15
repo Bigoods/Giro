@@ -92,7 +92,7 @@ namespace LabProject.Controllers
         {
 
             if(HttpContext.Session.GetString("Tipo") != "Restaurante")
-                return RedirectToAction("Bloqueado", "Utilizador");
+                return RedirectToAction("Login", "Utilizador");
 
             ViewData["CurrentFilter"] = searchString;
 

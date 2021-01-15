@@ -10,6 +10,7 @@ using LabProject.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Routing;
 
 namespace LabProject.Controllers
 {
@@ -24,11 +25,36 @@ namespace LabProject.Controllers
             _he = e;
         }
 
+        public string CheckBloqueado()
+        {
+            string _id = HttpContext.Session.GetString("Id");
+            try
+            {
+                int id = Convert.ToInt32(_id);
+
+                var Utilizador = (from utilizador in _context.Utilizadors
+                                  where utilizador.Id == id
+                                  select utilizador).FirstOrDefault();
+                if (Utilizador.Bloqueado == true)
+                    return "Utilizador Bloqueado. Motivo: " + Utilizador.Motivo;
+
+            }
+            catch (Exception)
+            {
+                return "login";
+            }
+
+
+
+            return "true";
+        }
+
         //Login
         public IActionResult Login()
         {
             return View();
         }
+
 
         [HttpPost]
         public IActionResult Login(string username, string password)
@@ -43,6 +69,7 @@ namespace LabProject.Controllers
                 }
                 else
                 {
+                    HttpContext.Session.SetString("Bloqueado", u.Bloqueado.ToString());
                     HttpContext.Session.SetString("Utilizador", username);
                     HttpContext.Session.SetString("Email", u.Email);
                     HttpContext.Session.SetString("Name", u.Name);
@@ -71,10 +98,10 @@ namespace LabProject.Controllers
                         if (CheckUtilizador2.ToList().Count > 0)
                         {
                             HttpContext.Session.SetString("Tipo", "Restaurante");
-           
-                            if(u.Bloqueado)
+
+                            if (u.Bloqueado)
                             {
-                                
+
                             }
 
 
@@ -240,158 +267,157 @@ namespace LabProject.Controllers
 
         //Nao deve ser preciso o que esta para baixo
 
-
-
-        // GET: Utilizador
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Utilizadors.ToListAsync());
-        }
-
-
         public async Task<IActionResult> VerUtilizadores(string tipo)
         {
-            if (tipo != "Restaurantes")
+            //Verifica se utilizador atual está Bloqueado
+            //Retorn "true" ou "{motivo}"
+            string isBloqueado = CheckBloqueado();
+            if (isBloqueado == "true")
             {
-                var Pessoas = (from cliente in _context.Clientes
-                              join Utilizador in _context.Utilizadors on cliente.UtilizadorId equals Utilizador.Id
-                              select Utilizador);
+                if (HttpContext.Session.GetString("Tipo") == "Admin")
+                    if (tipo != "Restaurantes")
+                    {
+                        var Pessoas = (from cliente in _context.Clientes
+                                       join Utilizador in _context.Utilizadors on cliente.UtilizadorId equals Utilizador.Id
+                                       select Utilizador);
 
-                return View(await Pessoas.ToListAsync());
+                        return View(await Pessoas.ToListAsync());
+                    }
+                    else
+                    {
+                        var Pessoas = (from restaurante in _context.Restaurantes
+                                       join Utilizador in _context.Utilizadors on restaurante.UtilizadorId equals Utilizador.Id
+                                       select Utilizador);
+
+                        return View(await Pessoas.ToListAsync());
+
+                    }
+                
+                else
+                {
+                    return RedirectToAction("Login", "Utilizador");
+                }
+
+            }
+            else if(isBloqueado == "login")
+            {
+                return RedirectToAction("Login", "Utilizador");
             }
             else
             {
-                var Pessoas = (from restaurante in _context.Restaurantes
-                               join Utilizador in _context.Utilizadors on restaurante.UtilizadorId equals Utilizador.Id
-                               select Utilizador);
-
-                return View(await Pessoas.ToListAsync());
+                return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = isBloqueado }));
 
             }
 
 
-            
         }
 
         // GET: Utilizador/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            string isBloqueado = CheckBloqueado();
+            if (isBloqueado == "true")
             {
-                return NotFound();
-            }
-
-            var utilizador = await _context.Utilizadors
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (utilizador == null)
-            {
-                return NotFound();
-            }
-
-            return View(utilizador);
-        }
-
-        // GET: Utilizador/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Utilizador/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Username,Password,Foto,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(utilizador);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(utilizador);
-        }
-
-
-
-
-        // GET: Utilizador/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var utilizador = await _context.Utilizadors.FindAsync(id);
-            if (utilizador == null)
-            {
-                return NotFound();
-            }
-            return View(utilizador);
-        }
-
-        public async Task<IActionResult> EditOwn()
-        {
-            if (HttpContext.Session.GetString("Utilizador") != null)
-            {
-                int id = Convert.ToInt32(HttpContext.Session.GetString("Id"));
-                //if (id == null)
-                //{
-                //    return NotFound();
-                //}
-
-                var utilizador = await _context.Utilizadors.FindAsync(id);
-                if (utilizador == null)
+                if (HttpContext.Session.GetString("Tipo") == "Admin")
                 {
-                    return NotFound();
-                }
-                return View(utilizador);
-
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-
-
-
-        // POST: Utilizador/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Username,Password,Foto,Bloqueado,Motivo,Notificacao")] Utilizador utilizador)
-        {
-            if (id != utilizador.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(utilizador);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UtilizadorExists(utilizador.Id))
+                    if (id == null)
                     {
                         return NotFound();
                     }
-                    else
+
+                    var utilizador = await _context.Utilizadors
+                        .FirstOrDefaultAsync(m => m.Id == id);
+                    if (utilizador == null)
                     {
-                        throw;
+                        return NotFound();
                     }
+
+
+                    return View(utilizador);
+
                 }
-                return RedirectToAction(nameof(Index));
+                else
+                {
+                    return RedirectToAction("Login", "Utilizador");
+                }
+
             }
-            return View(utilizador);
+            else if (isBloqueado == "login")
+            {
+                return RedirectToAction("Login", "Utilizador");
+            }
+            else
+            {
+                return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = isBloqueado }));
+
+            }
+
+
         }
+
+
+        //// GET: Utilizador/Edit/5
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var utilizador = await _context.Utilizadors.FindAsync(id);
+        //    if (utilizador == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(utilizador);
+        //}
+
+        public async Task<IActionResult> EditOwn()
+        {
+            string isBloqueado = CheckBloqueado();
+            if (isBloqueado == "true")
+            {
+                if (HttpContext.Session.GetString("Tipo") == "Cliente")
+                {
+
+                        int id = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+                        //if (id == null)
+                        //{
+                        //    return NotFound();
+                        //}
+
+                        var utilizador = await _context.Utilizadors.FindAsync(id);
+                        if (utilizador == null)
+                        {
+                            return NotFound();
+                        }
+                        return View(utilizador);
+
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Utilizador");
+                }
+
+            }
+            else if (isBloqueado == "login")
+            {
+                return RedirectToAction("Login", "Utilizador");
+            }
+            else
+            {
+                return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = isBloqueado }));
+
+            }
+
+
+
+        }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -449,35 +475,7 @@ namespace LabProject.Controllers
             return View(utilizador);
         }
 
-        // GET: Utilizador/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var utilizador = await _context.Utilizadors
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (utilizador == null)
-            {
-                return NotFound();
-            }
-
-            return View(utilizador);
-        }
-
-        // POST: Utilizador/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var utilizador = await _context.Utilizadors.FindAsync(id);
-            _context.Utilizadors.Remove(utilizador);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
+      
         private bool UtilizadorExists(int id)
         {
             return _context.Utilizadors.Any(e => e.Id == id);
