@@ -28,6 +28,8 @@ namespace LabProject.Controllers
         public string CheckBloqueado()
         {
             string _id = HttpContext.Session.GetString("Id");
+            if (_id == null)
+                return "NaoAutenticado";
             try
             {
                 int id = Convert.ToInt32(_id);
@@ -46,7 +48,7 @@ namespace LabProject.Controllers
 
 
 
-            return "true";
+            return "false";
         }
 
         //Login
@@ -182,6 +184,9 @@ namespace LabProject.Controllers
         {
             return View();
         }
+
+
+
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -224,45 +229,101 @@ namespace LabProject.Controllers
         //GET
         public IActionResult RegistarAdmin()
         {
-            return View();
+            string isBloqueado = CheckBloqueado();
+            if (isBloqueado == "false")
+            {
+                if (HttpContext.Session.GetString("Tipo") == "Admin")              
+					{
+
+
+                    return View();
+
+                }         
+                else
+                {
+                    return RedirectToAction("Login", "Utilizador");
+                }
+
+            }
+            else if(isBloqueado == "NaoAutenticado")
+            {
+                return RedirectToAction("Login", "Utilizador");
+            }
+            else
+            {
+                return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = isBloqueado }));
+
+            }
+
+
+            
         }
+
+
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegistarAdmin([Bind("Id,Name,Email,Username,Password")] Utilizador utilizador, IFormFile files)
         {
-            if (ModelState.IsValid)
+
+            string isBloqueado = CheckBloqueado();
+            if (isBloqueado == "false")
             {
-                try
+                if (HttpContext.Session.GetString("Tipo") == "Admin")
                 {
-                    Random numAleatorio = new Random();
-                    int valorInteiro = numAleatorio.Next(10000, 100000);
-                    string NomeFicheiro = valorInteiro + Path.GetFileName(files.FileName);
+                    if (ModelState.IsValid)
+                    {
+                        try
+                        {
+                            Random numAleatorio = new Random();
+                            int valorInteiro = numAleatorio.Next(10000, 100000);
+                            string NomeFicheiro = valorInteiro + Path.GetFileName(files.FileName);
 
-                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
+                            string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
 
-                    FileStream fs = new FileStream(uploads, FileMode.Create);
+                            FileStream fs = new FileStream(uploads, FileMode.Create);
 
-                    files.CopyTo(fs);
-                    fs.Close();
+                            files.CopyTo(fs);
+                            fs.Close();
 
-                    utilizador.Imagem = Path.GetFileName(files.FileName);
-                    HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                            utilizador.Imagem = Path.GetFileName(files.FileName);
+                            HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                        }
+                        catch (Exception)
+                        {
+                        }
+                        _context.Add(utilizador);
+                        await _context.SaveChangesAsync();
+                        int adminId = utilizador.Id;
+                        Administrador admin = new Administrador();
+                        admin.UtilizadorId = adminId;
+                        _context.Add(admin);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+
+                    return View(utilizador);
+
                 }
-                catch (Exception)
+                else
                 {
+                    return RedirectToAction("Login", "Utilizador");
                 }
-                _context.Add(utilizador);
-                await _context.SaveChangesAsync();
-                int adminId = utilizador.Id;
-                Administrador admin = new Administrador();
-                admin.UtilizadorId = adminId;
-                _context.Add(admin);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+            }
+            else if (isBloqueado == "NaoAutenticado")
+            {
+                return RedirectToAction("Login", "Utilizador");
+            }
+            else
+            {
+                return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = isBloqueado }));
+
             }
 
-            return View(utilizador);
+           
         }
 
         //Nao deve ser preciso o que esta para baixo
@@ -270,9 +331,9 @@ namespace LabProject.Controllers
         public async Task<IActionResult> VerUtilizadores(string tipo)
         {
             //Verifica se utilizador atual está Bloqueado
-            //Retorn "true" ou "{motivo}"
+            //Retorn "false" ou "{motivo}"
             string isBloqueado = CheckBloqueado();
-            if (isBloqueado == "true")
+            if (isBloqueado == "false")
             {
                 if (HttpContext.Session.GetString("Tipo") == "Admin")
                     if (tipo != "Restaurantes")
@@ -292,14 +353,14 @@ namespace LabProject.Controllers
                         return View(await Pessoas.ToListAsync());
 
                     }
-                
+
                 else
                 {
                     return RedirectToAction("Login", "Utilizador");
                 }
 
             }
-            else if(isBloqueado == "login")
+            else if (isBloqueado == "NaoAutenticado")
             {
                 return RedirectToAction("Login", "Utilizador");
             }
@@ -317,7 +378,7 @@ namespace LabProject.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             string isBloqueado = CheckBloqueado();
-            if (isBloqueado == "true")
+            if (isBloqueado == "false")
             {
                 if (HttpContext.Session.GetString("Tipo") == "Admin")
                 {
@@ -343,7 +404,7 @@ namespace LabProject.Controllers
                 }
 
             }
-            else if (isBloqueado == "login")
+            else if (isBloqueado == "NaoAutenticado")
             {
                 return RedirectToAction("Login", "Utilizador");
             }
@@ -377,23 +438,25 @@ namespace LabProject.Controllers
         public async Task<IActionResult> EditOwn()
         {
             string isBloqueado = CheckBloqueado();
-            if (isBloqueado == "true")
+            if (isBloqueado == "false")
             {
-                if (HttpContext.Session.GetString("Tipo") == "Cliente")
+                if (HttpContext.Session.GetString("Tipo") == "Cliente" || HttpContext.Session.GetString("Tipo") == "Admin")
                 {
 
-                        int id = Convert.ToInt32(HttpContext.Session.GetString("Id"));
-                        //if (id == null)
-                        //{
-                        //    return NotFound();
-                        //}
+                    int id = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+                    //if (id == null)
+                    //{
+                    //    return NotFound();
+                    //}
 
-                        var utilizador = await _context.Utilizadors.FindAsync(id);
-                        if (utilizador == null)
-                        {
-                            return NotFound();
-                        }
-                        return View(utilizador);
+                    var utilizador = await _context.Utilizadors.FindAsync(id);
+                    if (utilizador == null)
+                    {
+                        return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                new { controller = "Utilizador", action = "Bloqueado", Motivo = "Algo deu Errado. Por favor reinicie a página." }));
+
+                    }
+                    return View(utilizador);
 
                 }
                 else
@@ -402,7 +465,7 @@ namespace LabProject.Controllers
                 }
 
             }
-            else if (isBloqueado == "login")
+            else if (isBloqueado == "NaoAutenticado")
             {
                 return RedirectToAction("Login", "Utilizador");
             }
@@ -423,59 +486,89 @@ namespace LabProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditOwn(int id, [Bind("Id,Name,Email,Username,Password,Notificacao")] Utilizador utilizador, IFormFile files)
         {
-            if (id != utilizador.Id)
-            {
-                return NotFound();
-            }
 
-            if (ModelState.IsValid)
+            string isBloqueado = CheckBloqueado();
+            if (isBloqueado == "false")
             {
-                try
+                if (HttpContext.Session.GetString("Tipo") == "Cliente" || HttpContext.Session.GetString("Tipo") == "Admin")
                 {
-                    try
+
+
+                    if (id != utilizador.Id)
                     {
-                        if (files != null)
+                        return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                        new { controller = "Utilizador", action = "Bloqueado", Motivo = "Algo deu Errado. Por favor reinicie a página." }));
+                    }
+
+                    if (ModelState.IsValid)
+                    {
+                        try
                         {
-                            Random numAleatorio = new Random();
-                            int valorInteiro = numAleatorio.Next(100, 1000);
-                            string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
+                            try
+                            {
+                                if (files != null)
+                                {
+                                    Random numAleatorio = new Random();
+                                    int valorInteiro = numAleatorio.Next(100, 1000);
+                                    string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
 
-                            string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
+                                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
 
-                            FileStream fs = new FileStream(uploads, FileMode.Create);
+                                    FileStream fs = new FileStream(uploads, FileMode.Create);
 
-                            files.CopyTo(fs);
-                            fs.Close();
+                                    files.CopyTo(fs);
+                                    fs.Close();
 
-                            utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
-                            HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                                    utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                                    HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                                }
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                            utilizador.Imagem = HttpContext.Session.GetString("Imagem");
+                            _context.Update(utilizador);
+                            await _context.SaveChangesAsync();
                         }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                            if (!UtilizadorExists(utilizador.Id))
+                            {
+                                return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                        new { controller = "Utilizador", action = "Bloqueado", Motivo = "Algo deu Errado. Por favor reinicie a página." }));
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+                        return RedirectToAction("Index", "Home");
                     }
-                    catch (Exception)
-                    {
+                    return View(utilizador);
 
-                    }
-                    utilizador.Imagem = HttpContext.Session.GetString("Imagem");
-                    _context.Update(utilizador);
-                    await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!UtilizadorExists(utilizador.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return RedirectToAction("Login", "Utilizador");
                 }
-                return RedirectToAction("Index", "Home");
+
             }
-            return View(utilizador);
+            else if (isBloqueado == "NaoAutenticado")
+            {
+                return RedirectToAction("Login", "Utilizador");
+            }
+            else
+            {
+                return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = isBloqueado }));
+
+            }
+
+
         }
 
-      
+
         private bool UtilizadorExists(int id)
         {
             return _context.Utilizadors.Any(e => e.Id == id);
