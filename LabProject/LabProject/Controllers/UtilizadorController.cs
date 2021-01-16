@@ -480,5 +480,37 @@ namespace LabProject.Controllers
         {
             return _context.Utilizadors.Any(e => e.Id == id);
         }
+
+        // GET: Restaurantes/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            var utilizador = await _context.Utilizadors
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (utilizador == null)
+            {
+                return NotFound();
+            }
+
+            return View(utilizador);
+        }
+
+        // POST: Restaurantes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string Motivo, int id)
+        {
+            var utilizador = await _context.Utilizadors.FindAsync(id);
+            utilizador.Motivo = Motivo;
+            utilizador.Bloqueado = true;
+            _context.Utilizadors.Update(utilizador);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("VerUtilizadores", "Utilizador");
+        }
     }
 }
