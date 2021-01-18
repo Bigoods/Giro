@@ -7,40 +7,67 @@
 <link rel="stylesheet" href="~/css/registo_style.css">
 <link rel="stylesheet" href="~/css/Grid_style.css">
 <div class="form-group">
-    <a class="button botao-selecionado" id="1" onclick="change_button_selected1" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Clientes" style="width: 35%;">Cliente</a>
-    <a class="button" id="2" onclick="change_button_selected2" style="width: 35%;" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Restaurantes">Restaurante</a>
+    @if (ViewBag.isClient == "Desbloquear")
+    {
+        <a class="button" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Clientes" style="width: 35%;">Cliente</a>
+        <a class="button" style="width: 35%;" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Restaurantes">Restaurante</a>
+        <a class="button botao-selecionado" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Desbloquear" style="width: 35%;">Desbloquear</a>
+    }
+    else if (ViewBag.isClient == "Restaurante")
+    {
+        <a class="button" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Clientes" style="width: 35%;">Cliente</a>
+        <a class="button botao-selecionado" style="width: 35%;" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Restaurantes">Restaurante</a>
+        <a class="button" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Desbloquear" style="width: 35%;">Desbloquear</a>
+    }
+    else
+    {
+        <a class="button botao-selecionado" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Clientes" style="width: 35%;">Cliente</a>
+        <a class="button" style="width: 35%;" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Restaurantes">Restaurante</a>
+        <a class="button" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Desbloquear" style="width: 35%;">Desbloquear</a>
+    }
+
+
 </div>
 
 @foreach (var item in Model)
 {
-    <div class="VerUtilizadoresRow" >
-        <div class="VerUtilizadoresElement" style="width:100px; background-image:url('../../Images/Utilizadores/@Html.DisplayFor(modelItem => item.Imagem)')"></div>
-        <div class="VerUtilizadoresElement"style="min-width:200px;">
-            @Html.DisplayFor(modelItem => item.Name)
-        </div>
+<div class="VerUtilizadoresRow">
+    <div class="VerUtilizadoresElement" style="width:100px; background-image:url('../../Images/Utilizadores/@Html.DisplayFor(modelItem => item.Imagem)')"></div>
+    <div class="VerUtilizadoresElement" style="min-width:200px;">
+        @Html.DisplayFor(modelItem => item.Name)
+    </div>
 
+    <div class="VerUtilizadoresElement">
+        <a class="button" asp-controller="Utilizador" asp-action="Details" asp-route-id="@item.Id" style="width: 30px;height:30px;">Ver Perfil</a>
+    </div>
+    @if (ViewBag.isClient == "Desbloquear")
+    {
         <div class="VerUtilizadoresElement">
-            <a class="button" asp-controller="Utilizador" asp-action="Details" asp-route-id="@item.Id" style="width: 30px;height:30px;">Ver Perfil</a>
+            <a class="button" asp-controller="Utilizador" asp-action="Desbloquear" asp-route-id="@item.Id" style="width: 30px;height:30px; color: green;">Desbloquear</a>
         </div>
-
+    }
+    else
+    {
         <div class="VerUtilizadoresElement">
             <a class="button" asp-controller="Utilizador" asp-action="Delete" asp-route-id="@item.Id" style="width: 30px;height:30px; color: red;">Bloquear</a>
         </div>
-    </div>
+    }
+
+</div>
 }
 
 
 <script>
-    function change_button_selected1() {
+    //function change_button_selected1() {
 
-        document.getElementById("1").classList.add("botao-selecionado");
-        document.getElementById("2").classList.remove("botao-selecionado");
-    }
-    function change_button_selected2() {
+    //    document.getElementById("1").classList.add("botao-selecionado");
+    //    document.getElementById("2").classList.remove("botao-selecionado");
+    //}
+    //function change_button_selected2() {
 
-        document.getElementById("1").classList.remove("botao-selecionado");
-        document.getElementById("2").classList.add("botao-selecionado");
-    }
+    //    document.getElementById("1").classList.remove("botao-selecionado");
+    //    document.getElementById("2").classList.add("botao-selecionado");
+    //}
 
 
 

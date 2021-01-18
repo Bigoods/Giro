@@ -304,7 +304,7 @@ namespace LabProject.Controllers
            
         }
 
-        //Nao deve ser preciso o que esta para baixo
+        
 
         public async Task<IActionResult> VerUtilizadores(string tipo)
         {
@@ -313,22 +313,27 @@ namespace LabProject.Controllers
             switch (Status)
             {
                 case "Admin":
-                        if (tipo != "Restaurantes")
+                        if (tipo == "Desbloquear")
                         {
-                            var Pessoas = (from cliente in _context.Clientes
-                                           join Utilizador in _context.Utilizadors on cliente.UtilizadorId equals Utilizador.Id
-                                           select Utilizador);
-
-                            return View(await Pessoas.ToListAsync());
+                            ViewBag.isClient = tipo;
+                            return View(await _context.Utilizadors.Where(x => x.Bloqueado == true).ToListAsync());
+                        
                         }
-                        else
+                        else if(tipo == "Restaurantes")
                         {
                             var Pessoas = (from restaurante in _context.Restaurantes
                                            join Utilizador in _context.Utilizadors on restaurante.UtilizadorId equals Utilizador.Id
                                            select Utilizador);
+                            ViewBag.isClient = tipo;
+                            return View(await Pessoas.Where(x => x.Bloqueado == false).ToListAsync());
 
-                            return View(await Pessoas.ToListAsync());
-
+                        }
+                        else
+                        {
+                            var Pessoas = (from cliente in _context.Clientes
+                                           join Utilizador in _context.Utilizadors on cliente.UtilizadorId equals Utilizador.Id
+                                           select Utilizador);
+                            return View(await Pessoas.Where(x => x.Bloqueado == false).ToListAsync());
                         }
 
                 case "Cliente":
@@ -578,6 +583,69 @@ namespace LabProject.Controllers
 
 
 
+        }
+        public async Task<IActionResult> Desbloquear(int? id)
+        {
+            string Status = CheckStatus();
+
+            switch (Status)
+            {
+                case "Admin":
+                    if (id == null)
+                    {
+                        return NotFound();
+                    }
+
+
+                    var utilizador = await _context.Utilizadors
+                        .FirstOrDefaultAsync(m => m.Id == id);
+                    if (utilizador == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return View(utilizador);
+
+                case "Cliente":
+                case "Restaurante":
+                case "NaoAutenticado":
+                    return RedirectToAction("Login", "Utilizador");
+
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
+            }
+
+
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Desbloquear(int id)
+        {
+            string Status = CheckStatus();
+
+            switch (Status)
+            {
+                case "Admin":
+
+                    var utilizador = await _context.Utilizadors.FindAsync(id);
+                    
+                    utilizador.Bloqueado = false;
+                    utilizador.Motivo = null;
+                    _context.Utilizadors.Update(utilizador);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("VerUtilizadores", "Utilizador");
+
+                case "Cliente":
+                case "Restaurante":
+                case "NaoAutenticado":
+                    return RedirectToAction("Login", "Utilizador");
+
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
+            }
         }
     }
 }
