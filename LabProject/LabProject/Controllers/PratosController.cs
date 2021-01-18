@@ -10,6 +10,7 @@ using LabProject.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 
 namespace LabProject.Controllers
 {
@@ -23,24 +24,57 @@ namespace LabProject.Controllers
             _context = context;
         }
 
+
+        public string CheckStatus()
+        {
+            string _id = HttpContext.Session.GetString("Id");
+
+            if (_id == null)
+                return "NaoAutenticado";
+
+            try
+            {
+                int id = Convert.ToInt32(_id);
+
+                var Utilizador = (from utilizador in _context.Utilizadors
+                                  where utilizador.Id == id
+                                  select utilizador).FirstOrDefault();
+                if (Utilizador.Bloqueado == true)
+                    return "Utilizador Bloqueado. Motivo: " + Utilizador.Motivo;
+
+            }
+            catch { }
+
+            return HttpContext.Session.GetString("Tipo");
+        }
+
+
+
         // GET: Pratos
         public async Task<IActionResult> Index()
         {
-            var labProject_Database = _context.Pratos.Include(p => p.TipoPrato);
+            string Status = CheckStatus();
 
-            //foreach(Prato p in labProject_Database)
-            //{
-            //    var Imagem = (from restaurantePratos in _context.RestaurantePratos
-            //                     where (restaurantePratos.Id == p.Id)                                                  
-            //                     select restaurantePratos.Foto).Take(1);
-
-
-            //} 
-
-            labProject_Database.Include(p => p.RestaurantePratos.Take(1));
+            switch (Status)
+            {
+                case "Admin":
+                case "Cliente":
+                case "Restaurante":
+                case "NaoAutenticado":
+                    var labProject_Database = _context.Pratos.Include(p => p.TipoPrato);
+                    labProject_Database.Include(p => p.RestaurantePratos.Take(1));
 
 
-            return View(await labProject_Database.ToListAsync());
+                    return View(await labProject_Database.ToListAsync());
+
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
+            }
+
+
+
+
         }
 
         public string Truncate(string yourString, int maxLength)
@@ -72,123 +106,130 @@ namespace LabProject.Controllers
 
         public async Task<IActionResult> Pratos(string searchString, DateTime SearchData)
         {
+            string Status = CheckStatus();
 
-            ViewData["CurrentFilter"] = searchString;
-
-            if (SearchData == DateTime.MinValue)
-                SearchData = DateTime.Now.Date;
-
-            ViewData["SearchData"] = SearchData.ToString("MM-dd-yyyy");
-
-            //var labProject_Database = (from prato in _context.Pratos
-            //                               //join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
-            //                           from restaurantePrato in _context.RestaurantePratos.Where(a => a.Dia == DateTime.Now.Date)
-            //                           where restaurantePrato.PratoId == prato.Id
-            //                           select prato);
-            ////new Prato
-            ////{
-            ////    Id = prato.Id,
-            ////    Nome = prato.Nome,
-            ////    TipoPratoId = prato.TipoPratoId,
-            ////    TipoPrato = prato.TipoPrato,
-            ////    RestaurantePratos = prato.RestaurantePratos,
-            ////    Foto = prato.Foto
-            ////});
-
-
-
-            //var labProject_Database = _context.Pratos.Where(t => _context.RestaurantePratos.Any(a => a.PratoId == t.Id && a.Dia == DateTime.Now.Date));
-
-            var labProject_Database = _context.Pratos.Where(t => _context.RestaurantePratos.Any(a => a.PratoId == t.Id && a.Dia == SearchData));
-
-
-            if (!String.IsNullOrEmpty(searchString))
+            switch (Status)
             {
-                labProject_Database = labProject_Database.Where(s => s.Nome.ToUpper().Contains(searchString.ToUpper()) || s.TipoPrato.Nome.ToUpper().Contains(searchString.ToUpper()));
+                case "Admin":
+                case "Cliente":
+                case "Restaurante":
+                case "NaoAutenticado":
 
+                    ViewData["CurrentFilter"] = searchString;
+
+                    if (SearchData == DateTime.MinValue)
+                        SearchData = DateTime.Now.Date;
+
+                    ViewData["SearchData"] = SearchData.ToString("MM-dd-yyyy");
+
+                    var labProject_Database = _context.Pratos.Where(t => _context.RestaurantePratos.Any(a => a.PratoId == t.Id && a.Dia == SearchData));
+
+
+                    if (!String.IsNullOrEmpty(searchString))
+                    {
+                        labProject_Database = labProject_Database.Where(s => s.Nome.ToUpper().Contains(searchString.ToUpper()) || s.TipoPrato.Nome.ToUpper().Contains(searchString.ToUpper()));
+
+                    }
+
+
+                    foreach (Prato p in labProject_Database)
+                    {
+                        p.Foto = @"../Images/Pratos/" + p.Foto.ToString();
+                        p.Nome = Truncate(p.Nome, 14);
+                    }
+
+
+                    return View(await labProject_Database.ToListAsync());
+
+
+                    return View(await labProject_Database.ToListAsync());
+
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
 
 
-            foreach (Prato p in labProject_Database)
-            {
-                p.Foto = @"../Images/Pratos/" + p.Foto.ToString();
-                p.Nome = Truncate(p.Nome, 14);
-            }
 
-            //    break;
-            //case "Date":
-            //    students = students.OrderBy(s => s.EnrollmentDate);
-            //    break;
-            //case "date_desc":
-            //    students = students.OrderByDescending(s => s.EnrollmentDate);
-            //    break;
-            //default:
-            //    students = students.OrderBy(s => s.LastName);
-            //    break;
-
-            return View(await labProject_Database.ToListAsync());
         }
         public async Task<IActionResult> MeusPratos(string searchString, DateTime SearchData)
         {
 
-            ViewData["CurrentFilter"] = searchString;
+            string Status = CheckStatus();
 
-            if (SearchData == DateTime.MinValue)
-                SearchData = DateTime.Now.Date;
-
-            ViewData["SearchData"] = SearchData.ToString("MM-dd-yyyy");
-
-
-            if (HttpContext.Session.GetString("Id") == null)
+            switch (Status)
             {
-                return NotFound();
+                
+                case "Restaurante":
+                    ViewData["CurrentFilter"] = searchString;
+
+                    if (SearchData == DateTime.MinValue)
+                        SearchData = DateTime.Now.Date;
+
+                    ViewData["SearchData"] = SearchData.ToString("MM-dd-yyyy");
+
+
+                    if (HttpContext.Session.GetString("Id") == null)
+                    {
+                        return NotFound();
+                    }
+
+                    int id = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+
+
+                    RestaurantePratosPertence Restaurante = new RestaurantePratosPertence();
+
+                    Restaurante.Restaurante = await _context.Restaurantes
+                        .Include(r => r.Utilizador)
+                                .FirstOrDefaultAsync(m => m.UtilizadorId == id);
+
+                    if (Restaurante.Restaurante == null)
+                    {
+                        return NotFound();
+                    }
+
+
+
+
+                    var Pratos = (from prato in _context.Pratos
+                                  join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
+                                  where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id && restaurantePrato.Dia == SearchData
+                                  select new PratoIndividual
+                                  {
+                                      Id = prato.Id,
+                                      Nome = prato.Nome,
+                                      Preco = restaurantePrato.Preco,
+                                      TipoPratoId = prato.TipoPratoId,
+                                      TipoPrato = prato.TipoPrato,
+                                      RestaurantePratos = prato.RestaurantePratos,
+                                      Descricao = restaurantePrato.Descricao,
+                                      Foto = restaurantePrato.Foto,
+                                      Dia = restaurantePrato.Dia
+                                  }).OrderByDescending(x => x.Dia);
+
+
+                    Restaurante.Pratos = Pratos.ToList();
+
+                    if (!String.IsNullOrEmpty(searchString))
+                    {
+                        Restaurante.Pratos = Pratos.Where(s => s.Nome.ToUpper().Contains(searchString.ToUpper()) || s.TipoPrato.Nome.ToUpper().Contains(searchString.ToUpper())).ToList();
+                    }
+
+
+
+
+                    return View(Restaurante);
+                case "NaoAutenticado":
+                case "Admin":
+                case "Cliente":
+                    return RedirectToAction("Login", "Utilizador");
+
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
 
-            int id = Convert.ToInt32(HttpContext.Session.GetString("Id"));
-
-
-            RestaurantePratosPertence Restaurante = new RestaurantePratosPertence();
-
-            Restaurante.Restaurante = await _context.Restaurantes
-                .Include(r => r.Utilizador)
-                        .FirstOrDefaultAsync(m => m.UtilizadorId == id);
-
-            if (Restaurante.Restaurante == null)
-            {
-                return NotFound();
-            }
-
-
-
-
-            var Pratos = (from prato in _context.Pratos
-                                join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
-                                where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id && restaurantePrato.Dia == SearchData
-                                select new PratoIndividual
-                                {
-                                    Id = prato.Id,
-                                    Nome = prato.Nome,
-                                    Preco = restaurantePrato.Preco,
-                                    TipoPratoId = prato.TipoPratoId,
-                                    TipoPrato = prato.TipoPrato,
-                                    RestaurantePratos = prato.RestaurantePratos,
-                                    Descricao = restaurantePrato.Descricao,
-                                    Foto = restaurantePrato.Foto,
-                                    Dia = restaurantePrato.Dia
-                                }).OrderByDescending(x => x.Dia);
-
-
-            Restaurante.Pratos = Pratos.ToList();
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                Restaurante.Pratos = Pratos.Where(s => s.Nome.ToUpper().Contains(searchString.ToUpper()) || s.TipoPrato.Nome.ToUpper().Contains(searchString.ToUpper())).ToList();
-            }
-
-
-
-
-            return View(Restaurante);
+           
 
         }
 
@@ -198,6 +239,12 @@ namespace LabProject.Controllers
 
         public async Task<IActionResult> MeusPratosHoje()
         {
+            string Status = CheckStatus();
+
+            switch (Status)
+            {
+                case "Restaurante":
+                    
             if (HttpContext.Session.GetString("Id") == null)
             {
                 return NotFound();
@@ -239,92 +286,136 @@ namespace LabProject.Controllers
 
 
             return View(Restaurante);
+                case "Admin":
+                case "Cliente":
+                case "NaoAutenticado":
+                    return RedirectToAction("Login", "Utilizador");
+
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
+            }
+
+
+
 
         }
 
 
         public async Task<IActionResult> CriarHoje(string searchString, DateTime SearchData)
         {
+            string Status = CheckStatus();
 
-            ViewData["CurrentFilter"] = searchString;
-
-            if (SearchData == DateTime.MinValue)
-                SearchData = DateTime.Now.Date;
-
-            ViewData["SearchData"] = SearchData.ToString("MM-dd-yyyy");
-
-
-            if (HttpContext.Session.GetString("Id") == null)
+            switch (Status)
             {
-                return NotFound();
+                case "Restaurante":
+                    ViewData["CurrentFilter"] = searchString;
+
+                    if (SearchData == DateTime.MinValue)
+                        SearchData = DateTime.Now.Date;
+
+                    ViewData["SearchData"] = SearchData.ToString("MM-dd-yyyy");
+
+
+                    if (HttpContext.Session.GetString("Id") == null)
+                    {
+                        return NotFound();
+                    }
+
+                    int id = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+
+
+                    RestaurantePratosPertence Restaurante = new RestaurantePratosPertence();
+
+                    Restaurante.Restaurante = await _context.Restaurantes
+                        .Include(r => r.Utilizador)
+                                .FirstOrDefaultAsync(m => m.UtilizadorId == id);
+
+                    if (Restaurante.Restaurante == null)
+                    {
+                        return NotFound();
+                    }
+
+
+
+
+                    List<PratoIndividual> Pratos = await (from prato in _context.Pratos
+                                                          join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
+                                                          where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id && restaurantePrato.Dia == SearchData
+                                                          select new PratoIndividual
+                                                          {
+                                                              Id = prato.Id,
+                                                              Nome = prato.Nome,
+                                                              Preco = restaurantePrato.Preco,
+                                                              TipoPratoId = prato.TipoPratoId,
+                                                              TipoPrato = prato.TipoPrato,
+                                                              RestaurantePratos = prato.RestaurantePratos,
+                                                              Descricao = restaurantePrato.Descricao,
+                                                              Foto = restaurantePrato.Foto,
+                                                          }).ToListAsync();
+
+                    Restaurante.Pratos = Pratos;
+
+
+
+                    return View(Restaurante);
+                case "Admin":
+                case "Cliente":
+                case "NaoAutenticado":
+                    return RedirectToAction("Login", "Utilizador");
+
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
 
-            int id = Convert.ToInt32(HttpContext.Session.GetString("Id"));
-
-
-            RestaurantePratosPertence Restaurante = new RestaurantePratosPertence();
-
-            Restaurante.Restaurante = await _context.Restaurantes
-                .Include(r => r.Utilizador)
-                        .FirstOrDefaultAsync(m => m.UtilizadorId == id);
-
-            if (Restaurante.Restaurante == null)
-            {
-                return NotFound();
-            }
-
-
-
-
-            List<PratoIndividual> Pratos = await (from prato in _context.Pratos
-                                                  join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
-                                                  where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id && restaurantePrato.Dia == SearchData
-                                                  select new PratoIndividual
-                                                  {
-                                                      Id = prato.Id,
-                                                      Nome = prato.Nome,
-                                                      Preco = restaurantePrato.Preco,
-                                                      TipoPratoId = prato.TipoPratoId,
-                                                      TipoPrato = prato.TipoPrato,
-                                                      RestaurantePratos = prato.RestaurantePratos,
-                                                      Descricao = restaurantePrato.Descricao,
-                                                      Foto = restaurantePrato.Foto,
-                                                  }).ToListAsync();
-
-            Restaurante.Pratos = Pratos;
-
-
-
-            return View(Restaurante);
+            
         }
 
         public async Task<IActionResult> SubmeterPratoExistente(int? id)
         {
+            string Status = CheckStatus();
 
-            if (id == null)
+            switch (Status)
             {
-                return NotFound();
+                case "Restaurante":
+                    if (id == null)
+                    {
+                        return NotFound();
+                    }
+
+                    PratoIndividual Prato = await (from prato in _context.Pratos
+                                                   join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
+                                                   join restaurantes in _context.Restaurantes on restaurantePrato.RestauranteId equals restaurantes.Id
+                                                   where id == prato.Id && restaurantes.UtilizadorId == Convert.ToInt32(HttpContext.Session.GetString("Id"))
+                                                   select new PratoIndividual
+                                                   {
+                                                       Id = prato.Id,
+                                                       Nome = prato.Nome,
+                                                       Preco = restaurantePrato.Preco,
+                                                       TipoPratoId = prato.TipoPratoId,
+                                                       TipoPrato = prato.TipoPrato,
+                                                       RestaurantePratos = prato.RestaurantePratos,
+                                                       Descricao = restaurantePrato.Descricao,
+                                                       Foto = restaurantePrato.Foto,
+                                                   }).FirstOrDefaultAsync();
+
+
+
+                    return View(Prato);
+
+                case "Admin":
+                case "Cliente":
+                case "NaoAutenticado":
+                    return RedirectToAction("Login", "Utilizador");
+
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
 
-            PratoIndividual Prato = await (from prato in _context.Pratos
-                                           join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
-                                           join restaurantes in _context.Restaurantes on restaurantePrato.RestauranteId equals restaurantes.Id
-                                           where id == prato.Id && restaurantes.UtilizadorId == Convert.ToInt32(HttpContext.Session.GetString("Id"))
-                                           select new PratoIndividual
-                                           {
-                                               Id = prato.Id,
-                                               Nome = prato.Nome,
-                                               Preco = restaurantePrato.Preco,
-                                               TipoPratoId = prato.TipoPratoId,
-                                               TipoPrato = prato.TipoPrato,
-                                               RestaurantePratos = prato.RestaurantePratos,
-                                               Descricao = restaurantePrato.Descricao,
-                                               Foto = restaurantePrato.Foto,
-                                           }).FirstOrDefaultAsync();
 
-
-
-            return View(Prato);
+          
         }
 
         [HttpPost]
@@ -394,234 +485,105 @@ namespace LabProject.Controllers
         // GET: Pratos favoritos
         public async Task<IActionResult> PratosFavoritos(string searchString)
         {
-            if (HttpContext.Session.GetString("Tipo") == "Cliente")
+            string Status = CheckStatus();
+
+            switch (Status)
             {
+                case "Cliente":
+                
+                    ViewData["CurrentFilter"] = searchString;
+
+                    var labProject_Database = (from pratos in _context.Pratos
+                                               join cliente in _context.Clientes on Convert.ToInt32(HttpContext.Session.GetString("Id")) equals cliente.UtilizadorId
+                                               join pratofavorito in _context.PratoClientes on pratos.Id equals pratofavorito.PratoId
+                                               where pratofavorito.ClienteId == cliente.Id
+                                               select pratos);
+
+                    if (!String.IsNullOrEmpty(searchString))
+                    {
+                        labProject_Database = labProject_Database.Where(s => s.Nome.ToUpper().Contains(searchString.ToUpper()) || s.TipoPrato.Nome.ToUpper().Contains(searchString.ToUpper()));
+
+                    }
+
+                    foreach (Prato p in labProject_Database)
+                    {
+                        p.Foto = @"../Images/Pratos/" + p.Foto.ToString();
+                        p.Nome = Truncate(p.Nome, 14);
+                    }
 
 
-                ViewData["CurrentFilter"] = searchString;
+                    return View(await labProject_Database.ToListAsync());
 
-                var labProject_Database = (from pratos in _context.Pratos
-                                           join cliente in _context.Clientes on Convert.ToInt32(HttpContext.Session.GetString("Id")) equals cliente.UtilizadorId
-                                           join pratofavorito in _context.PratoClientes on pratos.Id equals pratofavorito.PratoId
-                                           where pratofavorito.ClienteId == cliente.Id
-                                           select pratos);
+                case "Admin":
+                case "Restaurante":
+                case "NaoAutenticado":
+                    return RedirectToAction("Login", "Utilizador");
 
-                if (!String.IsNullOrEmpty(searchString))
-                {
-                    labProject_Database = labProject_Database.Where(s => s.Nome.ToUpper().Contains(searchString.ToUpper()) || s.TipoPrato.Nome.ToUpper().Contains(searchString.ToUpper()));
-
-                }
-
-                foreach (Prato p in labProject_Database)
-                {
-                    p.Foto = @"../Images/Pratos/" + p.Foto.ToString();
-                    p.Nome = Truncate(p.Nome, 14);
-                }
-
-                //    break;
-                //case "Date":
-                //    students = students.OrderBy(s => s.EnrollmentDate);
-                //    break;
-                //case "date_desc":
-                //    students = students.OrderByDescending(s => s.EnrollmentDate);
-                //    break;
-                //default:
-                //    students = students.OrderBy(s => s.LastName);
-                //    break;
-
-                return View(await labProject_Database.ToListAsync());
-
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
-            else
-            {
-                return NotFound();
-            }
+
+
 
 
         }
 
 
-        //public async Task<IActionResult> VerPrato(int? id)
-        //{
-        //    var prato = (from pratos in _context.Pratos
-        //                               where pratos.Id == id
-        //                               select pratos);
-
-
-        //    TempData["PratoEscolhido"] = prato.ToList()[0];
-
-        //    var labProject_Database = _context.Restaurantes;
-
-
-
-        //    return View(await labProject_Database.ToListAsync());
-
-
-        //}
+       
 
         public async Task<IActionResult> VerPrato(int? id, DateTime? SearchData)
         {
-            // ViewData["SearchData"] = SearchData;
+            string Status = CheckStatus();
 
-            if (SearchData == DateTime.MinValue || SearchData == null)
-                SearchData = DateTime.Now.Date;
-
-            if (id == null)
+            switch (Status)
             {
-                return NotFound();
-            }
+                case "Admin":
+                case "Cliente":
+                case "Restaurante":
+                case "NaoAutenticado":
+                    if (SearchData == DateTime.MinValue || SearchData == null)
+                        SearchData = DateTime.Now.Date;
 
-            var prato = (from pratos in _context.Pratos
-                         where pratos.Id == id
-                         select pratos);
-
-
-            Prato _p = prato.ToList()[0];
-            //_p.Nome = Truncate(_p.Nome, 1);
-            ViewData["PratoEscolhido"] = _p;
-
-
-
-
-            //var labProject_Database = _context.Restaurantes;
-            var labProject_Database = (from restaurante in _context.Restaurantes
-                                       join restaurantePrato in _context.RestaurantePratos on restaurante.Id equals restaurantePrato.RestauranteId
-                                       where restaurantePrato.PratoId == id && restaurantePrato.Dia == SearchData
-                                       select restaurante);
-
-
-
-            return View(await labProject_Database.Include(p => p.Utilizador).Include(p => p.RestaurantePratos).ToListAsync());
-        }
-
-
-
-
-        // GET: Pratos/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var prato = await _context.Pratos
-                .Include(p => p.TipoPrato)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (prato == null)
-            {
-                return NotFound();
-            }
-
-            return View(prato);
-        }
-
-        // GET: Pratos/Create
-        public IActionResult Create()
-        {
-            ViewData["TipoPratoId"] = new SelectList(_context.TipoPratos, "Id", "Nome");
-            return View();
-        }
-
-        // POST: Pratos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Foto,TipoPratoId")] Prato prato)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(prato);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["TipoPratoId"] = new SelectList(_context.TipoPratos, "Id", "Nome", prato.TipoPratoId);
-            return View(prato);
-        }
-
-        // GET: Pratos/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var prato = await _context.Pratos.FindAsync(id);
-            if (prato == null)
-            {
-                return NotFound();
-            }
-            ViewData["TipoPratoId"] = new SelectList(_context.TipoPratos, "Id", "Nome", prato.TipoPratoId);
-            return View(prato);
-        }
-
-        // POST: Pratos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Foto,TipoPratoId")] Prato prato)
-        {
-            if (id != prato.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(prato);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PratoExists(prato.Id))
+                    if (id == null)
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+
+                    var prato = (from pratos in _context.Pratos
+                                 where pratos.Id == id
+                                 select pratos);
+
+
+                    Prato _p = prato.ToList()[0];
+                    //_p.Nome = Truncate(_p.Nome, 1);
+                    ViewData["PratoEscolhido"] = _p;
+
+
+
+
+                    //var labProject_Database = _context.Restaurantes;
+                    var labProject_Database = (from restaurante in _context.Restaurantes
+                                               join restaurantePrato in _context.RestaurantePratos on restaurante.Id equals restaurantePrato.RestauranteId
+                                               where restaurantePrato.PratoId == id && restaurantePrato.Dia == SearchData
+                                               select restaurante);
+
+
+
+                    return View(await labProject_Database.Include(p => p.Utilizador).Include(p => p.RestaurantePratos).ToListAsync());
+
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
-            ViewData["TipoPratoId"] = new SelectList(_context.TipoPratos, "Id", "Nome", prato.TipoPratoId);
-            return View(prato);
+
+
+          
+
+           
         }
 
-        // GET: Pratos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var prato = await _context.Pratos
-                .Include(p => p.TipoPrato)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (prato == null)
-            {
-                return NotFound();
-            }
-
-            return View(prato);
-        }
-
-        // POST: Pratos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var prato = await _context.Pratos.FindAsync(id);
-            _context.Pratos.Remove(prato);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
         private bool PratoExists(int id)
         {

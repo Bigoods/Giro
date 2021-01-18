@@ -25,11 +25,13 @@ namespace LabProject.Controllers
             _he = e;
         }
 
-        public string CheckBloqueado()
+        public string CheckStatus()
         {
             string _id = HttpContext.Session.GetString("Id");
+
             if (_id == null)
                 return "NaoAutenticado";
+
             try
             {
                 int id = Convert.ToInt32(_id);
@@ -41,14 +43,9 @@ namespace LabProject.Controllers
                     return "Utilizador Bloqueado. Motivo: " + Utilizador.Motivo;
 
             }
-            catch (Exception)
-            {
-                return "login";
-            }
+            catch { }
 
-
-
-            return "false";
+            return HttpContext.Session.GetString("Tipo");
         }
 
         //Login
@@ -229,33 +226,22 @@ namespace LabProject.Controllers
         //GET
         public IActionResult RegistarAdmin()
         {
-            string isBloqueado = CheckBloqueado();
-            if (isBloqueado == "false")
+            string Status = CheckStatus();
+
+            switch (Status)
             {
-                if (HttpContext.Session.GetString("Tipo") == "Admin")              
-					{
-
-
+                case "Admin":
                     return View();
 
-                }         
-                else
-                {
+                case "Cliente":
+                case "Restaurante":
+                case "NaoAutenticado":
                     return RedirectToAction("Login", "Utilizador");
-                }
 
-            }
-            else if(isBloqueado == "NaoAutenticado")
-            {
-                return RedirectToAction("Login", "Utilizador");
-            }
-            else
-            {
-                return RedirectToAction("Bloqueado", new RouteValueDictionary(
-                  new { controller = "Utilizador", action = "Bloqueado", Motivo = isBloqueado }));
-
-            }
-
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
+            } 
 
             
         }
@@ -266,12 +252,11 @@ namespace LabProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegistarAdmin([Bind("Id,Name,Email,Username,Password")] Utilizador utilizador, IFormFile files)
         {
+            string Status = CheckStatus();
 
-            string isBloqueado = CheckBloqueado();
-            if (isBloqueado == "false")
+            switch (Status)
             {
-                if (HttpContext.Session.GetString("Tipo") == "Admin")
-                {
+                case "Admin":
                     if (ModelState.IsValid)
                     {
                         try
@@ -305,22 +290,15 @@ namespace LabProject.Controllers
 
                     return View(utilizador);
 
-                }
-                else
-                {
+
+                case "Cliente":
+                case "Restaurante":
+                case "NaoAutenticado":
                     return RedirectToAction("Login", "Utilizador");
-                }
 
-            }
-            else if (isBloqueado == "NaoAutenticado")
-            {
-                return RedirectToAction("Login", "Utilizador");
-            }
-            else
-            {
-                return RedirectToAction("Bloqueado", new RouteValueDictionary(
-                  new { controller = "Utilizador", action = "Bloqueado", Motivo = isBloqueado }));
-
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
 
            
@@ -330,46 +308,41 @@ namespace LabProject.Controllers
 
         public async Task<IActionResult> VerUtilizadores(string tipo)
         {
-            //Verifica se utilizador atual está Bloqueado
-            //Retorn "false" ou "{motivo}"
-            string isBloqueado = CheckBloqueado();
-            if (isBloqueado == "false")
+
+
+            string Status = CheckStatus();
+
+            switch (Status)
             {
-                if (HttpContext.Session.GetString("Tipo") == "Admin")
-                    if (tipo != "Restaurantes")
-                    {
-                        var Pessoas = (from cliente in _context.Clientes
-                                       join Utilizador in _context.Utilizadors on cliente.UtilizadorId equals Utilizador.Id
-                                       select Utilizador);
+                case "Admin":
+                        if (tipo != "Restaurantes")
+                        {
+                            var Pessoas = (from cliente in _context.Clientes
+                                           join Utilizador in _context.Utilizadors on cliente.UtilizadorId equals Utilizador.Id
+                                           select Utilizador);
 
-                        return View(await Pessoas.ToListAsync());
-                    }
-                    else
-                    {
-                        var Pessoas = (from restaurante in _context.Restaurantes
-                                       join Utilizador in _context.Utilizadors on restaurante.UtilizadorId equals Utilizador.Id
-                                       select Utilizador);
+                            return View(await Pessoas.ToListAsync());
+                        }
+                        else
+                        {
+                            var Pessoas = (from restaurante in _context.Restaurantes
+                                           join Utilizador in _context.Utilizadors on restaurante.UtilizadorId equals Utilizador.Id
+                                           select Utilizador);
 
-                        return View(await Pessoas.ToListAsync());
+                            return View(await Pessoas.ToListAsync());
 
-                    }
+                        }
 
-                else
-                {
+                case "Cliente":
+                case "Restaurante":
+                case "NaoAutenticado":
                     return RedirectToAction("Login", "Utilizador");
-                }
 
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
-            else if (isBloqueado == "NaoAutenticado")
-            {
-                return RedirectToAction("Login", "Utilizador");
-            }
-            else
-            {
-                return RedirectToAction("Bloqueado", new RouteValueDictionary(
-                  new { controller = "Utilizador", action = "Bloqueado", Motivo = isBloqueado }));
 
-            }
 
 
         }
@@ -377,11 +350,11 @@ namespace LabProject.Controllers
         // GET: Utilizador/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            string isBloqueado = CheckBloqueado();
-            if (isBloqueado == "false")
+            string Status = CheckStatus();
+
+            switch (Status)
             {
-                if (HttpContext.Session.GetString("Tipo") == "Admin")
-                {
+                case "Admin":
                     if (id == null)
                     {
                         return NotFound();
@@ -397,52 +370,32 @@ namespace LabProject.Controllers
 
                     return View(utilizador);
 
-                }
-                else
-                {
+                case "Cliente":
+                case "Restaurante":
+                case "NaoAutenticado":
                     return RedirectToAction("Login", "Utilizador");
-                }
 
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
-            else if (isBloqueado == "NaoAutenticado")
-            {
-                return RedirectToAction("Login", "Utilizador");
-            }
-            else
-            {
-                return RedirectToAction("Bloqueado", new RouteValueDictionary(
-                  new { controller = "Utilizador", action = "Bloqueado", Motivo = isBloqueado }));
 
-            }
+
 
 
         }
 
 
-        //// GET: Utilizador/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    var utilizador = await _context.Utilizadors.FindAsync(id);
-        //    if (utilizador == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(utilizador);
-        //}
 
         public async Task<IActionResult> EditOwn()
         {
-            string isBloqueado = CheckBloqueado();
-            if (isBloqueado == "false")
-            {
-                if (HttpContext.Session.GetString("Tipo") == "Cliente" || HttpContext.Session.GetString("Tipo") == "Admin")
-                {
+            string Status = CheckStatus();
 
+            switch (Status)
+            {
+                case "Cliente":
+                case "Admin":
                     int id = Convert.ToInt32(HttpContext.Session.GetString("Id"));
                     //if (id == null)
                     //{
@@ -458,24 +411,19 @@ namespace LabProject.Controllers
                     }
                     return View(utilizador);
 
-                }
-                else
-                {
+                
+                case "Restaurante":
+                case "NaoAutenticado":
                     return RedirectToAction("Login", "Utilizador");
-                }
 
-            }
-            else if (isBloqueado == "NaoAutenticado")
-            {
-                return RedirectToAction("Login", "Utilizador");
-            }
-            else
-            {
-                return RedirectToAction("Bloqueado", new RouteValueDictionary(
-                  new { controller = "Utilizador", action = "Bloqueado", Motivo = isBloqueado }));
-
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
 
+
+
+           
 
 
         }
@@ -487,13 +435,13 @@ namespace LabProject.Controllers
         public async Task<IActionResult> EditOwn(int id, [Bind("Id,Name,Email,Username,Password,Notificacao")] Utilizador utilizador, IFormFile files)
         {
 
-            string isBloqueado = CheckBloqueado();
-            if (isBloqueado == "false")
+
+            string Status = CheckStatus();
+
+            switch (Status)
             {
-                if (HttpContext.Session.GetString("Tipo") == "Cliente" || HttpContext.Session.GetString("Tipo") == "Admin")
-                {
-
-
+                case "Cliente":
+                case "Admin":
                     if (id != utilizador.Id)
                     {
                         return RedirectToAction("Bloqueado", new RouteValueDictionary(
@@ -547,24 +495,15 @@ namespace LabProject.Controllers
                     }
                     return View(utilizador);
 
-                }
-                else
-                {
+
+                case "Restaurante":
+                case "NaoAutenticado":
                     return RedirectToAction("Login", "Utilizador");
-                }
 
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
-            else if (isBloqueado == "NaoAutenticado")
-            {
-                return RedirectToAction("Login", "Utilizador");
-            }
-            else
-            {
-                return RedirectToAction("Bloqueado", new RouteValueDictionary(
-                  new { controller = "Utilizador", action = "Bloqueado", Motivo = isBloqueado }));
-
-            }
-
 
         }
 
