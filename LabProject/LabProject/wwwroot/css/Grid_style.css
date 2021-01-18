@@ -391,7 +391,20 @@ form.SearchBar::after {
 
 
 .SubmeterPratoTitulo {
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
 	font-size: 26px;
 }
 
+
+.VerUtilizadoresRow{
+	height:100px;
+	width:100%;
+	display:flex;
+}
+
+.VerUtilizadoresElement {
+	height: 100px;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
+	background-repeat: no-repeat;
+	background-size: cover;
+}

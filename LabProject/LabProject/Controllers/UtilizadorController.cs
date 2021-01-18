@@ -308,8 +308,6 @@ namespace LabProject.Controllers
 
         public async Task<IActionResult> VerUtilizadores(string tipo)
         {
-
-
             string Status = CheckStatus();
 
             switch (Status)
@@ -516,20 +514,38 @@ namespace LabProject.Controllers
         // GET: Restaurantes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            string Status = CheckStatus();
+
+            switch (Status)
             {
-                return NotFound();
+                case "Admin":
+                    if (id == null)
+                    {
+                        return NotFound();
+                    }
+
+
+                    var utilizador = await _context.Utilizadors
+                        .FirstOrDefaultAsync(m => m.Id == id);
+                    if (utilizador == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return View(utilizador);
+
+                case "Cliente":
+                case "Restaurante":
+                case "NaoAutenticado":
+                    return RedirectToAction("Login", "Utilizador");
+
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
 
 
-            var utilizador = await _context.Utilizadors
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (utilizador == null)
-            {
-                return NotFound();
-            }
-
-            return View(utilizador);
+            
         }
 
         // POST: Restaurantes/Delete/5
@@ -537,12 +553,31 @@ namespace LabProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string Motivo, int id)
         {
-            var utilizador = await _context.Utilizadors.FindAsync(id);
-            utilizador.Motivo = Motivo;
-            utilizador.Bloqueado = true;
-            _context.Utilizadors.Update(utilizador);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("VerUtilizadores", "Utilizador");
+            string Status = CheckStatus();
+
+            switch (Status)
+            {
+                case "Admin":
+
+                    var utilizador = await _context.Utilizadors.FindAsync(id);
+                    utilizador.Motivo = Motivo;
+                    utilizador.Bloqueado = true;
+                    _context.Utilizadors.Update(utilizador);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("VerUtilizadores", "Utilizador");
+
+                case "Cliente":
+                case "Restaurante":
+                case "NaoAutenticado":
+                    return RedirectToAction("Login", "Utilizador");
+
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
+            }
+
+
+
         }
     }
 }

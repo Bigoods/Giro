@@ -325,6 +325,7 @@ namespace LabProject.Controllers
                     int id = Convert.ToInt32(HttpContext.Session.GetString("Id"));
 
 
+
                     RestaurantePratosPertence Restaurante = new RestaurantePratosPertence();
 
                     Restaurante.Restaurante = await _context.Restaurantes
@@ -371,6 +372,108 @@ namespace LabProject.Controllers
 
             
         }
+
+        public async Task<IActionResult> CriarHojeNovo()
+        {
+            string Status = CheckStatus();
+
+            switch (Status)
+            {
+                case "Restaurante":
+                    ViewData["roles"] = _context.TipoPratos.ToList();
+                    return View();
+
+                case "Cliente":
+                case "Admin":
+                case "NaoAutenticado":
+                    return RedirectToAction("Login", "Utilizador");
+
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
+            }               
+        }
+
+        public async Task<IActionResult> AddHojeNovo([Bind("Id", "Foto", "TipoPratoId", "Nome", "Descricao", "Dia", "Preco")] PratoIndividual pratoIndividual, IFormFile files)
+        {
+            
+            //if (ModelState.IsValid)
+            //{
+            try
+            {
+                try
+                {
+                    if (files != null)
+                    {
+                        Random numAleatorio = new Random();
+                        int valorInteiro = numAleatorio.Next(10000, 100000);
+                        string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
+
+                        string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Pratos/", NomeFicheiro);
+
+                        FileStream fs = new FileStream(uploads, FileMode.Create);
+
+                        files.CopyTo(fs);
+                        fs.Close();
+
+                        pratoIndividual.Foto = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                    }
+
+                }
+                catch (Exception)
+                {
+
+
+                }
+
+           
+
+                int restauranteID = Convert.ToInt32((from Restaurante in _context.Restaurantes
+                                                     where Restaurante.UtilizadorId == Convert.ToInt32(HttpContext.Session.GetString("Id"))
+                                                     select Restaurante.Id).FirstOrDefault());
+
+
+
+                pratoIndividual.Foto = "FOTOTEMPORARIA";
+
+                Prato NovoPrato = new Prato();
+                NovoPrato.Foto = pratoIndividual.Foto;
+                NovoPrato.Nome = pratoIndividual.Nome;
+                NovoPrato.TipoPratoId = pratoIndividual.TipoPratoId;
+
+                _context.Pratos.Add(NovoPrato);
+                await _context.SaveChangesAsync();
+
+
+
+
+                RestaurantePrato NovoPrato1 = new RestaurantePrato();
+                NovoPrato1.Descricao = pratoIndividual.Descricao;
+                NovoPrato1.Foto = pratoIndividual.Foto;
+                NovoPrato1.Preco = pratoIndividual.Preco;
+                NovoPrato1.PratoId = NovoPrato.Id;
+                NovoPrato1.RestauranteId = restauranteID;
+                NovoPrato1.Dia = pratoIndividual.Dia;
+
+                _context.RestaurantePratos.Add(NovoPrato1);
+                await _context.SaveChangesAsync();
+
+
+
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+
+            }
+            return RedirectToAction("Index", "Home");
+            //}
+
+            //return RedirectToAction("Index", "Home");
+        }
+
+
+
+
 
         public async Task<IActionResult> SubmeterPratoExistente(int? id)
         {

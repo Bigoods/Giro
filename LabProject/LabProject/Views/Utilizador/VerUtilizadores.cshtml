@@ -5,6 +5,7 @@
 }
 
 <link rel="stylesheet" href="~/css/registo_style.css">
+<link rel="stylesheet" href="~/css/Grid_style.css">
 <div class="form-group">
     <a class="button botao-selecionado" id="1" onclick="change_button_selected1" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Clientes" style="width: 35%;">Cliente</a>
     <a class="button" id="2" onclick="change_button_selected2" style="width: 35%;" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Restaurantes">Restaurante</a>
@@ -12,24 +13,20 @@
 
 @foreach (var item in Model)
 {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Imagem)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Name)
-    </td>
+    <div class="VerUtilizadoresRow" >
+        <div class="VerUtilizadoresElement" style="width:100px; background-image:url('../../Images/Utilizadores/@Html.DisplayFor(modelItem => item.Imagem)')"></div>
+        <div class="VerUtilizadoresElement"style="min-width:200px;">
+            @Html.DisplayFor(modelItem => item.Name)
+        </div>
 
-    <td>
-        <a class="button" asp-controller="Utilizador" asp-action="Details" asp-route-id="@item.Id" style="width: 30px;height:30px;">Ver Perfil</a>
-    </td>
+        <div class="VerUtilizadoresElement">
+            <a class="button" asp-controller="Utilizador" asp-action="Details" asp-route-id="@item.Id" style="width: 30px;height:30px;">Ver Perfil</a>
+        </div>
 
-    <td>
-        <a class="button" asp-controller="Utilizador" asp-action="Delete"  asp-route-id="@item.Id" style="width: 30px;height:30px; color: red;">Bloquear</a>
-    </td>
-</tr>
-    <br />
-    <br />
+        <div class="VerUtilizadoresElement">
+            <a class="button" asp-controller="Utilizador" asp-action="Delete" asp-route-id="@item.Id" style="width: 30px;height:30px; color: red;">Bloquear</a>
+        </div>
+    </div>
 }
 
 
@@ -44,8 +41,8 @@
         document.getElementById("1").classList.remove("botao-selecionado");
         document.getElementById("2").classList.add("botao-selecionado");
     }
-   
-    
-  
+
+
+
 
 </script>
