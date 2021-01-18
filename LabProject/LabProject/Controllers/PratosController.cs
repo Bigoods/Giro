@@ -25,6 +25,7 @@ namespace LabProject.Controllers
         }
 
 
+
         public string CheckStatus()
         {
             string _id = HttpContext.Session.GetString("Id");
@@ -47,6 +48,7 @@ namespace LabProject.Controllers
 
             return HttpContext.Session.GetString("Tipo");
         }
+
 
 
 
@@ -77,6 +79,8 @@ namespace LabProject.Controllers
 
         }
 
+
+
         public string Truncate(string yourString, int maxLength)
         {
             // If the string isn't null or empty
@@ -102,6 +106,8 @@ namespace LabProject.Controllers
         //    }
         //    return View(await labProject_Database.ToListAsync());
         //}
+
+
 
 
         public async Task<IActionResult> Pratos(string searchString, DateTime SearchData)
@@ -151,7 +157,10 @@ namespace LabProject.Controllers
 
 
 
+
         }
+
+
         public async Task<IActionResult> MeusPratos(string searchString, DateTime SearchData)
         {
 
@@ -231,7 +240,9 @@ namespace LabProject.Controllers
 
            
 
+
         }
+
 
 
 
