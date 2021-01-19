@@ -80,12 +80,14 @@ namespace LabProject.Controllers
                     {
                     }
                     HttpContext.Session.SetString("Id", Convert.ToString(u.Id));
-                    var CheckUtilizador = (from Clientes in _context.Clientes
+                    Cliente CheckUtilizador = (from Clientes in _context.Clientes
                                            where Clientes.UtilizadorId == u.Id
-                                           select Clientes);
+                                           select Clientes).FirstOrDefault();
 
-                    if (CheckUtilizador.ToList().Count > 0)
-                    {
+                    if (CheckUtilizador != null)
+                    { 
+                        HttpContext.Session.SetString("idCliente", CheckUtilizador.Id.ToString());
+
                         HttpContext.Session.SetString("Tipo", "Cliente");
                     }
                     else

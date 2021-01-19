@@ -8,6 +8,16 @@
 <div class="SearchContainer">
     <form class="SearchBar" asp-action="Pratos" method="get">
         <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="@Html.DisplayFor(model => model.First().Pratos.First().Nome)">
+        @{ if(Context.Session.GetString("Utilizador") != null)
+            if (ViewData["isFirstPratoFavorito"] == "1")
+            {
+                <div class="favoritoBlock">Tirar Favorito</div>
+            }
+            else
+            {
+                <div class="favoritoBlock">Marcar Favorito</div>
+            }
+        }
         <button type="submit"><i class="fa fa-search"></i></button>
     </form>
 </div>
@@ -25,7 +35,7 @@
             <div class="RestauranteNome">@Html.DisplayFor(modelItem => item.Restaurante.Utilizador.Name)</div>
             <div class="RestaurantePratosContainer">
                 <div id="PratoEscolhido" class="RestaurantePrato" onClick="reply_click(@item.Restaurante.Id)">
-                    <div class="PratoEscolhidoDescricao" >
+                    <div class="PratoEscolhidoDescricao">
                         <div>@((item.Pratos.First().Nome.Length <= 13) ? item.Pratos.First().Nome : item.Pratos.First().Nome.Substring(0, 13) + "...")</div>
                         <div class="PratoEscolhidoDescricaoPreco">
                             @try
@@ -40,7 +50,8 @@
                     </div>
                     <div class="GridRectangleImagem" style='background-image:url(@("/../../Images/Pratos/" + item.Pratos.First().Foto))'></div>
                 </div>
-                <div class="favoritoBlock">Marcar Favorito</div>
+                
+
             </div>
         </div>
 

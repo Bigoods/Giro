@@ -34,7 +34,6 @@
 <div class="SearchContainer">
     <form class="SearchBar" asp-action="PratosFavoritos" method="get">
         <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Procurar...">
-        <input class="SearchBarDate" type="text" id="datepicker" name="SearchData" value="@ViewData["SearchData"]">
         <button id="SubmitFilter" type="submit"><i class="fa fa-search"></i></button>
     </form>
 
@@ -63,9 +62,8 @@
             //alert(Id);
             //console.log(Id);
 
-            var date = $("#datepicker").datepicker("getDate");
 
-            var targetUrl = '/Pratos/VerPrato/' + Id.toString() + '/' + $.datepicker.formatDate("yy-mm-dd", date);
+            var targetUrl = '/Pratos/VerPrato/' + Id.toString();
             location.href = targetUrl;
 
         };
