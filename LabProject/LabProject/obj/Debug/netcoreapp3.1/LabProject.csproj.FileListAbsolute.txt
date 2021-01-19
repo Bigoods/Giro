@@ -834,4 +834,13 @@ C:\Users\ASUS\Desktop\Laboratorio 4\PratoDoDia\Prato_do_Dia\LabProject\LabProjec
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Pratos\CriarHojeNovo.cshtml.g.cs
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\LabProject.csprojAssemblyReference.cache
 D:\Lab 3ºAno\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Desbloquear.cshtml.g.cs
+<<<<<<< HEAD
 C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Desbloquear.cshtml.g.cs
+=======
+C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Pratos\CriarHoje.cshtml.g.cs
+C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Pratos\CriarHojeNovo.cshtml.g.cs
+C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Pratos\SubmeterPratoExistente.cshtml.g.cs
+C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Bloqueado.cshtml.g.cs
+C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Delete.cshtml.g.cs
+C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Desbloquear.cshtml.g.cs
+>>>>>>> ed56a08b13a109fff3667882b6b30cf834044355

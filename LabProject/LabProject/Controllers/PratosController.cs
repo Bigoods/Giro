@@ -19,9 +19,10 @@ namespace LabProject.Controllers
         private readonly LabProject_Context _context;
         private IWebHostEnvironment _he;
 
-        public PratosController(LabProject_Context context)
+        public PratosController(LabProject_Context context, IWebHostEnvironment e)
         {
             _context = context;
+            _he = e;
         }
 
 
@@ -384,9 +385,12 @@ namespace LabProject.Controllers
 
         }
 
-        public async Task<IActionResult> CriarHojeNovo()
+
+        public async Task<IActionResult> CriarHojeNovo(IFormFile files)
         {
             string Status = CheckStatus();
+
+           
 
             switch (Status)
             {
@@ -427,7 +431,11 @@ namespace LabProject.Controllers
                         files.CopyTo(fs);
                         fs.Close();
 
-                        pratoIndividual.Foto = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                        pratoIndividual.Foto = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                    }
+                    else
+                    {
+                        pratoIndividual.Foto = "FOTOTEMPORARIA";
                     }
 
                 }
@@ -445,7 +453,7 @@ namespace LabProject.Controllers
 
 
 
-                pratoIndividual.Foto = "FOTOTEMPORARIA";
+                
 
                 Prato NovoPrato = new Prato();
                 NovoPrato.Foto = pratoIndividual.Foto;
@@ -534,7 +542,7 @@ namespace LabProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddPratoExistente([Bind("Id", "Foto", "Name", "Descricao", "Dia", "Preco")] RestaurantePrato restaurantePrato, IFormFile files)
+        public async Task<IActionResult> AddPratoExistente(IFormFile files,[Bind("Id","Foto", "Name", "Descricao", "Dia", "Preco")] RestaurantePrato restaurantePrato)
         {
             restaurantePrato.Foto = (TempData["FotoPratoTemp"]).ToString();
             //if (ModelState.IsValid)
@@ -556,7 +564,7 @@ namespace LabProject.Controllers
                         files.CopyTo(fs);
                         fs.Close();
 
-                        restaurantePrato.Foto = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                        restaurantePrato.Foto = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
                     }
 
                 }

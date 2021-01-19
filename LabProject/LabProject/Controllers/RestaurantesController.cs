@@ -275,7 +275,7 @@ namespace LabProject.Controllers
                                     files.CopyTo(fs);
                                     fs.Close();
 
-                                    restaurante.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                                    restaurante.Imagem = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
                                     HttpContext.Session.SetString("Imagem", restaurante.Imagem);
                                 }
 
