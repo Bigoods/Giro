@@ -126,6 +126,10 @@ namespace LabProject.Controllers
             return View(model: Motivo);
         }
 
+        public IActionResult SemResultado()
+        {
+            return View();
+        }
 
         public IActionResult Logout()
         {

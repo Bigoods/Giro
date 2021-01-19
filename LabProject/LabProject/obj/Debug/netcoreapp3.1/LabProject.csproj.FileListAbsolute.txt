@@ -844,3 +844,4 @@ C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1
 C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Delete.cshtml.g.cs
 C:\Users\Hutt\Desktop\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\Desbloquear.cshtml.g.cs
 >>>>>>> ed56a08b13a109fff3667882b6b30cf834044355
+C:\Users\filip\Documents\UTAD\Lab\Prato_do_Dia\Prato_do_Dia\LabProject\LabProject\obj\Debug\netcoreapp3.1\Razor\Views\Utilizador\SemResultado.cshtml.g.cs

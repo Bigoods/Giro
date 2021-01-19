@@ -58,6 +58,10 @@ namespace LabProject.Controllers
             {
                 case "Admin":
                     var labProject_Context = _context.Restaurantes.Include(r => r.Utilizador).Where(r => r.Aprovado == false);
+                    if (labProject_Context.Count() == 0)
+                    {
+                        return RedirectToAction("SemResultado", "Utilizador");
+                    }
                     return View(await labProject_Context.ToListAsync());
 
                 case "Cliente":

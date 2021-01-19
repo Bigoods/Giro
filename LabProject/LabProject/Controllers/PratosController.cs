@@ -451,17 +451,25 @@ namespace LabProject.Controllers
                                                      where Restaurante.UtilizadorId == Convert.ToInt32(HttpContext.Session.GetString("Id"))
                                                      select Restaurante.Id).FirstOrDefault());
 
-
-
-                
-
                 Prato NovoPrato = new Prato();
-                NovoPrato.Foto = pratoIndividual.Foto;
-                NovoPrato.Nome = pratoIndividual.Nome;
-                NovoPrato.TipoPratoId = pratoIndividual.TipoPratoId;
+                var Existe = _context.Pratos.Where(u => u.Nome.ToUpper() == pratoIndividual.Nome.ToUpper());
 
-                _context.Pratos.Add(NovoPrato);
-                await _context.SaveChangesAsync();
+                if (Existe.Any())
+                {
+                    NovoPrato = Existe.FirstOrDefault();
+                }
+                else
+                {
+
+                    NovoPrato.Foto = pratoIndividual.Foto;
+                    NovoPrato.Nome = pratoIndividual.Nome;
+                    NovoPrato.TipoPratoId = pratoIndividual.TipoPratoId;
+
+                    _context.Pratos.Add(NovoPrato);
+                    await _context.SaveChangesAsync();
+                }
+
+
 
 
 
@@ -699,7 +707,10 @@ namespace LabProject.Controllers
                                                where restaurantePrato.PratoId == id && restaurantePrato.Dia == SearchData
                                                select restaurante).Include(u => u.Utilizador);
 
-                    int a = labProject_Database.Count();
+                    if(labProject_Database.Count() == 0)
+                    {
+                        return RedirectToAction("SemResultado", "Utilizador");
+                    }
 
                     //return View(await labProject_Database.Include(p => p.Utilizador).Include(p => p.RestaurantePratos).ToListAsync());
 
@@ -711,15 +722,14 @@ namespace LabProject.Controllers
                     {
                         RestaurantePratosPertence temp = new RestaurantePratosPertence();
                         temp.Restaurante = r;
-                        
+
 
                         List<PratoIndividual> Pratos = await (from prato1 in _context.Pratos
                                                               join restaurantePrato in _context.RestaurantePratos on _p.Id equals restaurantePrato.PratoId
                                                               where restaurantePrato.RestauranteId == r.Id && restaurantePrato.Dia == SearchData
                                                               select new PratoIndividual
                                                               {
-
-                                                                  Id = prato1.Id,
+                                                                  Id = Convert.ToInt32(restaurantePrato.PratoId),
                                                                   Nome = prato1.Nome,
                                                                   Preco = restaurantePrato.Preco,
                                                                   TipoPratoId = prato1.TipoPratoId,
@@ -729,6 +739,19 @@ namespace LabProject.Controllers
                                                                   Foto = restaurantePrato.Foto,
                                                               }).ToListAsync();
 
+
+                        ViewData["isFirstPratoFavorito"] = "0";
+                        if (Status == "Cliente")
+                        {
+                            int _id = Convert.ToInt32(HttpContext.Session.GetString("idCliente"));
+                            var pratoUnico = Pratos.First();
+                            var Existe = (from favoritos in _context.PratoClientes
+                                          where favoritos.ClienteId == _id && pratoUnico.Id == favoritos.PratoId
+                                          select favoritos).Any();
+                            if (Existe)
+                                ViewData["isFirstPratoFavorito"] = "1";
+
+                        }
 
                         temp.Pratos = Pratos;
                         resTotal.Add(temp);
@@ -750,6 +773,7 @@ namespace LabProject.Controllers
 
 
         }
+
 
 
 
