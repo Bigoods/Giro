@@ -1,5 +1,4 @@
-﻿@model IEnumerable<LabProject.Models.Restaurante>
-@{Prato p = ViewData["PratoEscolhido"] as Prato;}
+﻿@model IEnumerable<LabProject.Models.RestaurantePratosPertence>
 
 
 <link rel="stylesheet" href="~/css/Grid_style.css">
@@ -8,7 +7,7 @@
 
 <div class="SearchContainer">
     <form class="SearchBar" asp-action="Pratos" method="get">
-        <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="@p.Nome">
+        <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="@Html.DisplayFor(model => model.First().Pratos.First().Nome)">
         <button type="submit"><i class="fa fa-search"></i></button>
     </form>
 </div>
@@ -21,17 +20,17 @@
     @foreach (var item in Model)
     {
 
-        <div class="GridRectangle" onClick="reply_click(@Html.DisplayFor(modelItem => item.Id))">
-            <div class="RestauranteBanner" style='background-image:url(@("/../../Images/Utilizadores/" + item.Utilizador.Imagem))'></div>
-            <div class="RestauranteNome">@Html.DisplayFor(modelItem => item.Utilizador.Name)</div>
+        <div class="GridRectangle" >
+            <div class="RestauranteBanner" style='background-image:url(@("/../../Images/Utilizadores/" + item.Restaurante.Utilizador.Imagem))'></div>
+            <div class="RestauranteNome">@Html.DisplayFor(modelItem => item.Restaurante.Utilizador.Name)</div>
             <div class="RestaurantePratosContainer">
-                <div id="PratoEscolhido" class="RestaurantePrato">
-                    <div class="PratoEscolhidoDescricao">
-                        <div>@((p.Nome.Length <= 13) ? p.Nome : p.Nome.Substring(0, 13) + "...")</div>
+                <div id="PratoEscolhido" class="RestaurantePrato" onClick="reply_click(@item.Restaurante.Id)">
+                    <div class="PratoEscolhidoDescricao" >
+                        <div>@((item.Pratos.First().Nome.Length <= 13) ? item.Pratos.First().Nome : item.Pratos.First().Nome.Substring(0, 13) + "...")</div>
                         <div class="PratoEscolhidoDescricaoPreco">
                             @try
                             {
-                                @((item.RestaurantePratos.ToList().Single(s => s.PratoId == p.Id).Preco).ToString("#.00") + " €");
+                                @((item.Pratos.First().Preco).ToString("#.00") + " €");
                             }
                             catch (Exception)
                             {
@@ -39,9 +38,9 @@
                             }
                         </div>
                     </div>
-                    <div class="GridRectangleImagem" style='background-image:url(@("/../../Images/Pratos/" + p.Foto))'></div>
+                    <div class="GridRectangleImagem" style='background-image:url(@("/../../Images/Pratos/" + item.Pratos.First().Foto))'></div>
                 </div>
-
+                <div class="favoritoBlock">Marcar Favorito</div>
             </div>
         </div>
 

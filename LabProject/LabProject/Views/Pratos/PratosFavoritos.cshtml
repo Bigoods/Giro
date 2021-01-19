@@ -2,13 +2,42 @@
 
 
 <link rel="stylesheet" href="~/css/Grid_style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css">
+
+
+<script>
+
+    $(document).ready(function () {
+        $("#datepicker").datepicker({
+            dateFormat: 'mm-dd-yy',
+            changeMonth: true,
+            numberOfMonths: 1,
+            buttonImage: 'contact/calendar/calendar.gif',
+            buttonImageOnly: true,
+            onSelect: function (selectedDate) {
+                $("#SubmitFilter").click();
+            }
+        });
+
+       
+        $("#datepicker").datepicker("setDate", '@ViewData["SearchData"]');
+    
+
+
+});
+
+</script>
 
 <div class="SearchContainer">
-    <form class="SearchBar" asp-action="Pratos" method="get">
+    <form class="SearchBar" asp-action="PratosFavoritos" method="get">
         <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Procurar...">
-        <button type="submit"><i class="fa fa-search"></i></button>
+        <input class="SearchBarDate" type="text" id="datepicker" name="SearchData" value="@ViewData["SearchData"]">
+        <button id="SubmitFilter" type="submit"><i class="fa fa-search"></i></button>
     </form>
+
 </div>
 
 
@@ -26,16 +55,23 @@
 
     }
 
+
     <script type="text/javascript">
+
+
         function reply_click(Id) {
-            //alert(id);
+            //alert(Id);
             //console.log(Id);
 
-            var targetUrl = '/Pratos/VerPrato/' + Id.toString();
+            var date = $("#datepicker").datepicker("getDate");
+
+            var targetUrl = '/Pratos/VerPrato/' + Id.toString() + '/' + $.datepicker.formatDate("yy-mm-dd", date);
             location.href = targetUrl;
 
         };
     </script>
+
+
 
 
 </div>

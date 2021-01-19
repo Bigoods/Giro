@@ -168,7 +168,7 @@ namespace LabProject.Controllers
 
             switch (Status)
             {
-                
+
                 case "Restaurante":
                     ViewData["CurrentFilter"] = searchString;
 
@@ -238,7 +238,7 @@ namespace LabProject.Controllers
                   new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
 
-           
+
 
 
         }
@@ -255,48 +255,48 @@ namespace LabProject.Controllers
             switch (Status)
             {
                 case "Restaurante":
-                    
-            if (HttpContext.Session.GetString("Id") == null)
-            {
-                return NotFound();
-            }
 
-            int id = Convert.ToInt32(HttpContext.Session.GetString("Id"));
+                    if (HttpContext.Session.GetString("Id") == null)
+                    {
+                        return NotFound();
+                    }
 
-
-            RestaurantePratosPertence Restaurante = new RestaurantePratosPertence();
-
-            Restaurante.Restaurante = await _context.Restaurantes
-                .Include(r => r.Utilizador)
-                        .FirstOrDefaultAsync(m => m.UtilizadorId == id);
-
-            if (Restaurante.Restaurante == null)
-            {
-                return NotFound();
-            }
+                    int id = Convert.ToInt32(HttpContext.Session.GetString("Id"));
 
 
+                    RestaurantePratosPertence Restaurante = new RestaurantePratosPertence();
+
+                    Restaurante.Restaurante = await _context.Restaurantes
+                        .Include(r => r.Utilizador)
+                                .FirstOrDefaultAsync(m => m.UtilizadorId == id);
+
+                    if (Restaurante.Restaurante == null)
+                    {
+                        return NotFound();
+                    }
 
 
-            List<PratoIndividual> Pratos = await (from prato in _context.Pratos
-                                                  join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
-                                                  where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id && restaurantePrato.Dia == DateTime.Now.Date
-                                                  select new PratoIndividual
-                                                  {
-                                                      Id = prato.Id,
-                                                      Nome = prato.Nome,
-                                                      Preco = restaurantePrato.Preco,
-                                                      TipoPratoId = prato.TipoPratoId,
-                                                      TipoPrato = prato.TipoPrato,
-                                                      RestaurantePratos = prato.RestaurantePratos,
-                                                      Descricao = restaurantePrato.Descricao,
-                                                      Foto = restaurantePrato.Foto,
-                                                  }).ToListAsync();
-
-            Restaurante.Pratos = Pratos;
 
 
-            return View(Restaurante);
+                    List<PratoIndividual> Pratos = await (from prato in _context.Pratos
+                                                          join restaurantePrato in _context.RestaurantePratos on prato.Id equals restaurantePrato.PratoId
+                                                          where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id && restaurantePrato.Dia == DateTime.Now.Date
+                                                          select new PratoIndividual
+                                                          {
+                                                              Id = prato.Id,
+                                                              Nome = prato.Nome,
+                                                              Preco = restaurantePrato.Preco,
+                                                              TipoPratoId = prato.TipoPratoId,
+                                                              TipoPrato = prato.TipoPrato,
+                                                              RestaurantePratos = prato.RestaurantePratos,
+                                                              Descricao = restaurantePrato.Descricao,
+                                                              Foto = restaurantePrato.Foto,
+                                                          }).ToListAsync();
+
+                    Restaurante.Pratos = Pratos;
+
+
+                    return View(Restaurante);
                 case "Admin":
                 case "Cliente":
                 case "NaoAutenticado":
@@ -381,7 +381,7 @@ namespace LabProject.Controllers
                   new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
 
-            
+
         }
 
         public async Task<IActionResult> CriarHojeNovo()
@@ -402,12 +402,12 @@ namespace LabProject.Controllers
                 default:
                     return RedirectToAction("Bloqueado", new RouteValueDictionary(
                   new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
-            }               
+            }
         }
 
         public async Task<IActionResult> AddHojeNovo([Bind("Id", "Foto", "TipoPratoId", "Nome", "Descricao", "Dia", "Preco")] PratoIndividual pratoIndividual, IFormFile files)
         {
-            
+
             //if (ModelState.IsValid)
             //{
             try
@@ -437,7 +437,7 @@ namespace LabProject.Controllers
 
                 }
 
-           
+
 
                 int restauranteID = Convert.ToInt32((from Restaurante in _context.Restaurantes
                                                      where Restaurante.UtilizadorId == Convert.ToInt32(HttpContext.Session.GetString("Id"))
@@ -529,7 +529,7 @@ namespace LabProject.Controllers
             }
 
 
-          
+
         }
 
         [HttpPost]
@@ -597,21 +597,29 @@ namespace LabProject.Controllers
 
 
         // GET: Pratos favoritos
-        public async Task<IActionResult> PratosFavoritos(string searchString)
+        public async Task<IActionResult> PratosFavoritos(string searchString, DateTime SearchData)
         {
             string Status = CheckStatus();
 
             switch (Status)
             {
                 case "Cliente":
-                
+
                     ViewData["CurrentFilter"] = searchString;
+
+
 
                     var labProject_Database = (from pratos in _context.Pratos
                                                join cliente in _context.Clientes on Convert.ToInt32(HttpContext.Session.GetString("Id")) equals cliente.UtilizadorId
                                                join pratofavorito in _context.PratoClientes on pratos.Id equals pratofavorito.PratoId
                                                where pratofavorito.ClienteId == cliente.Id
                                                select pratos);
+
+                    if (SearchData != DateTime.MinValue)
+                        labProject_Database = labProject_Database.Where(t => _context.RestaurantePratos.Any(a => a.PratoId == t.Id && a.Dia == SearchData));
+
+
+
 
                     if (!String.IsNullOrEmpty(searchString))
                     {
@@ -624,6 +632,7 @@ namespace LabProject.Controllers
                         p.Foto = @"../Images/Pratos/" + p.Foto.ToString();
                         p.Nome = Truncate(p.Nome, 14);
                     }
+
 
 
                     return View(await labProject_Database.ToListAsync());
@@ -644,7 +653,7 @@ namespace LabProject.Controllers
         }
 
 
-       
+
 
         public async Task<IActionResult> VerPrato(int? id, DateTime? SearchData)
         {
@@ -680,11 +689,48 @@ namespace LabProject.Controllers
                     var labProject_Database = (from restaurante in _context.Restaurantes
                                                join restaurantePrato in _context.RestaurantePratos on restaurante.Id equals restaurantePrato.RestauranteId
                                                where restaurantePrato.PratoId == id && restaurantePrato.Dia == SearchData
-                                               select restaurante);
+                                               select restaurante).Include(u => u.Utilizador);
+
+                    int a = labProject_Database.Count();
+
+                    //return View(await labProject_Database.Include(p => p.Utilizador).Include(p => p.RestaurantePratos).ToListAsync());
+
+                    //---------------------------------------------
+
+                    List<RestaurantePratosPertence> resTotal = new List<RestaurantePratosPertence>();
+
+                    foreach (Restaurante r in labProject_Database)
+                    {
+                        RestaurantePratosPertence temp = new RestaurantePratosPertence();
+                        temp.Restaurante = r;
+                        
+
+                        List<PratoIndividual> Pratos = await (from prato1 in _context.Pratos
+                                                              join restaurantePrato in _context.RestaurantePratos on _p.Id equals restaurantePrato.PratoId
+                                                              where restaurantePrato.RestauranteId == r.Id && restaurantePrato.Dia == SearchData
+                                                              select new PratoIndividual
+                                                              {
+
+                                                                  Id = prato1.Id,
+                                                                  Nome = prato1.Nome,
+                                                                  Preco = restaurantePrato.Preco,
+                                                                  TipoPratoId = prato1.TipoPratoId,
+                                                                  TipoPrato = prato1.TipoPrato,
+                                                                  RestaurantePratos = prato1.RestaurantePratos,
+                                                                  Descricao = restaurantePrato.Descricao,
+                                                                  Foto = restaurantePrato.Foto,
+                                                              }).ToListAsync();
+
+
+                        temp.Pratos = Pratos;
+                        resTotal.Add(temp);
+                    }
+
+                    return View(resTotal);
 
 
 
-                    return View(await labProject_Database.Include(p => p.Utilizador).Include(p => p.RestaurantePratos).ToListAsync());
+                //--------------------------------------------
 
                 default:
                     return RedirectToAction("Bloqueado", new RouteValueDictionary(
@@ -692,9 +738,9 @@ namespace LabProject.Controllers
             }
 
 
-          
 
-           
+
+
         }
 
 

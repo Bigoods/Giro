@@ -144,6 +144,7 @@ form.SearchBar::after {
 .RestaurantePratosContainer {
 	background-color: #e6e6e5;
 	height: 80px;
+	display:flex;
 }
 
 .RestaurantePrato {
@@ -151,17 +152,40 @@ form.SearchBar::after {
 	width: 250px;
 	height: 100%;
 	display: flex;
+	transition: 0.3s;
 }
 
-.PratoEscolhidoDescricao {
+	.RestaurantePrato:hover {
+		background-color: #b7a178;
+	}
+
+.favoritoBlock {
+	width: 140px;
+	height: 30px;
+	border: 2px solid green;
+	margin-left: 15px;
+	margin-top: 25px;
+	text-align: center;
+	padding-top: 0px;
+	transition: 0.3s;
 	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
-	font-size: 19px;
-	width: 170px;
-	padding-left: 15px;
-	display: flex;
-	flex-direction: column;
-	padding-top: 5px;
+	font-size: 17px;
+	cursor: pointer;
 }
+	.favoritoBlock:hover {
+		background-color: green;
+		color: white;
+	}
+
+	.PratoEscolhidoDescricao {
+		font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
+		font-size: 19px;
+		width: 170px;
+		padding-left: 15px;
+		display: flex;
+		flex-direction: column;
+		padding-top: 5px;
+	}
 
 .PratoEscolhidoDescricaoPreco {
 	font-size: 15px;
