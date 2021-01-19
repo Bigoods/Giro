@@ -11,11 +11,12 @@
         @{ if (Context.Session.GetString("Utilizador") != null)
                 if (ViewData["isFirstPratoFavorito"] == "1")
                 {
-                    <button type="submit" value="Tirar Favorito" />
+                    <button type="submit">Tirar Favorito</button>
+               
                 }
                 else
                 {
-                    <button type="submit" value="Adicionar Favorito" />
+                    <button type="submit">Adicionar Favorito</button>
 
                 }
         }
