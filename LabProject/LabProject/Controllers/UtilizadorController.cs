@@ -159,7 +159,7 @@ namespace LabProject.Controllers
                     files.CopyTo(fs);
                     fs.Close();
 
-                    utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                    utilizador.Imagem = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                 }
                 catch (Exception)
@@ -205,7 +205,7 @@ namespace LabProject.Controllers
                     files.CopyTo(fs);
                     fs.Close();
 
-                    utilizador.Imagem = Path.GetFileName(files.FileName);
+                    utilizador.Imagem = NomeFicheiro;
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                 }
                 catch (Exception)
@@ -272,7 +272,7 @@ namespace LabProject.Controllers
                             files.CopyTo(fs);
                             fs.Close();
 
-                            utilizador.Imagem = Path.GetFileName(files.FileName);
+                            utilizador.Imagem = NomeFicheiro;
                             HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                         }
                         catch (Exception)
@@ -470,7 +470,7 @@ namespace LabProject.Controllers
                                     files.CopyTo(fs);
                                     fs.Close();
 
-                                    utilizador.Imagem = Path.GetFileName(files.FileName); // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                                    utilizador.Imagem = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
                                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                                 }
                             }
