@@ -149,8 +149,6 @@ namespace LabProject.Controllers
                     return View(await labProject_Database.ToListAsync());
 
 
-                    return View(await labProject_Database.ToListAsync());
-
                 default:
                     return RedirectToAction("Bloqueado", new RouteValueDictionary(
                   new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
@@ -386,11 +384,11 @@ namespace LabProject.Controllers
         }
 
 
-        public async Task<IActionResult> CriarHojeNovo(IFormFile files)
+        public IActionResult CriarHojeNovo(IFormFile files)
         {
             string Status = CheckStatus();
 
-           
+
 
             switch (Status)
             {
@@ -582,7 +580,6 @@ namespace LabProject.Controllers
 
                 }
 
-                Restaurante p;
 
                 int restauranteID = Convert.ToInt32((from Restaurante in _context.Restaurantes
                                                      where Restaurante.UtilizadorId == Convert.ToInt32(HttpContext.Session.GetString("Id"))

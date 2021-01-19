@@ -7,16 +7,17 @@
 
 <div class="SearchContainer">
     <form class="SearchBar" asp-action="Pratos" method="get">
-        <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="@Html.DisplayFor(model => model.First().Pratos.First().Nome)">
-        @{ if(Context.Session.GetString("Utilizador") != null)
-            if (ViewData["isFirstPratoFavorito"] == "1")
-            {
-                <div class="favoritoBlock">Tirar Favorito</div>
-            }
-            else
-            {
-                <div class="favoritoBlock">Marcar Favorito</div>
-            }
+        <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="@Html.DisplayFor(model => model.First().Pratos.First().Nome)" />
+        @{ if (Context.Session.GetString("Utilizador") != null)
+                if (ViewData["isFirstPratoFavorito"] == "1")
+                {
+                    <button type="submit" value="Tirar Favorito" />
+                }
+                else
+                {
+                    <button type="submit" value="Adicionar Favorito" />
+
+                }
         }
         <button type="submit"><i class="fa fa-search"></i></button>
     </form>
