@@ -407,6 +407,35 @@ namespace LabProject.Controllers
             }
         }
 
+        public string AdicionarFavorito(int Id)
+        {
+            var _Cliente = _context.Clientes.Where(p => p.UtilizadorId.ToString() == HttpContext.Session.GetString("Id")).FirstOrDefault();
+            var pC = _context.PratoClientes.Where(p => p.PratoId == Id && p.ClienteId == _Cliente.Id).FirstOrDefault();
+            if(pC != null)
+            {                   
+                _context.Remove(pC);
+                _context.SaveChangesAsync();
+                return "<input id='FavoritoButton' class='ButaoFavoritos' style='text - decoration: none; outline: none; background - color: #006600;' type='submit' value='Adicionar Favorito' />";
+
+
+            }
+            else
+            {
+                PratoCliente _pC = new PratoCliente { PratoId = Id, ClienteId = _Cliente.Id, Cliente = _Cliente };
+
+                _context.PratoClientes.Add(_pC);
+                _context.SaveChangesAsync();
+
+                return "";
+                //return "<input id='FavoritoButton' class='ButaoFavoritos' style='text - decoration: none; outline: none; background - color: #006600;' type='submit' value='Tirar Favorito' />";
+
+
+
+            }
+
+
+        }
+
         public async Task<IActionResult> AddHojeNovo([Bind("Id", "Foto", "TipoPratoId", "Nome", "Descricao", "Dia", "Preco")] PratoIndividual pratoIndividual, IFormFile files)
         {
 

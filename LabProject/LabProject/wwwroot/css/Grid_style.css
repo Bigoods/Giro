@@ -432,3 +432,23 @@ form.SearchBar::after {
 	background-repeat: no-repeat;
 	background-size: cover;
 }
+
+.ButaoFavoritos {
+	width: 200px;
+	background-color: green;
+	color: white;
+	font-family: MainFont,"Trebuchet MS", Helvetica, sans-serif;
+	font-size: 16px;
+	margin-left: 5%;
+	line-height: 22px;
+	padding: 8px 25px 8px 25px;
+	transition: 0.3s;
+	margin-bottom:20px;
+}
+
+
+	.ButaoFavoritos:hover {
+		text-decoration: none;
+		outline: none;
+		background-color: #006600;
+	}

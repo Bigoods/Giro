@@ -8,31 +8,46 @@
 <div class="SearchContainer">
     <form class="SearchBar" asp-action="Pratos" method="get">
         <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="@Html.DisplayFor(model => model.First().Pratos.First().Nome)" />
-        @{ if (Context.Session.GetString("Utilizador") != null)
-                if (ViewData["isFirstPratoFavorito"] == "1")
-                {
-                    <button type="submit">Tirar Favorito</button>
-               
-                }
-                else
-                {
-                    <button type="submit">Adicionar Favorito</button>
-
-                }
-        }
         <button type="submit"><i class="fa fa-search"></i></button>
     </form>
 </div>
 
+@{ if (Context.Session.GetString("Utilizador") != null)
+        if (ViewData["isFirstPratoFavorito"] == "1")
+        {
+            <form asp-action="AdicionarFavorito" asp-route-Id="@(Model.First().Pratos.First().Id)"
+                  data-ajax="true"
+                  data-ajax-method="post"
+                  data-ajax-update="#FavoritoButton">
 
-<div class="GridContainer">
+                <input id="FavoritoButton" class="ButaoFavoritos" style="text-decoration: none; outline: none; background-color: #006600;" type="submit" value="Tirar Favorito" />
+            </form>
+
+        }
+
+
+        else
+        {
+            <form asp-action="AdicionarFavorito" asp-route-Id="@(Model.First().Pratos.First().Id)"
+                  data-ajax="true"
+                  data-ajax-method="post"
+                  data-ajax-update="#FavoritoButton">
+
+                <input id="FavoritoButton" class="ButaoFavoritos"  type="submit" value="Adicionar Favorito" />
+            </form>
+
+        }
+}
+
+
+<div class="GridContainer" style="width:100%;">
 
 
 
     @foreach (var item in Model)
     {
 
-        <div class="GridRectangle" >
+        <div class="GridRectangle">
             <div class="RestauranteBanner" style='background-image:url(@("/../../Images/Utilizadores/" + item.Restaurante.Utilizador.Imagem))'></div>
             <div class="RestauranteNome">@Html.DisplayFor(modelItem => item.Restaurante.Utilizador.Name)</div>
             <div class="RestaurantePratosContainer">
@@ -52,7 +67,7 @@
                     </div>
                     <div class="GridRectangleImagem" style='background-image:url(@("/../../Images/Pratos/" + item.Pratos.First().Foto))'></div>
                 </div>
-                
+
 
             </div>
         </div>
@@ -72,6 +87,9 @@
 
     };
 </script>
+
+
+<script src="~/lib/Ajax/jquery.unobtrusive-ajax.js"></script>
 
 
 
