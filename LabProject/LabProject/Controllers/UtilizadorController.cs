@@ -98,13 +98,18 @@ namespace LabProject.Controllers
                     else
                     {
                         var CheckUtilizador2 = (from Restaurantes in _context.Restaurantes
-                                                where Restaurantes.UtilizadorId == u.Id
-                                                select Restaurantes);
+                                                        where Restaurantes.UtilizadorId == u.Id
+                                                        select Restaurantes);
 
                         if (CheckUtilizador2.ToList().Count > 0)
                         {
                             HttpContext.Session.SetString("Tipo", "Restaurante");
-
+                            if(!CheckUtilizador2.FirstOrDefault().Aprovado)
+                            {
+                                HttpContext.Response.Cookies.Delete(".LabProject.Session");
+                                return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                                 new { controller = "Utilizador", action = "Bloqueado", Motivo = "Restaurante Não Aprovado!" }));
+                            }
                             if (u.Bloqueado)
                             {
 
@@ -126,6 +131,7 @@ namespace LabProject.Controllers
 
         public IActionResult Bloqueado(string Motivo)
         {
+            HttpContext.Response.Cookies.Delete(".LabProject.Session");
             if (Motivo == null)
                 return RedirectToAction("Login", "Utilizador");
             if (Motivo.Contains("#"))
