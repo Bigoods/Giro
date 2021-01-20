@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.AspNetCore.Routing;
+using System.Net;
+using System.Net.Mail;
 
 namespace LabProject.Controllers
 {
@@ -81,11 +83,11 @@ namespace LabProject.Controllers
                     }
                     HttpContext.Session.SetString("Id", Convert.ToString(u.Id));
                     Cliente CheckUtilizador = (from Clientes in _context.Clientes
-                                           where Clientes.UtilizadorId == u.Id
-                                           select Clientes).FirstOrDefault();
+                                               where Clientes.UtilizadorId == u.Id
+                                               select Clientes).FirstOrDefault();
 
                     if (CheckUtilizador != null)
-                    { 
+                    {
                         HttpContext.Session.SetString("idCliente", CheckUtilizador.Id.ToString());
 
                         HttpContext.Session.SetString("Tipo", "Cliente");
@@ -123,6 +125,9 @@ namespace LabProject.Controllers
         {
             if (Motivo == null)
                 return RedirectToAction("Login", "Utilizador");
+            if (Motivo.StartsWith("#"))
+                return View(model: "Porfavor, verifique o seu Email!");
+
             return View(model: Motivo);
         }
 
@@ -141,6 +146,14 @@ namespace LabProject.Controllers
         public IActionResult Registar()
         {
             return View();
+        }
+
+        private static Random random = new Random();
+        public string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         // POST: Utilizador/Create
@@ -166,7 +179,40 @@ namespace LabProject.Controllers
                     fs.Close();
 
                     utilizador.Imagem = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                    utilizador.Bloqueado = true;
+                    utilizador.Motivo = "#" + RandomString(10);
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+
+
+                    // ENVIA EMAIL!!!!
+
+                    var fromAddress = new MailAddress("labproject190121@gmail.com", "Jiro");
+                    var toAddress = new MailAddress(utilizador.Email, utilizador.Name);
+                    const string fromPassword = "a1b2c3~~";
+                    const string subject = "Verificação Email";
+                    string body = "Utilizador/VerificarConta?ver=" + utilizador.Motivo;
+
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                    };
+                    using (var message = new MailMessage(fromAddress, toAddress)
+                    {
+                        Subject = subject,
+                        Body = body
+                    })
+                    {
+                        smtp.Send(message);
+                    }
+
+
+
+
                 }
                 catch (Exception)
                 {
@@ -182,6 +228,37 @@ namespace LabProject.Controllers
             }
             return View(utilizador);
         }
+
+        public IActionResult VerificarConta(string Ver)
+        {
+            if (Ver == null)
+                return RedirectToAction("Login", "Utilizador");
+            if (Ver.StartsWith("#"))
+            {
+
+                var Utilizador = _context.Utilizadors.Where(u => u.Motivo == Ver).FirstOrDefault();
+                if (Utilizador != null)
+                {
+                    Utilizador.Bloqueado = false;
+                    Utilizador.Motivo = "";
+                    _context.Update(Utilizador);
+                    _context.SaveChanges();
+
+                    return RedirectToAction("Login", "Utilizador");
+                }
+
+            }
+            return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = "Codigo de Verificação Errado!" }));
+
+
+        }
+
+
+
+
+
+
         //GET Registar2
         public IActionResult Registar2()
         {
@@ -247,9 +324,9 @@ namespace LabProject.Controllers
                 default:
                     return RedirectToAction("Bloqueado", new RouteValueDictionary(
                   new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
-            } 
+            }
 
-            
+
         }
 
 
@@ -307,10 +384,10 @@ namespace LabProject.Controllers
                   new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
             }
 
-           
+
         }
 
-        
+
 
         public async Task<IActionResult> VerUtilizadores(string tipo)
         {
@@ -319,28 +396,28 @@ namespace LabProject.Controllers
             switch (Status)
             {
                 case "Admin":
-                        if (tipo == "Desbloquear")
-                        {
-                            ViewBag.isClient = tipo;
-                            return View(await _context.Utilizadors.Where(x => x.Bloqueado == true).ToListAsync());
-                        
-                        }
-                        else if(tipo == "Restaurantes")
-                        {
-                            var Pessoas = (from restaurante in _context.Restaurantes
-                                           join Utilizador in _context.Utilizadors on restaurante.UtilizadorId equals Utilizador.Id
-                                           select Utilizador);
-                            ViewBag.isClient = tipo;
-                            return View(await Pessoas.Where(x => x.Bloqueado == false).ToListAsync());
+                    if (tipo == "Desbloquear")
+                    {
+                        ViewBag.isClient = tipo;
+                        return View(await _context.Utilizadors.Where(x => x.Bloqueado == true).ToListAsync());
 
-                        }
-                        else
-                        {
-                            var Pessoas = (from cliente in _context.Clientes
-                                           join Utilizador in _context.Utilizadors on cliente.UtilizadorId equals Utilizador.Id
-                                           select Utilizador);
-                            return View(await Pessoas.Where(x => x.Bloqueado == false).ToListAsync());
-                        }
+                    }
+                    else if (tipo == "Restaurantes")
+                    {
+                        var Pessoas = (from restaurante in _context.Restaurantes
+                                       join Utilizador in _context.Utilizadors on restaurante.UtilizadorId equals Utilizador.Id
+                                       select Utilizador);
+                        ViewBag.isClient = tipo;
+                        return View(await Pessoas.Where(x => x.Bloqueado == false).ToListAsync());
+
+                    }
+                    else
+                    {
+                        var Pessoas = (from cliente in _context.Clientes
+                                       join Utilizador in _context.Utilizadors on cliente.UtilizadorId equals Utilizador.Id
+                                       select Utilizador);
+                        return View(await Pessoas.Where(x => x.Bloqueado == false).ToListAsync());
+                    }
 
                 case "Cliente":
                 case "Restaurante":
@@ -420,7 +497,7 @@ namespace LabProject.Controllers
                     }
                     return View(utilizador);
 
-                
+
                 case "Restaurante":
                 case "NaoAutenticado":
                     return RedirectToAction("Login", "Utilizador");
@@ -432,7 +509,7 @@ namespace LabProject.Controllers
 
 
 
-           
+
 
 
         }
@@ -556,7 +633,7 @@ namespace LabProject.Controllers
             }
 
 
-            
+
         }
 
         // POST: Restaurantes/Delete/5
@@ -636,7 +713,7 @@ namespace LabProject.Controllers
                 case "Admin":
 
                     var utilizador = await _context.Utilizadors.FindAsync(id);
-                    
+
                     utilizador.Bloqueado = false;
                     utilizador.Motivo = null;
                     _context.Utilizadors.Update(utilizador);
