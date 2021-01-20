@@ -27,6 +27,7 @@ namespace LabProject.Controllers
             _he = e;
         }
 
+
         public string CheckStatus()
         {
             string _id = HttpContext.Session.GetString("Id");
@@ -62,8 +63,10 @@ namespace LabProject.Controllers
         {
             if (ModelState.IsValid)
             {
+                List<Utilizador> flg = _context.Utilizadors.AsNoTracking().ToList();
                 //Parte com cookies
-                Utilizador u = _context.Utilizadors.SingleOrDefault(u => u.Username == username && u.Password == password);
+                var u = flg.FirstOrDefault(u => (u.Username.Equals(username)) && (u.Password.Equals(password)));
+                //Utilizador u = _context.Utilizadors.SingleOrDefault(u => u.Username.Equals(username) && u.Password.Equals(password));
                 if (u == null)
                 {
                     ModelState.AddModelError("Username", "Username or password are wrong");
