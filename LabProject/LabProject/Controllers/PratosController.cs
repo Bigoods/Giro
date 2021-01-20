@@ -736,10 +736,11 @@ namespace LabProject.Controllers
                                                                   Foto = restaurantePrato.Foto,
                                                               }).ToListAsync();
 
-
+                        
                         ViewData["isFirstPratoFavorito"] = "0";
                         if (Status == "Cliente")
                         {
+                            
                             int _id = Convert.ToInt32(HttpContext.Session.GetString("idCliente"));
                             var pratoUnico = Pratos.First();
                             var Existe = (from favoritos in _context.PratoClientes
@@ -751,6 +752,9 @@ namespace LabProject.Controllers
                         }
 
                         temp.Pratos = Pratos;
+                        temp.Pratos[0].Nome = _p.Nome;
+
+
                         resTotal.Add(temp);
                     }
 

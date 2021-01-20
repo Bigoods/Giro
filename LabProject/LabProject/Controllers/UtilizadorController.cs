@@ -125,7 +125,7 @@ namespace LabProject.Controllers
         {
             if (Motivo == null)
                 return RedirectToAction("Login", "Utilizador");
-            if (Motivo.StartsWith("#"))
+            if (Motivo.Contains("#"))
                 return View(model: "Porfavor, verifique o seu Email!");
 
             return View(model: Motivo);
@@ -180,7 +180,8 @@ namespace LabProject.Controllers
 
                     utilizador.Imagem = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
                     utilizador.Bloqueado = true;
-                    utilizador.Motivo = "#" + RandomString(10);
+                    string codigo = RandomString(10);
+                    utilizador.Motivo = "$" + codigo;
                     HttpContext.Session.SetString("Imagem", utilizador.Imagem);
 
 
@@ -190,8 +191,8 @@ namespace LabProject.Controllers
                     var toAddress = new MailAddress(utilizador.Email, utilizador.Name);
                     const string fromPassword = "a1b2c3~~";
                     const string subject = "Verificação Email";
-                    string body = "Utilizador/VerificarConta?ver=" + utilizador.Motivo;
-
+                    string body = "Utilizador/VerificarConta?Ver=" + utilizador.Motivo;
+                    
                     var smtp = new SmtpClient
                     {
                         Host = "smtp.gmail.com",
@@ -209,7 +210,6 @@ namespace LabProject.Controllers
                     {
                         smtp.Send(message);
                     }
-
 
 
 
@@ -232,11 +232,12 @@ namespace LabProject.Controllers
         public IActionResult VerificarConta(string Ver)
         {
             if (Ver == null)
-                return RedirectToAction("Login", "Utilizador");
-            if (Ver.StartsWith("#"))
+                return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                 new { controller = "Utilizador", action = "Bloqueado", Motivo = "Codigo de Verificação Errado!" }));
+            if (Ver.Contains("$"))
             {
 
-                var Utilizador = _context.Utilizadors.Where(u => u.Motivo == Ver).FirstOrDefault();
+                var Utilizador = _context.Utilizadors.Where(u => u.Motivo.Contains(Ver)).FirstOrDefault();
                 if (Utilizador != null)
                 {
                     Utilizador.Bloqueado = false;
