@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LabProject.Data;
 using LabProject.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 
 namespace LabProject.Controllers
 {
@@ -19,139 +21,62 @@ namespace LabProject.Controllers
             _context = context;
         }
 
+        public string CheckStatus()
+        {
+            string _id = HttpContext.Session.GetString("Id");
+
+            if (_id == null)
+                return "NaoAutenticado";
+
+            try
+            {
+                int id = Convert.ToInt32(_id);
+
+                var Utilizador = (from utilizador in _context.Utilizadors
+                                  where utilizador.Id == id
+                                  select utilizador).FirstOrDefault();
+                if (Utilizador.Bloqueado == true)
+                    return "Utilizador Bloqueado. Motivo: " + Utilizador.Motivo;
+
+            }
+            catch { }
+
+            return HttpContext.Session.GetString("Tipo");
+        }
+
         // GET: Avisos
         public async Task<IActionResult> Index()
         {
-            var labProject_Database = (from Avisos in _context.Avisos
-                                       join clienteAviso in _context.ClienteAvisos on Avisos.Id equals clienteAviso.AvisoId
-                                       join cliente in _context.Clientes on Convert.ToInt32(TempData["id"]) equals cliente.UtilizadorId                     
-                                       where clienteAviso.ClienteId == cliente.Id
-                                       select Avisos);
 
-           
+            string Status = CheckStatus();
 
-            return View(await labProject_Database.ToListAsync());
+            switch (Status)
+            {
+                case "Cliente":
+                    var labProject_Database = (from Avisos in _context.Avisos
+                                               join clienteAviso in _context.ClienteAvisos on Avisos.Id equals clienteAviso.AvisoId
+                                               join cliente in _context.Clientes on Convert.ToInt32(TempData["id"]) equals cliente.UtilizadorId
+                                               where clienteAviso.ClienteId == cliente.Id
+                                               select Avisos);
+
+
+
+                    return View(await labProject_Database.ToListAsync());
+                case "Admin":
+                case "Restaurante":
+                case "NaoAutenticado":
+                    return RedirectToAction("Login", "Utilizador");
+
+                default:
+                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
+            }
+
+
+            
         }
 
-        // GET: Avisos/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var aviso = await _context.Avisos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (aviso == null)
-            {
-                return NotFound();
-            }
-
-            return View(aviso);
-        }
-
-        // GET: Avisos/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Avisos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Titulo,Descricao,Foto,Data")] Aviso aviso)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(aviso);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(aviso);
-        }
-
-        // GET: Avisos/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var aviso = await _context.Avisos.FindAsync(id);
-            if (aviso == null)
-            {
-                return NotFound();
-            }
-            return View(aviso);
-        }
-
-        // POST: Avisos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Descricao,Foto,Data")] Aviso aviso)
-        {
-            if (id != aviso.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(aviso);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AvisoExists(aviso.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(aviso);
-        }
-
-        // GET: Avisos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var aviso = await _context.Avisos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (aviso == null)
-            {
-                return NotFound();
-            }
-
-            return View(aviso);
-        }
-
-        // POST: Avisos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var aviso = await _context.Avisos.FindAsync(id);
-            _context.Avisos.Remove(aviso);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+       
 
         private bool AvisoExists(int id)
         {
