@@ -237,7 +237,7 @@ namespace LabProject.Controllers
             if (Ver.Contains("$"))
             {
 
-                var Utilizador = _context.Utilizadors.Where(u => u.Motivo.Contains(Ver)).FirstOrDefault();
+                var Utilizador = _context.Utilizadors.Where(u => u.Motivo == Ver).FirstOrDefault();
                 if (Utilizador != null)
                 {
                     Utilizador.Bloqueado = false;
@@ -247,7 +247,7 @@ namespace LabProject.Controllers
 
                     return RedirectToAction("Login", "Utilizador");
                 }
-
+                
             }
             return RedirectToAction("Bloqueado", new RouteValueDictionary(
                   new { controller = "Utilizador", action = "Bloqueado", Motivo = "Codigo de Verificação Errado!" }));
@@ -300,6 +300,7 @@ namespace LabProject.Controllers
                 int utilizadorId = utilizador.Id;
                 Restaurante restaurante1 = restaurante.GetRestaurante();
                 restaurante1.UtilizadorId = utilizadorId;
+                restaurante1.Aprovado = false;
                 _context.Add(restaurante1);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Login", "Utilizador");
