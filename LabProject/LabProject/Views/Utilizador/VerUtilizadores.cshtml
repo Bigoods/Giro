@@ -13,7 +13,7 @@
         <a class="button" style="width: 35%;" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Restaurantes">Restaurante</a>
         <a class="button botao-selecionado" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Desbloquear" style="width: 35%;">Desbloquear</a>
     }
-    else if (ViewBag.isClient == "Restaurante")
+    else if (ViewBag.isClient == "Restaurantes")
     {
         <a class="button" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Clientes" style="width: 35%;">Cliente</a>
         <a class="button botao-selecionado" style="width: 35%;" asp-controller="Utilizador" asp-action="VerUtilizadores" asp-route-tipo="Restaurantes">Restaurante</a>
