@@ -10,8 +10,7 @@
             <p class="login-titulo" style="">Tem a certeza que pertende desbloquear este utilizador?</p>
             <form asp-action="Desbloquear" class="login-form">
                 <div class="form-group">
-                    @Html.DisplayNameFor(model => model.Imagem):
-                    @Html.DisplayFor(model => model.Imagem)
+                    <img src="~/Images/Utilizadores/@Html.DisplayFor(model => model.Imagem)" />
                 </div>
                 <div class="form-group">
                     @Html.DisplayNameFor(model => model.Username):

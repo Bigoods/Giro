@@ -557,29 +557,18 @@ namespace LabProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditOwn(int id, [Bind("Id,Name,Email,Username,Password,Notificacao")] Utilizador utilizador, IFormFile files)
+        public async Task<IActionResult> EditOwn([Bind("Id,Name,Email,Username,Password,Notificacao")] Utilizador utilizador, IFormFile files)
         {
 
 
-            string Status = CheckStatus();
-
-            switch (Status)
-            {
-                case "Cliente":
-                case "Admin":
-                    if (id != utilizador.Id)
-                    {
-                        return RedirectToAction("Bloqueado", new RouteValueDictionary(
-                        new { controller = "Utilizador", action = "Bloqueado", Motivo = "Algo deu Errado. Por favor reinicie a página." }));
-                    }
-
+            
                     if (ModelState.IsValid)
                     {
                         List<Utilizador> existe = _context.Utilizadors.AsNoTracking().ToList();
-                        //Parte com cookies
-                        var u = existe.FirstOrDefault(u => (u.Username.Equals(utilizador.Username)) && (u.Password.Equals(utilizador.Email)));
-                        
-                        if(u==null)
+                       
+                        var u = existe.FirstOrDefault(u => ((u.Id.Equals(utilizador.Id) &&(u.Username.Equals(utilizador.Username)) && (u.Email.Equals(utilizador.Email)))));
+
+                        if (u == null)    
                         {
 
                             try
@@ -631,15 +620,7 @@ namespace LabProject.Controllers
                     return View(utilizador);
 
 
-                case "Restaurante":
-                case "NaoAutenticado":
-                    return RedirectToAction("Login", "Utilizador");
-
-                default:
-                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
-                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
-            }
-
+                
         }
 
 

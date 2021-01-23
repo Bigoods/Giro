@@ -255,16 +255,11 @@ namespace LabProject.Controllers
         public async Task<IActionResult> EditRes([Bind("Id", "UtilizadorId", "Name", "Email", "Username", "Password", "Telefone", "Morada", "HoraAbertura", "HoraFecho", "DiaDescanso")] RestauranteCompleto restaurante, IFormFile files)
         {
 
-            string Status = CheckStatus();
-
-            switch (Status)
-            {
-                case "Restaurante":
                     if (ModelState.IsValid)
                     {
                         List<Utilizador> existe = _context.Utilizadors.AsNoTracking().ToList();
                         //Parte com cookies
-                        var u = existe.FirstOrDefault(u => (u.Username.Equals(restaurante.Username)) && (u.Email.Equals(restaurante.Email)));
+                        var u = existe.FirstOrDefault(u => ((u.Username.Equals(restaurante.Username)) && (u.Email.Equals(restaurante.Email))) && !(u.Id.Equals(restaurante.Id)));
                         if(u==null)
                         {
                             try
@@ -297,8 +292,7 @@ namespace LabProject.Controllers
                                 restaurante.Imagem = HttpContext.Session.GetString("Imagem");
                                 _context.Update(restaurante.GetRestaurante());
                                 await _context.SaveChangesAsync();
-                                _context.Update(restaurante.GetUtilizador());
-                                await _context.SaveChangesAsync();
+                                
                             }
                             catch (DbUpdateConcurrencyException)
                             {
@@ -311,22 +305,14 @@ namespace LabProject.Controllers
                                     throw;
                                 }
                             }
-                            return RedirectToAction("EditRes", "Restaurantes");
+                            return RedirectToAction("Index", "Home");
                         }                        
                         else
-                        ModelState.AddModelError("Username", "This user already exists");
+                            ModelState.AddModelError("Username", "This user already exists");
                     }
                     return View(restaurante);
 
-                case "Cliente":
-                case "Admin":
-                case "NaoAutenticado":
-                    return RedirectToAction("Login", "Utilizador");
-
-                default:
-                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
-                  new { controller = "Utilizador", action = "Bloqueado", Motivo = Status }));
-            }
+               
 
 
 
