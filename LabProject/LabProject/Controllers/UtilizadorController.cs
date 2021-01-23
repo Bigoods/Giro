@@ -174,67 +174,76 @@ namespace LabProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                List<Utilizador> existe = _context.Utilizadors.AsNoTracking().ToList();
+                //Parte com cookies
+                var u = existe.FirstOrDefault(u => (u.Username.Equals(utilizador.Username)) && (u.Email.Equals(utilizador.Email)));
+                if (u == null)
                 {
-                    Random numAleatorio = new Random();
-                    int valorInteiro = numAleatorio.Next(10000, 100000);
-                    string NomeFicheiro = valorInteiro + Path.GetFileName(files.FileName);
-
-                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
-
-                    FileStream fs = new FileStream(uploads, FileMode.Create);
-
-                    files.CopyTo(fs);
-                    fs.Close();
-
-                    utilizador.Imagem = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
-                    utilizador.Bloqueado = true;
-                    string codigo = RandomString(10);
-                    utilizador.Motivo = "$" + codigo;
-                    HttpContext.Session.SetString("Imagem", utilizador.Imagem);
-
-
-                    // ENVIA EMAIL!!!!
-
-                    var fromAddress = new MailAddress("labproject190121@gmail.com", "Jiro");
-                    var toAddress = new MailAddress(utilizador.Email, utilizador.Name);
-                    const string fromPassword = "a1b2c3~~";
-                    const string subject = "Verificação Email";
-                    string body = "Utilizador/VerificarConta?Ver=" + utilizador.Motivo;
-                    
-                    var smtp = new SmtpClient
+                    try
                     {
-                        Host = "smtp.gmail.com",
-                        Port = 587,
-                        EnableSsl = true,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-                    };
-                    using (var message = new MailMessage(fromAddress, toAddress)
-                    {
-                        Subject = subject,
-                        Body = body
-                    })
-                    {
-                        smtp.Send(message);
+                        Random numAleatorio = new Random();
+                        int valorInteiro = numAleatorio.Next(10000, 100000);
+                        string NomeFicheiro = valorInteiro + Path.GetFileName(files.FileName);
+
+                        string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
+
+                        FileStream fs = new FileStream(uploads, FileMode.Create);
+
+                        files.CopyTo(fs);
+                        fs.Close();
+
+                        utilizador.Imagem = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                        utilizador.Bloqueado = true;
+                        string codigo = RandomString(10);
+                        utilizador.Motivo = "$" + codigo;
+                        HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+
+
+                        // ENVIA EMAIL!!!!
+
+                        var fromAddress = new MailAddress("labproject190121@gmail.com", "Jiro");
+                        var toAddress = new MailAddress(utilizador.Email, utilizador.Name);
+                        const string fromPassword = "a1b2c3~~";
+                        const string subject = "Verificação Email";
+                        string body = "Utilizador/VerificarConta?Ver=" + utilizador.Motivo;
+
+                        var smtp = new SmtpClient
+                        {
+                            Host = "smtp.gmail.com",
+                            Port = 587,
+                            EnableSsl = true,
+                            DeliveryMethod = SmtpDeliveryMethod.Network,
+                            UseDefaultCredentials = false,
+                            Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                        };
+                        using (var message = new MailMessage(fromAddress, toAddress)
+                        {
+                            Subject = subject,
+                            Body = body
+                        })
+                        {
+                            smtp.Send(message);
+                        }
+
+
+
                     }
-
-
-
+                    catch (Exception)
+                    {
+                    }
+                    _context.Add(utilizador);
+                    await _context.SaveChangesAsync();
+                    int clienteId = utilizador.Id;
+                    Cliente cliente = new Cliente();
+                    cliente.UtilizadorId = clienteId;
+                    _context.Add(cliente);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Login", "Utilizador");
                 }
-                catch (Exception)
-                {
-                }
-                _context.Add(utilizador);
-                await _context.SaveChangesAsync();
-                int clienteId = utilizador.Id;
-                Cliente cliente = new Cliente();
-                cliente.UtilizadorId = clienteId;
-                _context.Add(cliente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Login", "Utilizador");
+                else
+                    ModelState.AddModelError("Username", "This user already exists");
             }
+                
             return View(utilizador);
         }
 
@@ -284,36 +293,45 @@ namespace LabProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                Utilizador utilizador = restaurante.GetUtilizador();
-                try
+                List<Utilizador> existe = _context.Utilizadors.AsNoTracking().ToList();
+                //Parte com cookies
+                var u = existe.FirstOrDefault(u => (u.Username.Equals(restaurante.Username)) && (u.Email.Equals(restaurante.Email)));
+                if(u==null)
                 {
-                    Random numAleatorio = new Random();
-                    int valorInteiro = numAleatorio.Next(10000, 100000);
-                    string NomeFicheiro = valorInteiro + Path.GetFileName(files.FileName);
+                    Utilizador utilizador = restaurante.GetUtilizador();
+                    try
+                    {
+                        Random numAleatorio = new Random();
+                        int valorInteiro = numAleatorio.Next(10000, 100000);
+                        string NomeFicheiro = valorInteiro + Path.GetFileName(files.FileName);
 
-                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
+                        string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
 
-                    FileStream fs = new FileStream(uploads, FileMode.Create);
+                        FileStream fs = new FileStream(uploads, FileMode.Create);
 
-                    files.CopyTo(fs);
-                    fs.Close();
+                        files.CopyTo(fs);
+                        fs.Close();
 
-                    utilizador.Imagem = NomeFicheiro;
-                    HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                        utilizador.Imagem = NomeFicheiro;
+                        HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    _context.Add(utilizador);
+                    await _context.SaveChangesAsync();
+                    int utilizadorId = utilizador.Id;
+                    Restaurante restaurante1 = restaurante.GetRestaurante();
+                    restaurante1.UtilizadorId = utilizadorId;
+                    restaurante1.Aprovado = false;
+                    _context.Add(restaurante1);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Login", "Utilizador");
                 }
-                catch (Exception)
-                {
-                }
-                _context.Add(utilizador);
-                await _context.SaveChangesAsync();
-                int utilizadorId = utilizador.Id;
-                Restaurante restaurante1 = restaurante.GetRestaurante();
-                restaurante1.UtilizadorId = utilizadorId;
-                restaurante1.Aprovado = false;
-                _context.Add(restaurante1);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Login", "Utilizador");
+                else
+                    ModelState.AddModelError("Username", "This user already exists");
             }
+                
             return View();
         }
 
@@ -353,36 +371,46 @@ namespace LabProject.Controllers
                 case "Admin":
                     if (ModelState.IsValid)
                     {
-                        try
+                        List<Utilizador> existe = _context.Utilizadors.AsNoTracking().ToList();
+                        //Parte com cookies
+                        var u = existe.FirstOrDefault(x => (x.Username.Equals(utilizador.Username)) && (x.Email.Equals(utilizador.Email)));
+
+                        if (u==null)
                         {
-                            Random numAleatorio = new Random();
-                            int valorInteiro = numAleatorio.Next(10000, 100000);
-                            string NomeFicheiro = valorInteiro + Path.GetFileName(files.FileName);
+                            try
+                            {
+                                Random numAleatorio = new Random();
+                                int valorInteiro = numAleatorio.Next(10000, 100000);
+                                string NomeFicheiro = valorInteiro + Path.GetFileName(files.FileName);
 
-                            string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
+                                string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
 
-                            FileStream fs = new FileStream(uploads, FileMode.Create);
+                                FileStream fs = new FileStream(uploads, FileMode.Create);
 
-                            files.CopyTo(fs);
-                            fs.Close();
+                                files.CopyTo(fs);
+                                fs.Close();
 
-                            utilizador.Imagem = NomeFicheiro;
-                            HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                                utilizador.Imagem = NomeFicheiro;
+                                HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                            }
+                            catch (Exception)
+                            {
+                            }
+                            _context.Add(utilizador);
+                            await _context.SaveChangesAsync();
+                            int adminId = utilizador.Id;
+                            Administrador admin = new Administrador();
+                            admin.UtilizadorId = adminId;
+                            _context.Add(admin);
+                            await _context.SaveChangesAsync();
+                            return RedirectToAction("RegistarAdmin");
                         }
-                        catch (Exception)
-                        {
-                        }
-                        _context.Add(utilizador);
-                        await _context.SaveChangesAsync();
-                        int adminId = utilizador.Id;
-                        Administrador admin = new Administrador();
-                        admin.UtilizadorId = adminId;
-                        _context.Add(admin);
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction(nameof(Index));
+                        else
+                            ModelState.AddModelError("Username", "This user already exists");
+
                     }
 
-                    return View(utilizador);
+                    return View();
 
 
                 case "Cliente":
@@ -547,48 +575,58 @@ namespace LabProject.Controllers
 
                     if (ModelState.IsValid)
                     {
-                        try
+                        List<Utilizador> existe = _context.Utilizadors.AsNoTracking().ToList();
+                        //Parte com cookies
+                        var u = existe.FirstOrDefault(u => (u.Username.Equals(utilizador.Username)) && (u.Password.Equals(utilizador.Email)));
+                        
+                        if(u==null)
                         {
+
                             try
                             {
-                                if (files != null)
+                                try
                                 {
-                                    Random numAleatorio = new Random();
-                                    int valorInteiro = numAleatorio.Next(100, 1000);
-                                    string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
+                                    if (files != null)
+                                    {
+                                        Random numAleatorio = new Random();
+                                        int valorInteiro = numAleatorio.Next(100, 1000);
+                                        string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
 
-                                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
+                                        string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
 
-                                    FileStream fs = new FileStream(uploads, FileMode.Create);
+                                        FileStream fs = new FileStream(uploads, FileMode.Create);
 
-                                    files.CopyTo(fs);
-                                    fs.Close();
+                                        files.CopyTo(fs);
+                                        fs.Close();
 
-                                    utilizador.Imagem = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
-                                    HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                                        utilizador.Imagem = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                                        HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                                utilizador.Imagem = HttpContext.Session.GetString("Imagem");
+                                _context.Update(utilizador);
+                                await _context.SaveChangesAsync();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+                                if (!UtilizadorExists(utilizador.Id))
+                                {
+                                    return RedirectToAction("Bloqueado", new RouteValueDictionary(
+                            new { controller = "Utilizador", action = "Bloqueado", Motivo = "Algo deu Errado. Por favor reinicie a página." }));
+                                }
+                                else
+                                {
+                                    throw;
                                 }
                             }
-                            catch (Exception)
-                            {
-
-                            }
-                            utilizador.Imagem = HttpContext.Session.GetString("Imagem");
-                            _context.Update(utilizador);
-                            await _context.SaveChangesAsync();
-                        }
-                        catch (DbUpdateConcurrencyException)
-                        {
-                            if (!UtilizadorExists(utilizador.Id))
-                            {
-                                return RedirectToAction("Bloqueado", new RouteValueDictionary(
-                        new { controller = "Utilizador", action = "Bloqueado", Motivo = "Algo deu Errado. Por favor reinicie a página." }));
-                            }
-                            else
-                            {
-                                throw;
-                            }
-                        }
-                        return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Index", "Home");
+                        }                       
+                        else
+                            ModelState.AddModelError("Username", "This user already exists");
                     }
                     return View(utilizador);
 

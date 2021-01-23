@@ -262,51 +262,59 @@ namespace LabProject.Controllers
                 case "Restaurante":
                     if (ModelState.IsValid)
                     {
-                        try
+                        List<Utilizador> existe = _context.Utilizadors.AsNoTracking().ToList();
+                        //Parte com cookies
+                        var u = existe.FirstOrDefault(u => (u.Username.Equals(restaurante.Username)) && (u.Email.Equals(restaurante.Email)));
+                        if(u==null)
                         {
                             try
                             {
-                                if (files != null)
+                                try
                                 {
-                                    Random numAleatorio = new Random();
-                                    int valorInteiro = numAleatorio.Next(100, 1000);
-                                    string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
+                                    if (files != null)
+                                    {
+                                        Random numAleatorio = new Random();
+                                        int valorInteiro = numAleatorio.Next(100, 1000);
+                                        string NomeFicheiro = HttpContext.Session.GetString("Id") + valorInteiro + Path.GetFileName(files.FileName);
 
-                                    string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
+                                        string uploads = Path.Combine(_he.ContentRootPath, "wwwroot/Images/Utilizadores/", NomeFicheiro);
 
-                                    FileStream fs = new FileStream(uploads, FileMode.Create);
+                                        FileStream fs = new FileStream(uploads, FileMode.Create);
 
-                                    files.CopyTo(fs);
-                                    fs.Close();
+                                        files.CopyTo(fs);
+                                        fs.Close();
 
-                                    restaurante.Imagem = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
-                                    HttpContext.Session.SetString("Imagem", restaurante.Imagem);
+                                        restaurante.Imagem = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
+                                        HttpContext.Session.SetString("Imagem", restaurante.Imagem);
+                                    }
+
                                 }
-
-                            }
-                            catch (Exception)
-                            {
+                                catch (Exception)
+                                {
 
 
+                                }
+                                restaurante.Imagem = HttpContext.Session.GetString("Imagem");
+                                _context.Update(restaurante.GetRestaurante());
+                                await _context.SaveChangesAsync();
+                                _context.Update(restaurante.GetUtilizador());
+                                await _context.SaveChangesAsync();
                             }
-                            restaurante.Imagem = HttpContext.Session.GetString("Imagem");
-                            _context.Update(restaurante.GetRestaurante());
-                            await _context.SaveChangesAsync();
-                            _context.Update(restaurante.GetUtilizador());
-                            await _context.SaveChangesAsync();
-                        }
-                        catch (DbUpdateConcurrencyException)
-                        {
-                            if (!RestauranteExists(restaurante.Id))
+                            catch (DbUpdateConcurrencyException)
                             {
-                                return NotFound();
+                                if (!RestauranteExists(restaurante.Id))
+                                {
+                                    return NotFound();
+                                }
+                                else
+                                {
+                                    throw;
+                                }
                             }
-                            else
-                            {
-                                throw;
-                            }
-                        }
-                        return RedirectToAction("EditRes", "Restaurantes");
+                            return RedirectToAction("EditRes", "Restaurantes");
+                        }                        
+                        else
+                        ModelState.AddModelError("Username", "This user already exists");
                     }
                     return View(restaurante);
 
