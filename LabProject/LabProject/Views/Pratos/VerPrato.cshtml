@@ -18,9 +18,11 @@
             <form asp-action="AdicionarFavorito" asp-route-Id="@(Model.First().Pratos.First().Id)"
                   data-ajax="true"
                   data-ajax-method="post"
-                  data-ajax-update="#FavoritoButton">
+                  data-ajax-update="#FB">
 
-                <input id="FavoritoButton" class="ButaoFavoritos" style="text-decoration: none; outline: none; background-color: #006600;" type="submit" value="Tirar Favorito" />
+                <div id="FB">
+                    <input class="ButaoFavoritos" style="text-decoration: none; outline: none; background-color: #006600;" type="submit" value="Tirar Favorito" />
+                </div>
             </form>
 
         }
@@ -33,7 +35,10 @@
                   data-ajax-method="post"
                   data-ajax-update="#FavoritoButton">
 
-                <input id="FavoritoButton" class="ButaoFavoritos"  type="submit" value="Adicionar Favorito" />
+                <div id="FB">
+                    <input class="ButaoFavoritos" type="submit" value="Adicionar Favorito" />
+                </div>
+
             </form>
 
         }

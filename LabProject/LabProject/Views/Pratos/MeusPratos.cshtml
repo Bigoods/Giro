@@ -68,7 +68,7 @@
         @*<div class="VerGridSquareImagem" style='background-image:url(@Html.DisplayFor(modelItem => item.Foto))'></div>*@
         @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
 
-
+        <a asp-controller="Pratos" asp-action="EliminarPrato" asp-route-Id="@(item.Id)" ><i class="fas fa-trash-alt trashicon"></i></a>
     </div>
 
     }

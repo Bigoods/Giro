@@ -452,3 +452,14 @@ form.SearchBar::after {
 		outline: none;
 		background-color: #006600;
 	}
+
+.trashicon {
+	font-size: 20px;
+	margin-left:10px;
+	color:red;
+	cursor:pointer;
+}
+	.trashicon:hover {
+		color: darkred;
+	}
+

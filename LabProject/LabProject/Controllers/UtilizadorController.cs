@@ -275,9 +275,6 @@ namespace LabProject.Controllers
 
 
 
-
-
-
         //GET Registar2
         public IActionResult Registar2()
         {

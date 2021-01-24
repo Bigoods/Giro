@@ -204,7 +204,7 @@ namespace LabProject.Controllers
                                   where restaurantePrato.RestauranteId == Restaurante.Restaurante.Id && restaurantePrato.Dia == SearchData
                                   select new PratoIndividual
                                   {
-                                      Id = prato.Id,
+                                      Id = restaurantePrato.Id,
                                       Nome = prato.Nome,
                                       Preco = restaurantePrato.Preco,
                                       TipoPratoId = prato.TipoPratoId,
@@ -407,15 +407,16 @@ namespace LabProject.Controllers
             }
         }
 
-        public string AdicionarFavorito(int Id)
+        public async Task<string> AdicionarFavorito(int Id)
         {
             var _Cliente = _context.Clientes.Where(p => p.UtilizadorId.ToString() == HttpContext.Session.GetString("Id")).FirstOrDefault();
             var pC = _context.PratoClientes.Where(p => p.PratoId == Id && p.ClienteId == _Cliente.Id).FirstOrDefault();
             if(pC != null)
             {                   
                 _context.Remove(pC);
-                _context.SaveChangesAsync();
-                return "<input id='FavoritoButton' class='ButaoFavoritos' style='text - decoration: none; outline: none; background - color: #006600;' type='submit' value='Adicionar Favorito' />";
+               await  _context.SaveChangesAsync();
+
+               return "<input id='FavoritoButton' class='ButaoFavoritos' type='submit' value='Adicionar Favorito' />";
 
 
             }
@@ -424,10 +425,9 @@ namespace LabProject.Controllers
                 PratoCliente _pC = new PratoCliente { PratoId = Id, ClienteId = _Cliente.Id, Cliente = _Cliente };
 
                 _context.PratoClientes.Add(_pC);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-                return "";
-                //return "<input id='FavoritoButton' class='ButaoFavoritos' style='text - decoration: none; outline: none; background - color: #006600;' type='submit' value='Tirar Favorito' />";
+                return "<input id='FavoritoButton' class='ButaoFavoritos' style='text - decoration: none; outline: none; background - color: #006600;' type='submit' value='Tirar Favorito' />";
 
 
 
@@ -435,6 +435,17 @@ namespace LabProject.Controllers
 
 
         }
+
+        public async Task<IActionResult> EliminarPrato(int? Id)
+        {
+            var Prato = _context.RestaurantePratos.Where(p => p.Id == Id).FirstOrDefault();
+            _context.RestaurantePratos.Remove(Prato);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("MeusPratos", "Pratos");
+
+        }
+
 
         public async Task<IActionResult> AddHojeNovo([Bind("Id", "Foto", "TipoPratoId", "Nome", "Descricao", "Dia", "Preco")] PratoIndividual pratoIndividual, IFormFile files)
         {
