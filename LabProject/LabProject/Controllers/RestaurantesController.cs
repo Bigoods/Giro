@@ -258,9 +258,10 @@ namespace LabProject.Controllers
                     if (ModelState.IsValid)
                     {
                         List<Utilizador> existe = _context.Utilizadors.AsNoTracking().ToList();
-                        //Parte com cookies
-                        var u = existe.FirstOrDefault(u => ((u.Username.Equals(restaurante.Username)) && (u.Email.Equals(restaurante.Email))) && !(u.Id.Equals(restaurante.Id)));
-                        if(u==null)
+                
+                        var u = existe.FirstOrDefault(u => ((!(u.Id.Equals(restaurante.UtilizadorId)) && (u.Username.Equals(restaurante.Username)) || (!(u.Id.Equals(restaurante.UtilizadorId)) && (u.Email.Equals(restaurante.Email))))));
+
+                        if (u==null)
                         {
                             try
                             {
@@ -290,7 +291,7 @@ namespace LabProject.Controllers
 
                                 }
                                 restaurante.Imagem = HttpContext.Session.GetString("Imagem");
-                                _context.Update(restaurante.GetRestaurante());
+                                _context.Update(restaurante.GetUtilizador());
                                 await _context.SaveChangesAsync();
                                 
                             }

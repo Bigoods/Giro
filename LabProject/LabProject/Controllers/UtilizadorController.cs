@@ -565,8 +565,10 @@ namespace LabProject.Controllers
                     if (ModelState.IsValid)
                     {
                         List<Utilizador> existe = _context.Utilizadors.AsNoTracking().ToList();
+
+                        
                        
-                        var u = existe.FirstOrDefault(u => ((u.Id.Equals(utilizador.Id) &&(u.Username.Equals(utilizador.Username)) && (u.Email.Equals(utilizador.Email)))));
+                        var u = existe.FirstOrDefault(u => ((!(u.Id.Equals(utilizador.Id)) && (u.Username.Equals(utilizador.Username)) ||(!(u.Id.Equals(utilizador.Id)) && (u.Email.Equals(utilizador.Email))))));
 
                         if (u == null)    
                         {
