@@ -291,10 +291,12 @@ namespace LabProject.Controllers
 
                                 }
                                 restaurante.Imagem = HttpContext.Session.GetString("Imagem");
+                                restaurante.Aprovado = true;
                                 _context.Update(restaurante.GetUtilizador());
                                 await _context.SaveChangesAsync();
-                                
-                            }
+                                _context.Update(restaurante.GetRestaurante());
+                                await _context.SaveChangesAsync();
+                    }
                             catch (DbUpdateConcurrencyException)
                             {
                                 if (!RestauranteExists(restaurante.Id))

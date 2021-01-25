@@ -1,50 +1,61 @@
 ﻿@model LabProject.Models.Utilizador
 
-<h4>Utilizador</h4>
-<hr />
+<link rel="stylesheet" href="~/css/login_style.css">
+
+
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="EditOwn" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <h2>Perfil</h2>
+            <h6>Nome</h6>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            <h6>Email</h6>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+            <h6>Username</h6>
             <div class="form-group">
-                <label asp-for="Username" class="control-label"></label>
+
                 <input asp-for="Username" class="form-control" />
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
+            <h6>Password</h6>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
+
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label for="file">Imagem:</label>
-                <input type="file" name="files" id="image" class="form-control" ~accept="image/*" onchange="validateFileType(); loadFile(event); " />
+            <h6>Imagem</h6>
+            <div>
+
+                <input type="file" name="files" id="image"  ~accept="image/*" onchange="validateFileType(); loadFile(event); " />
                 <img id="output" />
             </div>
-
-            <div class="form-group form-check">
+            <br />
+            <div class=" form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Notificacao" /> @Html.DisplayNameFor(model => model.Notificacao)
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary"/>
+                <input type="submit" value="Save" class="button" />
             </div>
         </form>
     </div>
 </div>
 
+<style>
+    h2 {
+        text-align: center;
+    }
+</style>
 
 <script>
     var loadFile = function (event) {
