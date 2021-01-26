@@ -8988,27 +8988,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\edgar\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\filip\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Lab 3ºAno\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
+      "projectUniqueName": "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
       "projectName": "LabProject",
-      "projectPath": "D:\\Lab 3ºAno\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
-      "packagesPath": "C:\\Users\\edgar\\.nuget\\packages\\",
-      "outputPath": "D:\\Lab 3ºAno\\Prato_do_Dia\\LabProject\\LabProject\\obj\\",
+      "projectPath": "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\LabProject.csproj",
+      "packagesPath": "C:\\Users\\filip\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\filip\\Documents\\UTAD\\Lab\\Prato_do_Dia\\Prato_do_Dia\\LabProject\\LabProject\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\edgar\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\filip\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -9019,6 +9012,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -9030,6 +9024,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",
@@ -9072,7 +9067,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.405\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

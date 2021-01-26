@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
+using System.Net.Mail;
+using System.Net;
 
 namespace LabProject.Controllers
 {
@@ -411,12 +413,12 @@ namespace LabProject.Controllers
         {
             var _Cliente = _context.Clientes.Where(p => p.UtilizadorId.ToString() == HttpContext.Session.GetString("Id")).FirstOrDefault();
             var pC = _context.PratoClientes.Where(p => p.PratoId == Id && p.ClienteId == _Cliente.Id).FirstOrDefault();
-            if(pC != null)
-            {                   
+            if (pC != null)
+            {
                 _context.Remove(pC);
-               await  _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-               return "<input id='FavoritoButton' class='ButaoFavoritos' type='submit' value='Adicionar Favorito' />";
+                return "<input id='FavoritoButton' class='ButaoFavoritos' type='submit' value='Adicionar Favorito' />";
 
 
             }
@@ -512,6 +514,7 @@ namespace LabProject.Controllers
 
 
 
+
                 RestaurantePrato NovoPrato1 = new RestaurantePrato();
                 NovoPrato1.Descricao = pratoIndividual.Descricao;
                 NovoPrato1.Foto = pratoIndividual.Foto;
@@ -522,6 +525,44 @@ namespace LabProject.Controllers
 
                 _context.RestaurantePratos.Add(NovoPrato1);
                 await _context.SaveChangesAsync();
+
+
+                // ENVIA EMAIL!!!!
+
+                var Emails = (from utilizadores in _context.Utilizadors
+                              join cliente in _context.Clientes on utilizadores.Id equals cliente.UtilizadorId
+                              join pratoClientes in _context.PratoClientes on cliente.Id equals pratoClientes.ClienteId
+                              where pratoClientes.PratoId == NovoPrato1.PratoId && utilizadores.Notificacao 
+                              select utilizadores);
+
+                foreach (Utilizador u in Emails)
+                {
+                    var fromAddress = new MailAddress("labproject190121@gmail.com", "Jiro");
+                    var toAddress = new MailAddress(u.Email, u.Name);
+                    const string fromPassword = "a1b2c3~~";
+                    const string subject = "Verificação Email";
+                    string body = "O Seu prato favorito vai ser servido!";
+
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                    };
+                    using (var message = new MailMessage(fromAddress, toAddress)
+                    {
+                        Subject = subject,
+                        Body = body
+                    })
+                    {
+                        smtp.Send(message);
+                    }
+
+                }
+
 
 
 
@@ -588,7 +629,7 @@ namespace LabProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddPratoExistente(IFormFile files,[Bind("Id","Foto", "Name", "Descricao", "Dia", "Preco")] RestaurantePrato restaurantePrato)
+        public async Task<IActionResult> AddPratoExistente(IFormFile files, [Bind("Id", "Foto", "Name", "Descricao", "Dia", "Preco")] RestaurantePrato restaurantePrato)
         {
             restaurantePrato.Foto = (TempData["FotoPratoTemp"]).ToString();
             //if (ModelState.IsValid)
@@ -635,6 +676,45 @@ namespace LabProject.Controllers
 
                 _context.RestaurantePratos.Add(NovoPrato);
                 await _context.SaveChangesAsync();
+
+
+
+                // ENVIA EMAIL!!!!
+
+                var Emails = (from utilizadores in _context.Utilizadors
+                              join cliente in _context.Clientes on utilizadores.Id equals cliente.UtilizadorId
+                              join pratoClientes in _context.PratoClientes on cliente.Id equals pratoClientes.ClienteId
+                              where pratoClientes.PratoId == NovoPrato.PratoId && utilizadores.Notificacao
+                              select utilizadores);
+
+                foreach (Utilizador u in Emails)
+                {
+                    var fromAddress = new MailAddress("labproject190121@gmail.com", "Jiro");
+                    var toAddress = new MailAddress(u.Email, u.Name);
+                    const string fromPassword = "a1b2c3~~";
+                    const string subject = "Verificação Email";
+                    string body = "O Seu prato favorito vai ser servido!";
+
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                    };
+                    using (var message = new MailMessage(fromAddress, toAddress)
+                    {
+                        Subject = subject,
+                        Body = body
+                    })
+                    {
+                        smtp.Send(message);
+                    }
+
+                }
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -744,7 +824,7 @@ namespace LabProject.Controllers
                                                where restaurantePrato.PratoId == id && restaurantePrato.Dia == SearchData
                                                select restaurante).Include(u => u.Utilizador);
 
-                    if(labProject_Database.Count() == 0)
+                    if (labProject_Database.Count() == 0)
                     {
                         return RedirectToAction("SemResultado", "Utilizador");
                     }
@@ -776,11 +856,11 @@ namespace LabProject.Controllers
                                                                   Foto = restaurantePrato.Foto,
                                                               }).ToListAsync();
 
-                        
+
                         ViewData["isFirstPratoFavorito"] = "0";
                         if (Status == "Cliente")
                         {
-                            
+
                             int _id = Convert.ToInt32(HttpContext.Session.GetString("idCliente"));
                             var pratoUnico = Pratos.First();
                             var Existe = (from favoritos in _context.PratoClientes
