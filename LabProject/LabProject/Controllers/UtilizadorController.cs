@@ -313,11 +313,13 @@ namespace LabProject.Controllers
                         fs.Close();
 
                         utilizador.Imagem = NomeFicheiro;
-                        HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                        
                     }
                     catch (Exception)
                     {
+                        utilizador.Imagem = "default_img.jpg";
                     }
+                    HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                     _context.Add(utilizador);
                     await _context.SaveChangesAsync();
                     int utilizadorId = utilizador.Id;
@@ -391,11 +393,13 @@ namespace LabProject.Controllers
                                 fs.Close();
 
                                 utilizador.Imagem = NomeFicheiro;
-                                HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+                                
                             }
                             catch (Exception)
                             {
+                                utilizador.Imagem = "default_img.jpg";
                             }
+                            HttpContext.Session.SetString("Imagem", utilizador.Imagem);
                             _context.Add(utilizador);
                             await _context.SaveChangesAsync();
                             int adminId = utilizador.Id;
