@@ -1,10 +1,17 @@
 ﻿@model LabProject.Models.RestauranteCompleto
 
     <link rel="stylesheet" href="~/css/login_style.css">
-
+    @section css{
+    <style>
+        .Container{
+            /*overflow:auto;*/
+            /*height:1200px;*/
+        }
+    </style>
+}
     <div class="row">
         <div class="col-md-4" style="top:70%;">
-            <form asp-action="EditRes" enctype="multipart/form-data">
+            <form asp-action="EditRes" enctype="multipart/form-data" id="forma">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" />
                 <input type="hidden" asp-for="UtilizadorId" />
@@ -79,10 +86,16 @@
         h2 {
             text-align: center;
         }
+        
     </style>
 
     <script>
-
+        $(".flex-child.Container").height($(document).height());
+        //$("#forma").ready(function () {
+        //    var result = $("#forma").height();
+        //    $(".Container").height(result + 50);
+        //});
+        
         var loadFile = function (event) {
             if (document.getElementById("image").value != null) {
                 document.getElementById("output").style.display = "inline";

@@ -57,15 +57,16 @@
 
                     }
                 }
-                
+
             </div>
         </div>
 
-        <div class="flex-child Container" style="height: auto;" role="main">
+        <div class="flex-child Container" role="main">
             @RenderBody()
         </div>
     </div>
     @RenderSection("Scripts", required: false)
+    @RenderSection("css", required: false)
 </body>
 </html>
 
