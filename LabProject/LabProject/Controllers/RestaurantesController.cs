@@ -292,6 +292,9 @@ namespace LabProject.Controllers
                                 }
                                 restaurante.Imagem = HttpContext.Session.GetString("Imagem");
                                 restaurante.Aprovado = true;
+                                HttpContext.Session.SetString("Email", restaurante.Email);
+                                HttpContext.Session.SetString("Name", restaurante.Name);
+
                                 _context.Update(restaurante.GetUtilizador());
                                 await _context.SaveChangesAsync();
                                 _context.Update(restaurante.GetRestaurante());

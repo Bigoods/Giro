@@ -602,10 +602,15 @@ namespace LabProject.Controllers
                                 {
 
                                 }
-                                utilizador.Imagem = HttpContext.Session.GetString("Imagem");
-                                _context.Update(utilizador);
-                                await _context.SaveChangesAsync();
-                            }
+                                    HttpContext.Session.SetString("Email", utilizador.Email);
+                                    HttpContext.Session.SetString("Name", utilizador.Name);
+                                    utilizador.Imagem = HttpContext.Session.GetString("Imagem");
+                                    _context.Update(utilizador);
+                                    await _context.SaveChangesAsync();
+
+                        
+
+                    }
                             catch (DbUpdateConcurrencyException)
                             {
                                 if (!UtilizadorExists(utilizador.Id))
