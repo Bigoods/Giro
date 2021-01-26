@@ -36,7 +36,7 @@
             <div>
 
                 <input type="file" name="files" id="image" accept="image/*" onchange="validateFileType(); loadFile(event); " />
-                <img id="output" />
+                <img id="output" style="width:150px; height:175px;"/>
             </div>
             <br />
             <div class=" form-check">
@@ -81,6 +81,7 @@
         if (!(extFile == "jpg" || extFile == "jpeg" || extFile == "png")) {
             alert("Only jpg/jpeg and png files are allowed!");
             document.getElementById("image").value = null;
+            document.getElementById("output").src = null;
         }
     }
 </script>

@@ -1,91 +1,112 @@
 ﻿@model LabProject.Models.RestauranteCompleto
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="EditRes" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="UtilizadorId" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" id="NomeInput" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="file" name="files" id="image" class="form-control" accept="image/*" onchange="validateFileType(); loadFile(event);" />
-                <img id="output" style="display:none"/>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telefone" class="control-label"></label>
-                <input asp-for="Telefone" class="form-control" />
-                <span asp-validation-for="Telefone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Morada" class="control-label"></label>
-                <input asp-for="Morada" class="form-control" />
-                <span asp-validation-for="Morada" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HoraAbertura" class="control-label"></label>
-                <input asp-for="HoraAbertura" class="form-control" />
-                <span asp-validation-for="HoraAbertura" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HoraFecho" class="control-label"></label>
-                <input asp-for="HoraFecho" class="form-control" />
-                <span asp-validation-for="HoraFecho" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DiaDescanso" class="control-label"></label>
-                <input asp-for="DiaDescanso" class="form-control" />
-                <span asp-validation-for="DiaDescanso" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <link rel="stylesheet" href="~/css/login_style.css">
+
+    <div class="row">
+        <div class="col-md-4" style="top:70%;">
+            <form asp-action="EditRes" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="UtilizadorId" />
+                <h2>Perfil</h2>
+                <h6>Nome</h6>
+                <div class="form-group">
+
+                    <input asp-for="Name" class="form-control" id="NomeInput" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <h6>Email</h6>
+                <div class="form-group">
+
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <h6>Username</h6>
+                <div class="form-group">
+
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <h6>Password</h6>
+                <div class="form-group">
+
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <h6>Imagem</h6>
+                <div>
+                    <input type="file" name="files" id="image" accept="image/*" onchange="validateFileType(); loadFile(event);" />
+                    <img id="output" style="width:150px; height:175px;" />
+                </div>
+                <h6>Telefone</h6>
+                <div class="form-group">
+
+                    <input asp-for="Telefone" class="form-control" />
+                    <span asp-validation-for="Telefone" class="text-danger"></span>
+                </div>
+                <h6>Morada</h6>
+                <div class="form-group">
+
+                    <input asp-for="Morada" class="form-control" />
+                    <span asp-validation-for="Morada" class="text-danger"></span>
+                </div>
+                <h6>Hora de abertura</h6>
+                <div class="form-group">
+
+                    <input asp-for="HoraAbertura" class="form-control" />
+                    <span asp-validation-for="HoraAbertura" class="text-danger"></span>
+                </div>
+                <h6>Hora de fecho</h6>
+                <div class="form-group">
+
+                    <input asp-for="HoraFecho" class="form-control" />
+                    <span asp-validation-for="HoraFecho" class="text-danger"></span>
+                </div>
+                <h6>Dia de descanso</h6>
+                <div class="form-group">
+
+                    <input asp-for="DiaDescanso" class="form-control" />
+                    <span asp-validation-for="DiaDescanso" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="button" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<script>
-    var loadFile = function (event) {
-        if (document.getElementById("image").value != null) {
-            document.getElementById("output").style.display = "inline";
-        
+    <style>
+        h2 {
+            text-align: center;
+        }
+    </style>
 
-            var output = document.getElementById('output');
-            output.src = URL.createObjectURL(event.target.files[0]);
-            output.onload = function () {
-                URL.revokeObjectURL(output.src)
+    <script>
+
+        var loadFile = function (event) {
+            if (document.getElementById("image").value != null) {
+                document.getElementById("output").style.display = "inline";
+
+
+                var output = document.getElementById('output');
+                output.src = URL.createObjectURL(event.target.files[0]);
+                output.onload = function () {
+                    URL.revokeObjectURL(output.src)
+                }
+            }
+
+
+
+        } //;
+
+        function validateFileType() {
+            var fileName = document.getElementById("image").value;
+            var idxDot = fileName.lastIndexOf(".") + 1;
+            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+            if (!(extFile == "jpg" || extFile == "jpeg" || extFile == "png")) {
+                alert("Only jpg/jpeg and png files are allowed!");
+                document.getElementById("image").value = null;
+                document.getElementById("output").src = null;
             }
         }
-        
-        
-        
-    } //;
-
-    function validateFileType() {
-        var fileName = document.getElementById("image").value;
-        var idxDot = fileName.lastIndexOf(".") + 1;
-        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
-        if (!(extFile == "jpg" || extFile == "jpeg" || extFile == "png")) {
-            alert("Only jpg/jpeg and png files are allowed!");
-            document.getElementById("image").value = null;
-        }
-    }
-</script>
+    </script>
