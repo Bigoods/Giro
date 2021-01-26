@@ -176,7 +176,7 @@ namespace LabProject.Controllers
             {
                 List<Utilizador> existe = _context.Utilizadors.AsNoTracking().ToList();
                 //Parte com cookies
-                var u = existe.FirstOrDefault(u => (u.Username.Equals(utilizador.Username)) && (u.Email.Equals(utilizador.Email)));
+                var u = existe.FirstOrDefault(u => (u.Username.Equals(utilizador.Username)) || (u.Email.Equals(utilizador.Email)));
                 if (u == null)
                 {
                     try
@@ -193,44 +193,47 @@ namespace LabProject.Controllers
                         fs.Close();
 
                         utilizador.Imagem = NomeFicheiro; // opiniao dar id + nome da imagem pq as imagens podem ter nomes iguais
-                        utilizador.Bloqueado = true;
-                        string codigo = RandomString(10);
-                        utilizador.Motivo = "$" + codigo;
-                        HttpContext.Session.SetString("Imagem", utilizador.Imagem);
-
-
-                        // ENVIA EMAIL!!!!
-
-                        var fromAddress = new MailAddress("labproject190121@gmail.com", "Jiro");
-                        var toAddress = new MailAddress(utilizador.Email, utilizador.Name);
-                        const string fromPassword = "a1b2c3~~";
-                        const string subject = "Verificação Email";
-                        string body = "Utilizador/VerificarConta?Ver=" + utilizador.Motivo;
-
-                        var smtp = new SmtpClient
-                        {
-                            Host = "smtp.gmail.com",
-                            Port = 587,
-                            EnableSsl = true,
-                            DeliveryMethod = SmtpDeliveryMethod.Network,
-                            UseDefaultCredentials = false,
-                            Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-                        };
-                        using (var message = new MailMessage(fromAddress, toAddress)
-                        {
-                            Subject = subject,
-                            Body = body
-                        })
-                        {
-                            smtp.Send(message);
-                        }
+                        
 
 
 
                     }
                     catch (Exception)
                     {
+                        utilizador.Imagem = "default_img.jpg";
                     }
+                    utilizador.Bloqueado = true;
+                    string codigo = RandomString(10);
+                    utilizador.Motivo = "$" + codigo;
+                    HttpContext.Session.SetString("Imagem", utilizador.Imagem);
+
+                    // ENVIA EMAIL!!!!
+
+                    var fromAddress = new MailAddress("labproject190121@gmail.com", "Jiro");
+                    var toAddress = new MailAddress(utilizador.Email, utilizador.Name);
+                    const string fromPassword = "a1b2c3~~";
+                    const string subject = "Verificação Email";
+                    string body = "Utilizador/VerificarConta?Ver=" + utilizador.Motivo;
+
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                    };
+                    using (var message = new MailMessage(fromAddress, toAddress)
+                    {
+                        Subject = subject,
+                        Body = body
+                    })
+                    {
+                        smtp.Send(message);
+                    }
+
+
                     _context.Add(utilizador);
                     await _context.SaveChangesAsync();
                     int clienteId = utilizador.Id;
@@ -292,7 +295,7 @@ namespace LabProject.Controllers
             {
                 List<Utilizador> existe = _context.Utilizadors.AsNoTracking().ToList();
                 //Parte com cookies
-                var u = existe.FirstOrDefault(u => (u.Username.Equals(restaurante.Username)) && (u.Email.Equals(restaurante.Email)));
+                var u = existe.FirstOrDefault(u => (u.Username.Equals(restaurante.Username)) || (u.Email.Equals(restaurante.Email)));
                 if(u==null)
                 {
                     Utilizador utilizador = restaurante.GetUtilizador();
@@ -370,7 +373,7 @@ namespace LabProject.Controllers
                     {
                         List<Utilizador> existe = _context.Utilizadors.AsNoTracking().ToList();
                         //Parte com cookies
-                        var u = existe.FirstOrDefault(x => (x.Username.Equals(utilizador.Username)) && (x.Email.Equals(utilizador.Email)));
+                        var u = existe.FirstOrDefault(x => (x.Username.Equals(utilizador.Username)) || (x.Email.Equals(utilizador.Email)));
 
                         if (u==null)
                         {
